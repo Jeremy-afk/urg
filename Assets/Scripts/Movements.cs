@@ -10,14 +10,16 @@ public class NewBehaviourScript : MonoBehaviour
 
     //Variables for movements
     [SerializeField]
-    private float speed = 5.0f;
+    private float speed = 50.0f;
     private float maxSpeed = 8.0f;
+    private Vector3 movements;
+    private Vector3 rotations;
 
     public void Accelerate(InputAction.CallbackContext context)
     {
         if (context.performed)
         {
-            rigidBody.AddForce(new Vector3(1.0f, 0.0f, 0.0f) * speed);
+            movements = new Vector3(0, 0, 1) * speed /* * Time.deltaTime*/;
         }
     }
 
@@ -25,7 +27,8 @@ public class NewBehaviourScript : MonoBehaviour
     {
         if (context.performed)
         {
-            rigidBody.AddForce(new Vector3(-1.0f, 0.0f, 0.0f) * speed);
+            //rigidBody.AddForce(new Vector3(-1.0f, 0.0f, 0.0f) * speed);
+            movements = new Vector3(0, 0, -1) * speed /* * Time.deltaTime */;
         }
     }
 
@@ -33,7 +36,8 @@ public class NewBehaviourScript : MonoBehaviour
     {
         if (context.performed)
         {
-            rigidBody.AddForce(new Vector3(0.0f, 0.0f, context.ReadValue<Vector3>().y) * speed);
+            //rigidBody.AddForce(new Vector3(0.0f, 0.0f, context.ReadValue<Vector3>().y) * speed);
+            rotations = new Vector3(0, context.ReadValue<Vector2>().y, 0) * speed;
         }
     }
 
@@ -64,6 +68,8 @@ public class NewBehaviourScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        rigidBody.AddForce(movements, ForceMode.Force);
+        //movements = new Vector3(0, 0, 0);
         rigidBody.velocity = Vector2.ClampMagnitude(rigidBody.velocity, maxSpeed);
     }
 }
