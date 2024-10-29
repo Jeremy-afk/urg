@@ -103,7 +103,7 @@ public class DebugMoveTest : NetworkBehaviour
         rb.MoveRotation(rb.rotation * Quaternion.Euler(0, rotation, 0));
 
         // Tell the server to synchronize the movement for other players
-        CmdSyncMovement(rb.position, rb.rotation);
+        //CmdSyncMovement(rb.position, rb.rotation);
     }
 
     [Command]
