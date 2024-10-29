@@ -173,7 +173,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 584216591}
         m_TargetAssemblyTypeName: NewBehaviourScript, Assembly-CSharp
-        m_MethodName: Accelerate
+        m_MethodName: AccelerateDecelerate
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -185,22 +185,6 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: f9e9053a-4367-4a2c-ac05-edab52e00437
     m_ActionName: Player/Accelerate[/Keyboard/w]
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 584216591}
-        m_TargetAssemblyTypeName: NewBehaviourScript, Assembly-CSharp
-        m_MethodName: Dcelerate
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: f7d52792-a6b6-4364-bcf4-0e715a01b189
-    m_ActionName: Player/Decelerate[/Keyboard/s]
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 584216591}
@@ -379,8 +363,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba379e7d2d38f3c45ac901ea7cb20192, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rigidBody: {fileID: 584216585}
-  speed: 50
+  speed: 20
+  maxSpeed: 30
+  holding: 0
 --- !u!1 &651889991
 GameObject:
   m_ObjectHideFlags: 0

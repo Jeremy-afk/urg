@@ -5,30 +5,31 @@ using UnityEngine.InputSystem;
 
 public class NewBehaviourScript : MonoBehaviour
 {
-    [SerializeField]
     private Rigidbody rigidBody;
 
-    //Variables for movements
+    //Variables for forward/backward movements
     [SerializeField]
-    private float speed = 50.0f;
-    private float maxSpeed = 8.0f;
+    private float speed = 20.0f;
+    [SerializeField]
+    private float maxSpeed = 30.0f;
     private Vector3 movements;
+    private bool holding;
+
+    //Variables for left/right movements
     private Vector3 rotations;
 
-    public void Accelerate(InputAction.CallbackContext context)
-    {
-        if (context.performed)
-        {
-            movements = new Vector3(0, 0, 1) * speed /* * Time.deltaTime*/;
-        }
-    }
+    int counter = 0;
 
-    public void Dcelerate(InputAction.CallbackContext context)
+    public void AccelerateDecelerate(InputAction.CallbackContext context)
     {
         if (context.performed)
         {
-            //rigidBody.AddForce(new Vector3(-1.0f, 0.0f, 0.0f) * speed);
-            movements = new Vector3(0, 0, -1) * speed /* * Time.deltaTime */;
+            holding = true;
+            movements = new Vector3(0, 0, context.ReadValue<float>()) * speed * Time.deltaTime;
+        }
+        if (context.canceled)
+        {
+            holding = false;
         }
     }
 
@@ -36,7 +37,6 @@ public class NewBehaviourScript : MonoBehaviour
     {
         if (context.performed)
         {
-            //rigidBody.AddForce(new Vector3(0.0f, 0.0f, context.ReadValue<Vector3>().y) * speed);
             rotations = new Vector3(0, context.ReadValue<Vector2>().y, 0) * speed;
         }
     }
@@ -62,14 +62,17 @@ public class NewBehaviourScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        rigidBody = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        rigidBody.AddForce(movements, ForceMode.Force);
-        //movements = new Vector3(0, 0, 0);
-        rigidBody.velocity = Vector2.ClampMagnitude(rigidBody.velocity, maxSpeed);
+        if (holding /*&& rigidBody.velocity.x < maxSpeed && rigidBody.velocity.x > -maxSpeed*/)
+        {
+            rigidBody.velocity += movements;
+            counter++;
+        }
+        rigidBody.velocity = Vector3.ClampMagnitude(rigidBody.velocity, maxSpeed);
     }
 }
