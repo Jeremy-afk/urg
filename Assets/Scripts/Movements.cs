@@ -9,27 +9,28 @@ public class NewBehaviourScript : MonoBehaviour
 
     //Variables for forward/backward movements
     [SerializeField]
-    private float speed = 20.0f;
+    private float movementsSpeed = 20.0f;
     [SerializeField]
     private float maxSpeed = 30.0f;
     private Vector3 movements;
-    private bool holding;
+    private bool holdingZS;
 
     //Variables for left/right movements
     private Vector3 rotations;
-
-    int counter = 0;
+    [SerializeField]
+    private float rotationSpeed = 5.0f;
+    private bool holdingQD;
 
     public void AccelerateDecelerate(InputAction.CallbackContext context)
     {
         if (context.performed)
         {
-            holding = true;
-            movements = new Vector3(0, 0, context.ReadValue<float>()) * speed * Time.deltaTime;
+            holdingZS = true;
+            movements = new Vector3(0, 0, context.ReadValue<float>()) * movementsSpeed * Time.deltaTime;
         }
         if (context.canceled)
         {
-            holding = false;
+            holdingZS = false;
         }
     }
 
@@ -37,7 +38,12 @@ public class NewBehaviourScript : MonoBehaviour
     {
         if (context.performed)
         {
-            rotations = new Vector3(0, context.ReadValue<Vector2>().y, 0) * speed;
+            holdingQD = true;
+            rotations = new Vector3(0, context.ReadValue<Vector2>().y, 0) * rotationSpeed * Time.deltaTime;
+        }
+        if (context.canceled)
+        {
+            holdingQD=false;
         }
     }
 
@@ -68,11 +74,16 @@ public class NewBehaviourScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (holding /*&& rigidBody.velocity.x < maxSpeed && rigidBody.velocity.x > -maxSpeed*/)
+        if (holdingZS)
         {
             rigidBody.velocity += movements;
-            counter++;
         }
         rigidBody.velocity = Vector3.ClampMagnitude(rigidBody.velocity, maxSpeed);
+
+        if (holdingQD)
+        {
+            Quaternion quaternionRotation = Quaternion.Euler(rotations);
+            rigidBody.MoveRotation(quaternionRotation);
+        }
     }
 }
