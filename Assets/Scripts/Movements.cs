@@ -25,6 +25,9 @@ public class NewBehaviourScript : MonoBehaviour
     [SerializeField, Range(0, 1)] private float driftFactor;
     private bool holdingDrift = false;
 
+    //Variables for klaxon
+    private AudioSource klaxonSound;
+
     public void AccelerateDecelerate(InputAction.CallbackContext context)
     {
         if (context.performed)
@@ -74,10 +77,19 @@ public class NewBehaviourScript : MonoBehaviour
         }
     }
 
+    public void Klaxon(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            klaxonSound.Play();
+        }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
         rigidBody = GetComponent<Rigidbody>();
+        klaxonSound = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame

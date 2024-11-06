@@ -40,6 +40,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "MEEP MEEP",
+                    "type": "Button",
+                    "id": "e6a9ebc9-d710-4078-9384-1d78b0623a57",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -155,17 +164,6 @@
                 },
                 {
                     "name": "",
-                    "id": "01143326-fa64-4a6b-b7cb-63f32d8f297e",
-                    "path": "<Gamepad>/buttonNorth",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Item",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "2f0ace31-1f89-430b-b0bd-6404ec4181fb",
                     "path": "<Gamepad>/leftShoulder",
                     "interactions": "",
@@ -251,6 +249,28 @@
                     "action": "Accelerate/Decelerate",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "d18b8070-07ba-40af-82a3-ad8c3ecaa8b9",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MEEP MEEP",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a79159b2-c214-44c1-b245-e94c1567a03e",
+                    "path": "<Gamepad>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MEEP MEEP",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }
