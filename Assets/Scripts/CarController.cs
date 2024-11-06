@@ -71,7 +71,18 @@ public class CarController : MonoBehaviour
         {
             print("Drifting");
             isDrifting = true;
-            rb.velocity = Vector3.Lerp(rb.velocity, transform.forward * rb.velocity.magnitude, driftFactor * Time.deltaTime);
+
+            // Reduce forward speed while drifting for a looser control feel
+            rb.velocity = Vector3.Lerp(rb.velocity, transform.forward * rb.velocity.magnitude * 0.7f, driftFactor * Time.deltaTime);
+
+            // Apply a slight sideways force opposite to the turn direction to enhance sliding
+            Vector3 driftForce = -transform.right * turnInput * acceleration * driftFactor;
+            rb.AddForce(driftForce, ForceMode.Acceleration);
+
+            // Slightly increase the turn angle to exaggerate the drift effect
+            float driftTurnAmount = turnInput * turnSpeed * 1.5f * Time.deltaTime;
+            Quaternion driftTurnRotation = Quaternion.Euler(0f, driftTurnAmount, 0f);
+            rb.MoveRotation(rb.rotation * driftTurnRotation);
         }
         else
         {
