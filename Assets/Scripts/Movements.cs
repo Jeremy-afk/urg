@@ -1,13 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
+using Mirror;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class Movements : MonoBehaviour
+public class Movements : NetworkBehaviour
 {
     private Rigidbody rigidBody;
 
-    //Variables for forward/backward movements
+    // Variables for forward/backward movements
     [SerializeField]
     private float movementsSpeed = 500.0f;
     [SerializeField]
@@ -15,32 +14,74 @@ public class Movements : MonoBehaviour
     private Vector3 movements;
     private bool holdingZS;
 
-    //Variables for left/right movements
+    // Variables for left/right movements
     private Vector3 rotations;
     [SerializeField]
     private float rotationSpeed = 45.0f;
     private bool holdingQD;
 
-    //Variables for drifting
+    // Variables for drifting
     [SerializeField, Range(0, 1)] private float driftFactor;
     private bool holdingDrift = false;
 
-    //Variables for klaxon
+    // Variables for klaxon
     private AudioSource klaxonSound;
+
+    private Controls controls;
+
+    private void Awake()
+    {
+        controls = new();
+    }
+
+    private void OnEnable()
+    {
+        controls.Player.AccelerateDecelerate.Enable();
+        controls.Player.AccelerateDecelerate.performed += AccelerateDecelerate;
+        controls.Player.AccelerateDecelerate.canceled += AccelerateDecelerate;
+
+        controls.Player.MoveLeftRight.Enable();
+        controls.Player.MoveLeftRight.performed += MoveLeftRight;
+        controls.Player.MoveLeftRight.canceled += MoveLeftRight;
+
+        controls.Player.Drift.Enable();
+        controls.Player.Drift.performed += MoveLeftRight;
+        controls.Player.Drift.canceled += MoveLeftRight;
+
+        // Gotta also to it for Item and Klaxon
+    }
+
+    private void OnDisable()
+    {
+        controls.Player.AccelerateDecelerate.Disable();
+        controls.Player.AccelerateDecelerate.performed -= AccelerateDecelerate;
+        controls.Player.AccelerateDecelerate.canceled += AccelerateDecelerate;
+
+        controls.Player.MoveLeftRight.Disable();
+        controls.Player.MoveLeftRight.performed -= MoveLeftRight;
+        controls.Player.MoveLeftRight.canceled -= MoveLeftRight;
+
+        controls.Player.Drift.Disable();
+        controls.Player.Drift.performed -= MoveLeftRight;
+        controls.Player.Drift.canceled -= MoveLeftRight;
+
+        // Gotta also to it for Item and Klaxon
+    }
 
     public void AccelerateDecelerate(InputAction.CallbackContext context)
     {
+        // This is called whenever the buttons associated with accelerating/decelerating are pressed (performed) or released (canceled)
         if (context.performed)
         {
             holdingZS = true;
-            movements = new Vector3(0, 0, context.ReadValue<float>()) * movementsSpeed * Time.deltaTime;
+            float direction = context.ReadValue<float>();
+            print(direction);
+            movements = movementsSpeed * Time.fixedDeltaTime * new Vector3(0, 0, direction);
         }
         if (context.canceled)
         {
             holdingZS = false;
         }
-        
-
     }
 
     public void MoveLeftRight(InputAction.CallbackContext context)
@@ -48,11 +89,11 @@ public class Movements : MonoBehaviour
         if (context.performed)
         {
             holdingQD = true;
-            rotations = new Vector3(0, context.ReadValue<Vector2>().y, 0) * rotationSpeed * Time.deltaTime;
+            rotations = rotationSpeed * Time.deltaTime * new Vector3(0, context.ReadValue<float>(), 0);
         }
         if (context.canceled)
         {
-            holdingQD=false;
+            holdingQD = false;
         }
     }
 
@@ -85,15 +126,21 @@ public class Movements : MonoBehaviour
         }
     }
 
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         rigidBody = GetComponent<Rigidbody>();
         klaxonSound = GetComponent<AudioSource>();
     }
 
-    // Update is called once per frame
-    void FixedUpdate()
+    private void FixedUpdate()
+    {
+        // If this is not the local player, don't touch anything
+        if (!isLocalPlayer) return;
+        // Otherwise, this means this is the local player's car. Thus handle the movement.
+        HandleMovement();
+    }
+
+    private void HandleMovement()
     {
         if (holdingZS)
         {
@@ -114,7 +161,7 @@ public class Movements : MonoBehaviour
             rigidBody.velocity = Vector3.Lerp(rigidBody.velocity, transform.forward * rigidBody.velocity.magnitude * 0.7f, driftFactor * Time.deltaTime);
 
             // Apply a slight sideways force opposite to the turn direction to enhance sliding
-            Vector3 driftForce = -transform.right * rotations.y * movementsSpeed * driftFactor;
+            Vector3 driftForce = driftFactor * movementsSpeed * rotations.y * -transform.right;
             rigidBody.AddForce(driftForce, ForceMode.Acceleration);
 
             // Slightly increase the turn angle to exaggerate the drift effect
@@ -122,7 +169,5 @@ public class Movements : MonoBehaviour
             Quaternion driftTurnRotation = Quaternion.Euler(0f, driftTurnAmount, 0f);
             rigidBody.MoveRotation(rigidBody.rotation * driftTurnRotation);
         }
-
-        
     }
 }

@@ -28,22 +28,13 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             ""id"": ""f9fdc6c6-6ff7-4850-b427-5dd99e3f675b"",
             ""actions"": [
                 {
-                    ""name"": ""Accelerate"",
-                    ""type"": ""Button"",
+                    ""name"": ""Accelerate/Decelerate"",
+                    ""type"": ""Value"",
                     ""id"": ""f9e9053a-4367-4a2c-ac05-edab52e00437"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Decelerate"",
-                    ""type"": ""Button"",
-                    ""id"": ""f7d52792-a6b6-4364-bcf4-0e715a01b189"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
+                    ""initialStateCheck"": true
                 },
                 {
                     ""name"": ""Move Left/Right"",
@@ -71,6 +62,15 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""MEEP MEEP"",
+                    ""type"": ""Button"",
+                    ""id"": ""e6a9ebc9-d710-4078-9384-1d78b0623a57"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -88,7 +88,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""ff76000a-39b6-4cc2-af7c-530fe71ea496"",
-                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""path"": ""<Gamepad>/leftTrigger"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -99,7 +99,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""c55aa642-6f0d-47b0-b5ea-c5f74defb309"",
-                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -120,8 +120,8 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""01143326-fa64-4a6b-b7cb-63f32d8f297e"",
-                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""id"": ""2f0ace31-1f89-430b-b0bd-6404ec4181fb"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -131,45 +131,100 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""c85abe9b-0eef-4c81-bdb6-3e92e7471dc0"",
-                    ""path"": ""<Keyboard>/w"",
+                    ""id"": ""5a08ea6b-138b-4599-8491-3b75815f7a67"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Keyboard"",
-                    ""action"": ""Accelerate"",
+                    ""groups"": """",
+                    ""action"": ""Item"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": """",
-                    ""id"": ""ff04b004-e67c-438a-ac07-90ade0983694"",
-                    ""path"": ""<XInputController>/buttonSouth"",
+                    ""name"": ""1D Axis"",
+                    ""id"": ""373152ce-c1f1-4422-b423-a1b56990677c"",
+                    ""path"": ""1DAxis"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Xbox"",
-                    ""action"": ""Accelerate"",
-                    ""isComposite"": false,
+                    ""groups"": """",
+                    ""action"": ""Accelerate/Decelerate"",
+                    ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": """",
-                    ""id"": ""22e5383f-b9d6-4e50-99ea-e2f77d6debce"",
+                    ""name"": ""negative"",
+                    ""id"": ""f06f1abe-9efd-4f39-b2e4-78f4d2435fb0"",
                     ""path"": ""<Keyboard>/s"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
-                    ""action"": ""Decelerate"",
+                    ""action"": ""Accelerate/Decelerate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""bdbc1f88-2526-4a31-b339-d80a615feaf6"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Accelerate/Decelerate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""1D Axis"",
+                    ""id"": ""b7f75498-9732-4101-9ab4-b440fe8400bf"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Accelerate/Decelerate"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""1e18b708-95c4-433f-95fc-201c2a7c19bc"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Xbox"",
+                    ""action"": ""Accelerate/Decelerate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""fa21fa2a-fcca-432f-8f4a-8c292ed6d068"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Xbox"",
+                    ""action"": ""Accelerate/Decelerate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d18b8070-07ba-40af-82a3-ad8c3ecaa8b9"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MEEP MEEP"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
-                    ""id"": ""a8ec10ba-6cb6-4a72-9a97-274235661d1d"",
-                    ""path"": ""<XInputController>/buttonEast"",
+                    ""id"": ""a79159b2-c214-44c1-b245-e94c1567a03e"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Xbox"",
-                    ""action"": ""Decelerate"",
+                    ""groups"": """",
+                    ""action"": ""MEEP MEEP"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -257,11 +312,11 @@ public partial class @Controls: IInputActionCollection2, IDisposable
 }");
         // Player
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
-        m_Player_Accelerate = m_Player.FindAction("Accelerate", throwIfNotFound: true);
-        m_Player_Decelerate = m_Player.FindAction("Decelerate", throwIfNotFound: true);
+        m_Player_AccelerateDecelerate = m_Player.FindAction("Accelerate/Decelerate", throwIfNotFound: true);
         m_Player_MoveLeftRight = m_Player.FindAction("Move Left/Right", throwIfNotFound: true);
         m_Player_Drift = m_Player.FindAction("Drift", throwIfNotFound: true);
         m_Player_Item = m_Player.FindAction("Item", throwIfNotFound: true);
+        m_Player_MEEPMEEP = m_Player.FindAction("MEEP MEEP", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -323,20 +378,20 @@ public partial class @Controls: IInputActionCollection2, IDisposable
     // Player
     private readonly InputActionMap m_Player;
     private List<IPlayerActions> m_PlayerActionsCallbackInterfaces = new List<IPlayerActions>();
-    private readonly InputAction m_Player_Accelerate;
-    private readonly InputAction m_Player_Decelerate;
+    private readonly InputAction m_Player_AccelerateDecelerate;
     private readonly InputAction m_Player_MoveLeftRight;
     private readonly InputAction m_Player_Drift;
     private readonly InputAction m_Player_Item;
+    private readonly InputAction m_Player_MEEPMEEP;
     public struct PlayerActions
     {
         private @Controls m_Wrapper;
         public PlayerActions(@Controls wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Accelerate => m_Wrapper.m_Player_Accelerate;
-        public InputAction @Decelerate => m_Wrapper.m_Player_Decelerate;
+        public InputAction @AccelerateDecelerate => m_Wrapper.m_Player_AccelerateDecelerate;
         public InputAction @MoveLeftRight => m_Wrapper.m_Player_MoveLeftRight;
         public InputAction @Drift => m_Wrapper.m_Player_Drift;
         public InputAction @Item => m_Wrapper.m_Player_Item;
+        public InputAction @MEEPMEEP => m_Wrapper.m_Player_MEEPMEEP;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -346,12 +401,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         {
             if (instance == null || m_Wrapper.m_PlayerActionsCallbackInterfaces.Contains(instance)) return;
             m_Wrapper.m_PlayerActionsCallbackInterfaces.Add(instance);
-            @Accelerate.started += instance.OnAccelerate;
-            @Accelerate.performed += instance.OnAccelerate;
-            @Accelerate.canceled += instance.OnAccelerate;
-            @Decelerate.started += instance.OnDecelerate;
-            @Decelerate.performed += instance.OnDecelerate;
-            @Decelerate.canceled += instance.OnDecelerate;
+            @AccelerateDecelerate.started += instance.OnAccelerateDecelerate;
+            @AccelerateDecelerate.performed += instance.OnAccelerateDecelerate;
+            @AccelerateDecelerate.canceled += instance.OnAccelerateDecelerate;
             @MoveLeftRight.started += instance.OnMoveLeftRight;
             @MoveLeftRight.performed += instance.OnMoveLeftRight;
             @MoveLeftRight.canceled += instance.OnMoveLeftRight;
@@ -361,16 +413,16 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @Item.started += instance.OnItem;
             @Item.performed += instance.OnItem;
             @Item.canceled += instance.OnItem;
+            @MEEPMEEP.started += instance.OnMEEPMEEP;
+            @MEEPMEEP.performed += instance.OnMEEPMEEP;
+            @MEEPMEEP.canceled += instance.OnMEEPMEEP;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
         {
-            @Accelerate.started -= instance.OnAccelerate;
-            @Accelerate.performed -= instance.OnAccelerate;
-            @Accelerate.canceled -= instance.OnAccelerate;
-            @Decelerate.started -= instance.OnDecelerate;
-            @Decelerate.performed -= instance.OnDecelerate;
-            @Decelerate.canceled -= instance.OnDecelerate;
+            @AccelerateDecelerate.started -= instance.OnAccelerateDecelerate;
+            @AccelerateDecelerate.performed -= instance.OnAccelerateDecelerate;
+            @AccelerateDecelerate.canceled -= instance.OnAccelerateDecelerate;
             @MoveLeftRight.started -= instance.OnMoveLeftRight;
             @MoveLeftRight.performed -= instance.OnMoveLeftRight;
             @MoveLeftRight.canceled -= instance.OnMoveLeftRight;
@@ -380,6 +432,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @Item.started -= instance.OnItem;
             @Item.performed -= instance.OnItem;
             @Item.canceled -= instance.OnItem;
+            @MEEPMEEP.started -= instance.OnMEEPMEEP;
+            @MEEPMEEP.performed -= instance.OnMEEPMEEP;
+            @MEEPMEEP.canceled -= instance.OnMEEPMEEP;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -417,10 +472,10 @@ public partial class @Controls: IInputActionCollection2, IDisposable
     }
     public interface IPlayerActions
     {
-        void OnAccelerate(InputAction.CallbackContext context);
-        void OnDecelerate(InputAction.CallbackContext context);
+        void OnAccelerateDecelerate(InputAction.CallbackContext context);
         void OnMoveLeftRight(InputAction.CallbackContext context);
         void OnDrift(InputAction.CallbackContext context);
         void OnItem(InputAction.CallbackContext context);
+        void OnMEEPMEEP(InputAction.CallbackContext context);
     }
 }
