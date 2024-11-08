@@ -135,6 +135,7 @@ GameObject:
   - component: {fileID: 116312461}
   - component: {fileID: 116312460}
   - component: {fileID: 116312459}
+  - component: {fileID: 116312464}
   m_Layer: 0
   m_Name: Checkpoint
   m_TagString: Untagged
@@ -154,7 +155,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d68a370b3c684214a9e7b3ef2e3d9afb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isCrossed: 0
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
 --- !u!65 &116312460
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -241,6 +244,23 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &116312464
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 116312458}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 280746427
+  _assetId: 0
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
 --- !u!1 &220543084
 GameObject:
   m_ObjectHideFlags: 0
@@ -505,6 +525,7 @@ GameObject:
   - component: {fileID: 366930940}
   - component: {fileID: 366930939}
   - component: {fileID: 366930938}
+  - component: {fileID: 366930943}
   m_Layer: 0
   m_Name: Checkpoint (1)
   m_TagString: Untagged
@@ -524,7 +545,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d68a370b3c684214a9e7b3ef2e3d9afb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isCrossed: 0
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
 --- !u!65 &366930939
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -611,6 +634,23 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &366930943
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 366930937}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 4096468070
+  _assetId: 0
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -1138,6 +1178,7 @@ GameObject:
   - component: {fileID: 1352215457}
   - component: {fileID: 1352215456}
   - component: {fileID: 1352215455}
+  - component: {fileID: 1352215460}
   m_Layer: 0
   m_Name: Finish
   m_TagString: Untagged
@@ -1157,6 +1198,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b7ab6e7721d604498a4c99d25172405, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   checkpoints:
   - {fileID: 116312459}
   - {fileID: 366930938}
@@ -1247,6 +1291,23 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!114 &1352215460
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1352215454}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 3179956703
+  _assetId: 0
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
 --- !u!1 &1426639128
 GameObject:
   m_ObjectHideFlags: 0
@@ -1260,6 +1321,7 @@ GameObject:
   - component: {fileID: 1426639131}
   - component: {fileID: 1426639130}
   - component: {fileID: 1426639129}
+  - component: {fileID: 1426639134}
   m_Layer: 0
   m_Name: Checkpoint (2)
   m_TagString: Untagged
@@ -1279,7 +1341,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d68a370b3c684214a9e7b3ef2e3d9afb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isCrossed: 0
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
 --- !u!65 &1426639130
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1366,6 +1430,23 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!114 &1426639134
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1426639128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 709454948
+  _assetId: 0
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
 --- !u!1 &1451283743
 GameObject:
   m_ObjectHideFlags: 0

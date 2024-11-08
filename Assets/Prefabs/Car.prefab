@@ -103,10 +103,10 @@ GameObject:
   - component: {fileID: 6208763863764361818}
   - component: {fileID: 6055066111166045513}
   - component: {fileID: 2202294489616275601}
+  - component: {fileID: 5409474009665343}
   - component: {fileID: 7194518662945828156}
   - component: {fileID: 917257720712672351}
   - component: {fileID: 2409338244995358018}
-  - component: {fileID: 6439723876895044827}
   - component: {fileID: 5690382066180848021}
   - component: {fileID: 2229338997470649735}
   - component: {fileID: 8919982455908797453}
@@ -183,6 +183,22 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &5409474009665343
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5320308484135446322}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba379e7d2d38f3c45ac901ea7cb20192, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movementsSpeed: 500
+  maxSpeed: 30
+  rotationSpeed: 45
+  driftFactor: 0.8
 --- !u!65 &7194518662945828156
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -329,23 +345,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 32
   m_CollisionDetection: 0
---- !u!114 &6439723876895044827
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5320308484135446322}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b31f82066fadcde4cabfa7b04584221d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  acceleration: 20
-  decceleration: 10
-  maxSpeed: 10
-  turnSpeed: 45
-  driftFactor: 0.8
 --- !u!114 &5690382066180848021
 MonoBehaviour:
   m_ObjectHideFlags: 0
