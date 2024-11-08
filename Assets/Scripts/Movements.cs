@@ -5,35 +5,54 @@ using UnityEngine.InputSystem;
 
 public class NewBehaviourScript : MonoBehaviour
 {
-    [SerializeField]
     private Rigidbody rigidBody;
 
-    //Variables for movements
+    //Variables for forward/backward movements
     [SerializeField]
-    private float speed = 5.0f;
-    private float maxSpeed = 8.0f;
+    private float movementsSpeed = 500.0f;
+    [SerializeField]
+    private float maxSpeed = 30.0f;
+    private Vector3 movements;
+    private bool holdingZS;
 
-    public void Accelerate(InputAction.CallbackContext context)
+    //Variables for left/right movements
+    private Vector3 rotations;
+    [SerializeField]
+    private float rotationSpeed = 45.0f;
+    private bool holdingQD;
+
+    //Variables for drifting
+    [SerializeField, Range(0, 1)] private float driftFactor;
+    private bool holdingDrift = false;
+
+    //Variables for klaxon
+    private AudioSource klaxonSound;
+
+    public void AccelerateDecelerate(InputAction.CallbackContext context)
     {
         if (context.performed)
         {
-            rigidBody.AddForce(new Vector3(1.0f, 0.0f, 0.0f) * speed);
+            holdingZS = true;
+            movements = new Vector3(0, 0, context.ReadValue<float>()) * movementsSpeed * Time.deltaTime;
         }
-    }
-
-    public void Dcelerate(InputAction.CallbackContext context)
-    {
-        if (context.performed)
+        if (context.canceled)
         {
-            rigidBody.AddForce(new Vector3(-1.0f, 0.0f, 0.0f) * speed);
+            holdingZS = false;
         }
+        
+
     }
 
     public void MoveLeftRight(InputAction.CallbackContext context)
     {
         if (context.performed)
         {
-            rigidBody.AddForce(new Vector3(0.0f, 0.0f, context.ReadValue<Vector3>().y) * speed);
+            holdingQD = true;
+            rotations = new Vector3(0, context.ReadValue<Vector2>().y, 0) * rotationSpeed * Time.deltaTime;
+        }
+        if (context.canceled)
+        {
+            holdingQD=false;
         }
     }
 
@@ -41,8 +60,11 @@ public class NewBehaviourScript : MonoBehaviour
     {
         if (context.performed)
         {
-            // TODO
-            //drift + starts a timer (check the shmup game to see how it works)
+           holdingDrift=true;
+        }
+        if (context.canceled)
+        {
+            holdingDrift = true;
         }
     }
 
@@ -55,15 +77,52 @@ public class NewBehaviourScript : MonoBehaviour
         }
     }
 
+    public void Klaxon(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            klaxonSound.Play();
+        }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        rigidBody = GetComponent<Rigidbody>();
+        klaxonSound = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        rigidBody.velocity = Vector2.ClampMagnitude(rigidBody.velocity, maxSpeed);
+        if (holdingZS)
+        {
+            //rigidBody.velocity += movements;
+            rigidBody.AddForce(movements, ForceMode.Acceleration);
+        }
+        rigidBody.velocity = Vector3.ClampMagnitude(rigidBody.velocity, maxSpeed);
+
+        if (holdingQD)
+        {
+            Quaternion quaternionRotation = Quaternion.Euler(rotations);
+            rigidBody.MoveRotation(rigidBody.rotation * quaternionRotation);
+        }
+
+        if (holdingDrift)
+        {
+            // Reduce forward speed while drifting for a looser control feel
+            rigidBody.velocity = Vector3.Lerp(rigidBody.velocity, transform.forward * rigidBody.velocity.magnitude * 0.7f, driftFactor * Time.deltaTime);
+
+            // Apply a slight sideways force opposite to the turn direction to enhance sliding
+            Vector3 driftForce = -transform.right * rotations.y * movementsSpeed * driftFactor;
+            rigidBody.AddForce(driftForce, ForceMode.Acceleration);
+
+            // Slightly increase the turn angle to exaggerate the drift effect
+            float driftTurnAmount = rotations.y * rotationSpeed * 1.5f * Time.deltaTime;
+            Quaternion driftTurnRotation = Quaternion.Euler(0f, driftTurnAmount, 0f);
+            rigidBody.MoveRotation(rigidBody.rotation * driftTurnRotation);
+        }
+
+        
     }
 }
