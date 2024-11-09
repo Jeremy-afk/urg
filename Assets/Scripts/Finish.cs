@@ -5,24 +5,23 @@ using Mirror;
 public class Finish : NetworkBehaviour
 {
     public Checkpoint[] checkpoints; // Array of checkpoints to track
-    private Dictionary<NetworkIdentity, bool[]> playerCheckpointStatus = new Dictionary<NetworkIdentity, bool[]>(); // Track checkpoint status per player
-    private Dictionary<NetworkIdentity, int> playerLapCount = new Dictionary<NetworkIdentity, int>(); // Track laps per player
+    private Dictionary<NetworkIdentity, int> playerLapCount = new(); // Track laps per player
 
     private void OnTriggerEnter(Collider other)
     {
-        // Check if the object passing through is the player
-        if (other.CompareTag("Player") && other.TryGetComponent(out NetworkIdentity playerIdentity) && playerIdentity.isLocalPlayer)
+        // Only the server will check for the completion of laps
+        if (!isServer) return;
+
+        if (other.CompareTag("Player") && other.TryGetComponent(out NetworkIdentity playerIdentity))
         {
-            // Call the Command to check and update the lap completion for this specific player
-            CmdCheckLapCompletion(playerIdentity);
+            CheckLapCompletion(playerIdentity);
         }
     }
 
-    [Command]
-    private void CmdCheckLapCompletion(NetworkIdentity playerIdentity)
+    private void CheckLapCompletion(NetworkIdentity playerIdentity)
     {
         // Ensure this player has initialized their checkpoint data
-        InitializePlayerCheckpointStatus(playerIdentity);
+        InitializePlayerCheckpointStatus(playerIdentity); // I think this shouldn't be called here since it resets every checkpoint for the player
 
         // Check if all checkpoints have been crossed for this specific player
         if (AllCheckpointsCrossed(playerIdentity))
@@ -42,11 +41,16 @@ public class Finish : NetworkBehaviour
     // Check if all checkpoints in the array have been crossed for a specific player
     private bool AllCheckpointsCrossed(NetworkIdentity playerIdentity)
     {
-        bool[] checkpointsCrossed = playerCheckpointStatus[playerIdentity];
-        foreach (bool isCrossed in checkpointsCrossed)
+        foreach (var cp in checkpoints)
         {
-            if (!isCrossed)
+            if (!cp) continue;
+
+            // Might be better in performance to later make the checkpoints update a hashtable here instead of checking every checkpoint
+            bool passed = cp.HasPlayerCrossed(playerIdentity);
+
+            if (!passed)
             {
+                Debug.Log($"Checkpoint {cp.name} has not been crossed. Lap not completed.", gameObject);
                 return false; // If any checkpoint is not crossed, return false
             }
         }
@@ -56,20 +60,21 @@ public class Finish : NetworkBehaviour
     // Reset all checkpoints for the next lap for a specific player
     private void ResetPlayerCheckpoints(NetworkIdentity playerIdentity)
     {
-        bool[] checkpointsCrossed = playerCheckpointStatus[playerIdentity];
-        for (int i = 0; i < checkpointsCrossed.Length; i++)
+        foreach (var cp in checkpoints)
         {
-            checkpointsCrossed[i] = false; // Reset each checkpoint
+            if (!cp) continue;
+
+            cp.ResetCheckpointForPlayer(playerIdentity); // Reset each checkpoint
         }
     }
 
     // Public method to initialize player checkpoint status if they are new
     public void InitializePlayerCheckpointStatus(NetworkIdentity playerIdentity)
     {
-        if (!playerCheckpointStatus.ContainsKey(playerIdentity))
+        if (playerIdentity)
         {
-            playerCheckpointStatus[playerIdentity] = new bool[checkpoints.Length]; // Initialize checkpoint array for this player
-            playerLapCount[playerIdentity] = 0; // Initialize lap count for this player
+            playerLapCount[playerIdentity] = 0;
+            ResetPlayerCheckpoints(playerIdentity);
         }
     }
 
