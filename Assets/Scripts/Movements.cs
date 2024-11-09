@@ -11,7 +11,7 @@ public class Movements : NetworkBehaviour
     private float movementsSpeed = 500.0f;
     [SerializeField]
     private float maxSpeed = 30.0f;
-    private Vector3 movements;
+    private float translationAcceleration;
     private bool holdingZS;
 
     // Variables for left/right movements
@@ -76,7 +76,7 @@ public class Movements : NetworkBehaviour
             holdingZS = true;
             float direction = context.ReadValue<float>();
             print(direction);
-            movements = direction * movementsSpeed * Time.fixedDeltaTime * transform.forward;
+            translationAcceleration = direction * movementsSpeed * Time.fixedDeltaTime;
         }
         if (context.canceled)
         {
@@ -86,10 +86,11 @@ public class Movements : NetworkBehaviour
 
     public void MoveLeftRight(InputAction.CallbackContext context)
     {
+        // Called whenever a change is detected in the input (stick or key)
         if (context.performed)
         {
             holdingQD = true;
-            rotations = rotationSpeed * Time.fixedDeltaTime * context.ReadValue<float>() * transform.right;
+            rotations = rotationSpeed * Time.fixedDeltaTime * context.ReadValue<float>() * transform.up;
         }
         if (context.canceled)
         {
@@ -145,7 +146,7 @@ public class Movements : NetworkBehaviour
         if (holdingZS)
         {
             //rigidBody.velocity += movements;
-            rigidBody.AddForce(movements, ForceMode.Acceleration);
+            rigidBody.AddForce(translationAcceleration * transform.forward, ForceMode.Acceleration);
         }
         rigidBody.velocity = Vector3.ClampMagnitude(rigidBody.velocity, maxSpeed);
 
