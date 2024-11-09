@@ -76,7 +76,7 @@ public class Movements : NetworkBehaviour
             holdingZS = true;
             float direction = context.ReadValue<float>();
             print(direction);
-            movements = movementsSpeed * Time.fixedDeltaTime * new Vector3(0, 0, direction);
+            movements = direction * movementsSpeed * Time.fixedDeltaTime * transform.forward;
         }
         if (context.canceled)
         {
