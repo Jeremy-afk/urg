@@ -14,14 +14,29 @@ public class OptionsMenu : MonoBehaviour
         audioMenu.SetActive(true);
     }
 
+    public void AudioReturn()
+    {
+        audioMenu.SetActive(false);
+    }
+
     public void Controls()
     {
         controlsMenu.SetActive(true);
     }
 
+    public void ControlsReturn()
+    {
+        controlsMenu.SetActive(false);
+    }
+
     public void User()
     {
         userMenu.SetActive(true);
+    }
+
+    public void UserReturn()
+    {
+        userMenu.SetActive(false);
     }
 
     public void Return()
