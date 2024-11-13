@@ -24,7 +24,7 @@ public class Checkpoint : NetworkBehaviour
                 playerCrossedStatus[playerIdentity] = true; // Mark this checkpoint as crossed for the player
                 Debug.Log("Player " + playerIdentity.netId + " crossed checkpoint: " + gameObject.name);
 
-                // Optionally, notify a lap manager or finish line here (this would be for better performances)
+                // TODO: notify a lap manager or finish line here (this would be for better performances)
                 // For example: finishLine.OnCheckpointCrossed(playerIdentity, this);
             }
         }
@@ -35,15 +35,18 @@ public class Checkpoint : NetworkBehaviour
         // Just for debug, delete this Update function afterwards
         if (mainPlayer)
         {
-            print($"{gameObject.name} : playerCrossedStatus = {playerCrossedStatus[mainPlayer]}");
+            //print($"{gameObject.name} : playerCrossedStatus = {playerCrossedStatus[mainPlayer]}");
         }
     }
 
     // Check if a specific player has crossed this checkpoint
     public bool HasPlayerCrossed(NetworkIdentity playerIdentity)
     {
+        bool playerCrossed = playerCrossedStatus.ContainsKey(playerIdentity) && playerCrossedStatus[playerIdentity];
         // Return true if the player has crossed this checkpoint, otherwise false
-        return playerCrossedStatus.ContainsKey(playerIdentity) && playerCrossedStatus[playerIdentity];
+        print($"{(playerCrossed ? "Passed" : "Failed")} verification for checkpoint \"{gameObject.name}\"");
+
+        return playerCrossed;
     }
 
     // Reset this checkpoint's "crossed" status for a specific player

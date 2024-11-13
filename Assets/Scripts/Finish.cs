@@ -21,13 +21,17 @@ public class Finish : NetworkBehaviour
     private void CheckLapCompletion(NetworkIdentity playerIdentity)
     {
         // Ensure this player has initialized their checkpoint data
-        InitializePlayerCheckpointStatus(playerIdentity); // I think this shouldn't be called here since it resets every checkpoint for the player
+        //InitializePlayerCheckpointStatus(playerIdentity); // I think this shouldn't be called here since it resets every checkpoint for the player
 
         // Check if all checkpoints have been crossed for this specific player
         if (AllCheckpointsCrossed(playerIdentity))
         {
             // Increment lap count for the player
-            playerLapCount[playerIdentity]++;
+            if (playerLapCount.ContainsKey(playerIdentity))
+                playerLapCount[playerIdentity]++;
+            else
+                playerLapCount.Add(playerIdentity, 1);
+
             Debug.Log("Player " + playerIdentity.netId + " completed a lap! Total Laps: " + playerLapCount[playerIdentity]);
 
             // Reset this player's checkpoints for the next lap
@@ -50,7 +54,7 @@ public class Finish : NetworkBehaviour
 
             if (!passed)
             {
-                Debug.Log($"Checkpoint {cp.name} has not been crossed. Lap not completed.", gameObject);
+                Debug.Log($"Checkpoint {cp.gameObject.name} has not been crossed. Lap not completed.", gameObject);
                 return false; // If any checkpoint is not crossed, return false
             }
         }
