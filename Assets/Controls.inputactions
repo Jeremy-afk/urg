@@ -15,7 +15,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Move Left/Right",
+                    "name": "Turn Left/Right",
                     "type": "Value",
                     "id": "b79965de-cfa6-4204-b317-9128b872addb",
                     "expectedControlType": "Vector2",
@@ -59,7 +59,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Move Left/Right",
+                    "action": "Turn Left/Right",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -70,7 +70,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Move Left/Right",
+                    "action": "Turn Left/Right",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
@@ -81,7 +81,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Move Left/Right",
+                    "action": "Turn Left/Right",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -92,7 +92,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Move Left/Right",
+                    "action": "Turn Left/Right",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -103,7 +103,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Move Left/Right",
+                    "action": "Turn Left/Right",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -114,7 +114,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Move Left/Right",
+                    "action": "Turn Left/Right",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },

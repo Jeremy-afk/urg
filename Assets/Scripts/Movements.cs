@@ -3,22 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class NewBehaviourScript : MonoBehaviour
+public class Movements : MonoBehaviour
 {
     private Rigidbody rigidBody;
 
     //Variables for forward/backward movements
+    [SerializeField] 
+    private float movementsSpeed;
     [SerializeField]
-    private float movementsSpeed = 500.0f;
-    [SerializeField]
-    private float maxSpeed = 30.0f;
+    private float maxSpeed;
     private Vector3 movements;
     private bool holdingZS;
 
     //Variables for left/right movements
     private Vector3 rotations;
     [SerializeField]
-    private float rotationSpeed = 45.0f;
+    private float rotationSpeed;
     private bool holdingQD;
 
     //Variables for drifting
@@ -27,6 +27,12 @@ public class NewBehaviourScript : MonoBehaviour
 
     //Variables for klaxon
     private AudioSource klaxonSound;
+
+    void Start()
+    {
+        rigidBody = GetComponent<Rigidbody>();
+        klaxonSound = GetComponent<AudioSource>();
+    }
 
     public void AccelerateDecelerate(InputAction.CallbackContext context)
     {
@@ -39,8 +45,6 @@ public class NewBehaviourScript : MonoBehaviour
         {
             holdingZS = false;
         }
-        
-
     }
 
     public void MoveLeftRight(InputAction.CallbackContext context)
@@ -86,11 +90,7 @@ public class NewBehaviourScript : MonoBehaviour
     }
 
     // Start is called before the first frame update
-    void Start()
-    {
-        rigidBody = GetComponent<Rigidbody>();
-        klaxonSound = GetComponent<AudioSource>();
-    }
+
 
     // Update is called once per frame
     void FixedUpdate()

@@ -4,48 +4,69 @@ using UnityEngine.InputSystem;
 public class CarController : MonoBehaviour
 {
     [Header("Car Settings")]
-    [SerializeField] private float acceleration; 
+    [SerializeField] private float acceleration;
     [SerializeField] private float decceleration;
     [SerializeField] private float maxSpeed;
     [SerializeField] private float turnSpeed;
-    [SerializeField, Range(0,1)] private float driftFactor;
+    [SerializeField, Range(0, 1)] private float driftFactor;
 
     private Rigidbody rb;
-    private Gamepad gamepad;
     private bool isDrifting;
+    private float moveInput = 0f;
+    private float turnInput = 0f;
+    private bool driftInput = false;
+
+    private AudioSource hornSound;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
+        hornSound = GetComponent<AudioSource>();
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
-        gamepad = Gamepad.current;
-        if (gamepad == null)
-        {
-            Debug.LogWarning("No gamepad connected!");
-            return;
-        }
-
         HandleMovement();
     }
-    
+
+    public void OnMove(InputAction.CallbackContext context)
+    {
+        // Update moveInput based on input action
+        moveInput = context.ReadValue<float>();
+    }
+
+    public void OnTurn(InputAction.CallbackContext context)
+    {
+        // Update turnInput based on input action
+        Vector2 turnVector = context.ReadValue<Vector2>();
+        turnInput = turnVector.x;
+    }
+
+    public void OnDrift(InputAction.CallbackContext context)
+    {
+        // Update driftInput based on input action
+        driftInput = context.ReadValueAsButton();
+    }
+
+    public void OnHorn(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            hornSound.Play();
+        }
+    }
+
+    public void OnItem(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            //add behaviour
+        }
+    }
+
     private void HandleMovement()
     {
-        float moveInput = 0f;
-        if (gamepad.buttonSouth.isPressed)  // B button for moving backward
-        {
-            moveInput = -1f;
-        }
-        else if (gamepad.buttonEast.isPressed)  // A button for moving forward
-        {
-            moveInput = 1f;
-        }
-
-        float turnInput = gamepad.leftStick.x.ReadValue();
-        bool driftInput = gamepad.rightTrigger.isPressed;
-
+        // Apply forward/backward force based on moveInput
         if (moveInput > 0)
         {
             rb.AddForce(transform.forward * moveInput * acceleration, ForceMode.Acceleration);
@@ -55,7 +76,7 @@ public class CarController : MonoBehaviour
             rb.AddForce(transform.forward * moveInput * decceleration, ForceMode.Acceleration);
         }
 
-        
+        // Clamp the speed to maxSpeed
         rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxSpeed);
 
         // Handle turning
@@ -69,10 +90,7 @@ public class CarController : MonoBehaviour
         // Handle drifting
         if (driftInput)
         {
-            print("Drifting");
             isDrifting = true;
-
-            // Reduce forward speed while drifting for a looser control feel
             rb.velocity = Vector3.Lerp(rb.velocity, transform.forward * rb.velocity.magnitude * 0.7f, driftFactor * Time.deltaTime);
 
             // Apply a slight sideways force opposite to the turn direction to enhance sliding
@@ -90,3 +108,4 @@ public class CarController : MonoBehaviour
         }
     }
 }
+

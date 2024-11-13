@@ -291,6 +291,10 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: f8481286-4117-413b-bf20-9af798c3975d
     m_ActionName: Player/Item[/Keyboard/space]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: e6a9ebc9-d710-4078-9384-1d78b0623a57
+    m_ActionName: Player/MEEP MEEP[/Keyboard/space]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -356,3 +360,30 @@ MonoBehaviour:
   maxSpeed: 10
   turnSpeed: 45
   driftFactor: 0.8
+  moveAction:
+    m_Name: Move
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: b570f69a-b710-40b8-885d-7a0c135c1f1c
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  turnAction:
+    m_Name: Turn
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 7a129b14-9559-4422-a4d7-94de76642f21
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  driftAction:
+    m_Name: Drift
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 132024fd-bc67-4ed7-99fa-523a44c5a093
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
