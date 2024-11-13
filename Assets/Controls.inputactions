@@ -7,18 +7,18 @@
             "actions": [
                 {
                     "name": "Accelerate/Decelerate",
-                    "type": "Button",
+                    "type": "Value",
                     "id": "f9e9053a-4367-4a2c-ac05-edab52e00437",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
                 },
                 {
                     "name": "Move Left/Right",
                     "type": "Value",
                     "id": "b79965de-cfa6-4204-b317-9128b872addb",
-                    "expectedControlType": "Vector2",
+                    "expectedControlType": "Axis",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
@@ -52,72 +52,6 @@
                 }
             ],
             "bindings": [
-                {
-                    "name": "",
-                    "id": "a2c9c3bf-809b-458c-94cb-2d5b9d40c7e1",
-                    "path": "<Gamepad>/leftStick",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Move Left/Right",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "2D Vector",
-                    "id": "dd3e682a-10fa-4bae-894a-ca7608329f7f",
-                    "path": "2DVector",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Move Left/Right",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "up",
-                    "id": "43a36a37-e4a8-467c-9bca-7a1288531eae",
-                    "path": "",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Move Left/Right",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "down",
-                    "id": "23cef4e0-8ffe-48c9-8d72-0f51c3ab91df",
-                    "path": "",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Move Left/Right",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "left",
-                    "id": "1c3c1095-b035-4561-b1b4-c4678cea9684",
-                    "path": "<Keyboard>/a",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Move Left/Right",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "right",
-                    "id": "2581aa8b-f415-410e-aa2b-0b97adbdfd91",
-                    "path": "<Keyboard>/d",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Move Left/Right",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
                 {
                     "name": "",
                     "id": "026e1e11-1d0f-49f1-bae0-241c733c957d",
@@ -201,7 +135,7 @@
                     "path": "<Keyboard>/s",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Keyboard",
                     "action": "Accelerate/Decelerate",
                     "isComposite": false,
                     "isPartOfComposite": true
@@ -212,7 +146,7 @@
                     "path": "<Keyboard>/w",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Keyboard",
                     "action": "Accelerate/Decelerate",
                     "isComposite": false,
                     "isPartOfComposite": true
@@ -234,7 +168,7 @@
                     "path": "<Gamepad>/buttonSouth",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Xbox",
                     "action": "Accelerate/Decelerate",
                     "isComposite": false,
                     "isPartOfComposite": true
@@ -245,7 +179,7 @@
                     "path": "<Gamepad>/buttonEast",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Xbox",
                     "action": "Accelerate/Decelerate",
                     "isComposite": false,
                     "isPartOfComposite": true
@@ -271,9 +205,86 @@
                     "action": "MEEP MEEP",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e292602f-e124-433f-9111-b33739d08eee",
+                    "path": "<Gamepad>/leftStick/x",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Xbox",
+                    "action": "Move Left/Right",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "1D Axis",
+                    "id": "4f3166ca-13ac-4f29-80b7-87dc5ec497aa",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move Left/Right",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "negative",
+                    "id": "8f30b499-2854-433c-85ed-d779d0223ee8",
+                    "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Move Left/Right",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "positive",
+                    "id": "1c9bcb53-30a9-49d8-a6a6-37e0c365eeaf",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Move Left/Right",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "negative",
+                    "id": "d27cf2aa-2b19-47c6-8dd3-873ef905dc27",
+                    "path": "<Keyboard>/leftArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Move Left/Right",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "positive",
+                    "id": "4d720f62-2666-4adf-b8a9-2b327084d25a",
+                    "path": "<Keyboard>/rightArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Move Left/Right",
+                    "isComposite": false,
+                    "isPartOfComposite": true
                 }
             ]
         }
     ],
-    "controlSchemes": []
+    "controlSchemes": [
+        {
+            "name": "Keyboard",
+            "bindingGroup": "Keyboard",
+            "devices": []
+        },
+        {
+            "name": "Xbox",
+            "bindingGroup": "Xbox",
+            "devices": []
+        }
+    ]
 }
