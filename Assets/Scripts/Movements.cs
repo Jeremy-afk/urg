@@ -45,10 +45,17 @@ public class Movements : NetworkBehaviour
         controls.Player.MoveLeftRight.canceled += MoveLeftRight;
 
         controls.Player.Drift.Enable();
-        controls.Player.Drift.performed += MoveLeftRight;
-        controls.Player.Drift.canceled += MoveLeftRight;
+        controls.Player.Drift.performed += Drift;
+        controls.Player.Drift.canceled += Drift;
 
-        // Gotta also to it for Item and Klaxon
+        // Gotta also do it for Item and Klaxon
+        controls.Player.Item.Enable();
+        controls.Player.Item.performed += Item;
+        controls.Player.Item.canceled += Item;
+
+        controls.Player.Klaxon.Enable();
+        controls.Player.Klaxon.performed += Klaxon;
+        controls.Player.Klaxon.canceled += Klaxon;
     }
 
     private void OnDisable()
@@ -62,10 +69,17 @@ public class Movements : NetworkBehaviour
         controls.Player.MoveLeftRight.canceled -= MoveLeftRight;
 
         controls.Player.Drift.Disable();
-        controls.Player.Drift.performed -= MoveLeftRight;
-        controls.Player.Drift.canceled -= MoveLeftRight;
+        controls.Player.Drift.performed -= Drift;
+        controls.Player.Drift.canceled -= Drift;
 
         // Gotta also to it for Item and Klaxon
+        controls.Player.Item.Disable();
+        controls.Player.Item.performed -= Item;
+        controls.Player.Item.canceled -= Item;
+
+        controls.Player.Klaxon.Disable();
+        controls.Player.Klaxon.performed -= Klaxon;
+        controls.Player.Klaxon.canceled -= Klaxon;
     }
 
     public void AccelerateDecelerate(InputAction.CallbackContext context)
@@ -95,6 +109,7 @@ public class Movements : NetworkBehaviour
         if (context.canceled)
         {
             holdingQD = false;
+            rotations = Vector3.zero;
         }
     }
 
@@ -102,11 +117,11 @@ public class Movements : NetworkBehaviour
     {
         if (context.performed)
         {
-           holdingDrift=true;
+           holdingDrift = true;
         }
         if (context.canceled)
         {
-            holdingDrift = true;
+            holdingDrift = false;
         }
     }
 
@@ -162,11 +177,11 @@ public class Movements : NetworkBehaviour
             rigidBody.velocity = Vector3.Lerp(rigidBody.velocity, transform.forward * rigidBody.velocity.magnitude * 0.7f, driftFactor * Time.deltaTime);
 
             // Apply a slight sideways force opposite to the turn direction to enhance sliding
-            Vector3 driftForce = driftFactor * movementsSpeed * rotations.y * -transform.right;
+            Vector3 driftForce = driftFactor * /*movementsSpeed * */rotations.y * -transform.right;
             rigidBody.AddForce(driftForce, ForceMode.Acceleration);
 
             // Slightly increase the turn angle to exaggerate the drift effect
-            float driftTurnAmount = rotations.y * rotationSpeed * 1.5f * Time.deltaTime;
+            float driftTurnAmount = rotations.y * rotationSpeed * /*1.5f * */Time.deltaTime;
             Quaternion driftTurnRotation = Quaternion.Euler(0f, driftTurnAmount, 0f);
             rigidBody.MoveRotation(rigidBody.rotation * driftTurnRotation);
         }

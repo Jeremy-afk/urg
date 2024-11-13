@@ -64,7 +64,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""MEEP MEEP"",
+                    ""name"": ""Klaxon"",
                     ""type"": ""Button"",
                     ""id"": ""e6a9ebc9-d710-4078-9384-1d78b0623a57"",
                     ""expectedControlType"": ""Button"",
@@ -213,7 +213,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""MEEP MEEP"",
+                    ""action"": ""Klaxon"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -224,7 +224,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""MEEP MEEP"",
+                    ""action"": ""Klaxon"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -316,7 +316,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         m_Player_MoveLeftRight = m_Player.FindAction("Move Left/Right", throwIfNotFound: true);
         m_Player_Drift = m_Player.FindAction("Drift", throwIfNotFound: true);
         m_Player_Item = m_Player.FindAction("Item", throwIfNotFound: true);
-        m_Player_MEEPMEEP = m_Player.FindAction("MEEP MEEP", throwIfNotFound: true);
+        m_Player_Klaxon = m_Player.FindAction("Klaxon", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -382,7 +382,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_MoveLeftRight;
     private readonly InputAction m_Player_Drift;
     private readonly InputAction m_Player_Item;
-    private readonly InputAction m_Player_MEEPMEEP;
+    private readonly InputAction m_Player_Klaxon;
     public struct PlayerActions
     {
         private @Controls m_Wrapper;
@@ -391,7 +391,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         public InputAction @MoveLeftRight => m_Wrapper.m_Player_MoveLeftRight;
         public InputAction @Drift => m_Wrapper.m_Player_Drift;
         public InputAction @Item => m_Wrapper.m_Player_Item;
-        public InputAction @MEEPMEEP => m_Wrapper.m_Player_MEEPMEEP;
+        public InputAction @Klaxon => m_Wrapper.m_Player_Klaxon;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -413,9 +413,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @Item.started += instance.OnItem;
             @Item.performed += instance.OnItem;
             @Item.canceled += instance.OnItem;
-            @MEEPMEEP.started += instance.OnMEEPMEEP;
-            @MEEPMEEP.performed += instance.OnMEEPMEEP;
-            @MEEPMEEP.canceled += instance.OnMEEPMEEP;
+            @Klaxon.started += instance.OnKlaxon;
+            @Klaxon.performed += instance.OnKlaxon;
+            @Klaxon.canceled += instance.OnKlaxon;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -432,9 +432,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @Item.started -= instance.OnItem;
             @Item.performed -= instance.OnItem;
             @Item.canceled -= instance.OnItem;
-            @MEEPMEEP.started -= instance.OnMEEPMEEP;
-            @MEEPMEEP.performed -= instance.OnMEEPMEEP;
-            @MEEPMEEP.canceled -= instance.OnMEEPMEEP;
+            @Klaxon.started -= instance.OnKlaxon;
+            @Klaxon.performed -= instance.OnKlaxon;
+            @Klaxon.canceled -= instance.OnKlaxon;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -476,6 +476,6 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         void OnMoveLeftRight(InputAction.CallbackContext context);
         void OnDrift(InputAction.CallbackContext context);
         void OnItem(InputAction.CallbackContext context);
-        void OnMEEPMEEP(InputAction.CallbackContext context);
+        void OnKlaxon(InputAction.CallbackContext context);
     }
 }
