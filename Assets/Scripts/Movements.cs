@@ -24,6 +24,16 @@ public class Movements : NetworkBehaviour
     [SerializeField, Range(0, 1)] private float driftFactor;
     private bool holdingDrift = false;
 
+    //Variables for Items
+    enum ItemType
+    {
+        BOW,
+        FEATHER,
+        POTION,
+        SWORD,
+        TRAP
+    }
+
     // Variables for klaxon
     private AudioSource klaxonSound;
 
@@ -131,6 +141,27 @@ public class Movements : NetworkBehaviour
         {
             // TODO
             // creates an instance of the item ans apply its effect
+            switch (ItemType)
+            {
+                case ItemType.BOW:
+                    print("Headshot!");
+                    break;
+                case ItemType.FEATHER:
+                    print("Yahoo!");
+                    break;
+                case ItemType.POTION:
+                    print("Glou glou!");
+                    movementsSpeed *= 2;
+                    break;
+                case ItemType.SWORD:
+                    print("Chling!");
+                    break;
+                case ItemType.TRAP:
+                    print("Trapped loser!");
+                    break;
+                default:
+                    print("Error : not an item!");
+            }
         }
     }
 
@@ -184,6 +215,10 @@ public class Movements : NetworkBehaviour
             float driftTurnAmount = rotations.y * rotationSpeed * /*1.5f * */Time.deltaTime;
             Quaternion driftTurnRotation = Quaternion.Euler(0f, driftTurnAmount, 0f);
             rigidBody.MoveRotation(rigidBody.rotation * driftTurnRotation);
+        }
+        if (movementsSpeed > 550)
+        {
+            movementsSpeed /= 2;
         }
     }
 }
