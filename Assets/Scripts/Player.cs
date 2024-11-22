@@ -18,5 +18,9 @@ public class Player : NetworkBehaviour
         {
             lapCount++;
         }
+        if (other.tag == "ItemBox")
+        {
+            Movements.SetItemType(Movements.ItemType.POTION); //Not working yet
+        }
     }
 }

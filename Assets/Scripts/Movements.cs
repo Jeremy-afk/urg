@@ -25,14 +25,18 @@ public class Movements : NetworkBehaviour
     private bool holdingDrift = false;
 
     //Variables for Items
-    enum ItemType
+    public enum ItemType
     {
-        BOW,
-        FEATHER,
-        POTION,
-        SWORD,
-        TRAP
+        BOW, //0
+        FEATHER, //1
+        POTION, //2
+        SWORD, //3
+        TRAP, //4
+        NOTHING //5
     }
+    private static ItemType itemInHand = ItemType.NOTHING;
+    private float speedBoostTimer = 0.0f;
+    private float speedBoostDuration = 0.5f;
 
     // Variables for klaxon
     private AudioSource klaxonSound;
@@ -141,7 +145,7 @@ public class Movements : NetworkBehaviour
         {
             // TODO
             // creates an instance of the item ans apply its effect
-            switch (ItemType)
+            switch (itemInHand)
             {
                 case ItemType.BOW:
                     print("Headshot!");
@@ -159,10 +163,20 @@ public class Movements : NetworkBehaviour
                 case ItemType.TRAP:
                     print("Trapped loser!");
                     break;
+                case ItemType.NOTHING:
+                    print("You have no item!");
+                    break;
                 default:
                     print("Error : not an item!");
+                    break;
             }
+            itemInHand = ItemType.NOTHING;
         }
+    }
+
+    public static void SetItemType (ItemType type)
+    {
+        itemInHand = type;
     }
 
     public void Klaxon(InputAction.CallbackContext context)
@@ -218,7 +232,12 @@ public class Movements : NetworkBehaviour
         }
         if (movementsSpeed > 550)
         {
-            movementsSpeed /= 2;
+            speedBoostTimer += Time.deltaTime;
+            if(speedBoostTimer > speedBoostDuration)
+            {
+                movementsSpeed /= 2;
+                speedBoostTimer = 0f;
+            }
         }
     }
 }
