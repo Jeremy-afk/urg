@@ -1564,6 +1564,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ItemBox
       objectReference: {fileID: 0}
+    - target: {fileID: 4874821693403014065, guid: d78d7e17fd9787d43b947e9b0305efaf, type: 3}
+      propertyPath: m_TagString
+      value: ItemBox
+      objectReference: {fileID: 0}
     - target: {fileID: 5632294096438059627, guid: d78d7e17fd9787d43b947e9b0305efaf, type: 3}
       propertyPath: m_LocalPosition.x
       value: -11.23

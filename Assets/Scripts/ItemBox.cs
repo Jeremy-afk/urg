@@ -26,10 +26,11 @@ public class ItemBox : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!gameObject.activeSelf)
+        if (!gameObject.activeSelf)//not working
         {
+            print("reloading box");
             timer += Time.deltaTime;
-            if (timer > 5.0f)
+            if (timer > 1.0f)
             {
                 gameObject.SetActive(true);
             }

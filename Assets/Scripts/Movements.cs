@@ -34,9 +34,10 @@ public class Movements : NetworkBehaviour
         TRAP, //4
         NOTHING //5
     }
-    private static ItemType itemInHand = ItemType.NOTHING;
+    [SerializeField] private static ItemType itemInHand = ItemType.POTION;
     private float speedBoostTimer = 0.0f;
     private float speedBoostDuration = 0.5f;
+    private bool usedPotion = false;
 
     // Variables for klaxon
     private AudioSource klaxonSound;
@@ -156,6 +157,7 @@ public class Movements : NetworkBehaviour
                 case ItemType.POTION:
                     print("Glou glou!");
                     movementsSpeed *= 2;
+                    usedPotion = true;
                     break;
                 case ItemType.SWORD:
                     print("Chling!");
@@ -174,8 +176,9 @@ public class Movements : NetworkBehaviour
         }
     }
 
-    public static void SetItemType (ItemType type)
+    public void SetItemType (ItemType type)
     {
+        print("Setting item");
         itemInHand = type;
     }
 
@@ -203,12 +206,15 @@ public class Movements : NetworkBehaviour
 
     private void HandleMovement()
     {
+        if (!usedPotion)
+        {
+            rigidBody.velocity = Vector3.ClampMagnitude(rigidBody.velocity, maxSpeed);
+        }
         if (holdingZS)
         {
             //rigidBody.velocity += movements;
             rigidBody.AddForce(translationAcceleration * transform.forward, ForceMode.Acceleration);
         }
-        rigidBody.velocity = Vector3.ClampMagnitude(rigidBody.velocity, maxSpeed);
 
         if (holdingQD)
         {
@@ -230,13 +236,15 @@ public class Movements : NetworkBehaviour
             Quaternion driftTurnRotation = Quaternion.Euler(0f, driftTurnAmount, 0f);
             rigidBody.MoveRotation(rigidBody.rotation * driftTurnRotation);
         }
-        if (movementsSpeed > 550)
+        if (usedPotion)
         {
+            rigidBody.velocity = Vector3.ClampMagnitude(rigidBody.velocity, maxSpeed*2);
             speedBoostTimer += Time.deltaTime;
             if(speedBoostTimer > speedBoostDuration)
             {
                 movementsSpeed /= 2;
                 speedBoostTimer = 0f;
+                usedPotion = false;
             }
         }
     }
