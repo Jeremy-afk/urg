@@ -37,7 +37,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""Move Left/Right"",
+                    ""name"": ""Turn Left/Right"",
                     ""type"": ""Value"",
                     ""id"": ""b79965de-cfa6-4204-b317-9128b872addb"",
                     ""expectedControlType"": ""Axis"",
@@ -313,7 +313,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         // Player
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
         m_Player_AccelerateDecelerate = m_Player.FindAction("Accelerate/Decelerate", throwIfNotFound: true);
-        m_Player_MoveLeftRight = m_Player.FindAction("Move Left/Right", throwIfNotFound: true);
+        m_Player_TurnLeftRight = m_Player.FindAction("Turn Left/Right", throwIfNotFound: true);
         m_Player_Drift = m_Player.FindAction("Drift", throwIfNotFound: true);
         m_Player_Item = m_Player.FindAction("Item", throwIfNotFound: true);
         m_Player_Klaxon = m_Player.FindAction("Klaxon", throwIfNotFound: true);
@@ -379,7 +379,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Player;
     private List<IPlayerActions> m_PlayerActionsCallbackInterfaces = new List<IPlayerActions>();
     private readonly InputAction m_Player_AccelerateDecelerate;
-    private readonly InputAction m_Player_MoveLeftRight;
+    private readonly InputAction m_Player_TurnLeftRight;
     private readonly InputAction m_Player_Drift;
     private readonly InputAction m_Player_Item;
     private readonly InputAction m_Player_Klaxon;
@@ -388,7 +388,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         private @Controls m_Wrapper;
         public PlayerActions(@Controls wrapper) { m_Wrapper = wrapper; }
         public InputAction @AccelerateDecelerate => m_Wrapper.m_Player_AccelerateDecelerate;
-        public InputAction @MoveLeftRight => m_Wrapper.m_Player_MoveLeftRight;
+        public InputAction @TurnLeftRight => m_Wrapper.m_Player_TurnLeftRight;
         public InputAction @Drift => m_Wrapper.m_Player_Drift;
         public InputAction @Item => m_Wrapper.m_Player_Item;
         public InputAction @Klaxon => m_Wrapper.m_Player_Klaxon;
@@ -404,9 +404,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @AccelerateDecelerate.started += instance.OnAccelerateDecelerate;
             @AccelerateDecelerate.performed += instance.OnAccelerateDecelerate;
             @AccelerateDecelerate.canceled += instance.OnAccelerateDecelerate;
-            @MoveLeftRight.started += instance.OnMoveLeftRight;
-            @MoveLeftRight.performed += instance.OnMoveLeftRight;
-            @MoveLeftRight.canceled += instance.OnMoveLeftRight;
+            @TurnLeftRight.started += instance.OnTurnLeftRight;
+            @TurnLeftRight.performed += instance.OnTurnLeftRight;
+            @TurnLeftRight.canceled += instance.OnTurnLeftRight;
             @Drift.started += instance.OnDrift;
             @Drift.performed += instance.OnDrift;
             @Drift.canceled += instance.OnDrift;
@@ -423,9 +423,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @AccelerateDecelerate.started -= instance.OnAccelerateDecelerate;
             @AccelerateDecelerate.performed -= instance.OnAccelerateDecelerate;
             @AccelerateDecelerate.canceled -= instance.OnAccelerateDecelerate;
-            @MoveLeftRight.started -= instance.OnMoveLeftRight;
-            @MoveLeftRight.performed -= instance.OnMoveLeftRight;
-            @MoveLeftRight.canceled -= instance.OnMoveLeftRight;
+            @TurnLeftRight.started -= instance.OnTurnLeftRight;
+            @TurnLeftRight.performed -= instance.OnTurnLeftRight;
+            @TurnLeftRight.canceled -= instance.OnTurnLeftRight;
             @Drift.started -= instance.OnDrift;
             @Drift.performed -= instance.OnDrift;
             @Drift.canceled -= instance.OnDrift;
@@ -473,7 +473,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
     public interface IPlayerActions
     {
         void OnAccelerateDecelerate(InputAction.CallbackContext context);
-        void OnMoveLeftRight(InputAction.CallbackContext context);
+        void OnTurnLeftRight(InputAction.CallbackContext context);
         void OnDrift(InputAction.CallbackContext context);
         void OnItem(InputAction.CallbackContext context);
         void OnKlaxon(InputAction.CallbackContext context);
