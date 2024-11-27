@@ -15,7 +15,7 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Move Left/Right",
+                    "name": "Turn Left/Right",
                     "type": "Value",
                     "id": "b79965de-cfa6-4204-b317-9128b872addb",
                     "expectedControlType": "Axis",

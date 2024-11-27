@@ -17,7 +17,7 @@ public class Movements : NetworkBehaviour
     // Variables for left/right movements
     private Vector3 rotations;
     [SerializeField]
-    private float rotationSpeed = 45.0f;
+    private float rotationSpeed;
     private bool holdingQD;
 
     // Variables for drifting
