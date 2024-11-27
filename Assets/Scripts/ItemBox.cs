@@ -6,13 +6,15 @@ using Mirror;
 public class ItemBox : MonoBehaviour
 {
     private float timer = 0.0f;
+    Renderer rend;
     private void OnTriggerEnter(Collider other)
     {
         /*if (!isServer)
             return;*/
         if (other.tag == "Player")
         {
-            gameObject.SetActive(false);
+            //gameObject.SetActive(false);
+            rend.enabled = false;
             timer = 0.0f;
         }
     }
@@ -20,7 +22,7 @@ public class ItemBox : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        rend = this.GetComponent<Renderer>();
     }
 
     // Update is called once per frame
@@ -32,7 +34,8 @@ public class ItemBox : MonoBehaviour
             timer += Time.deltaTime;
             if (timer > 1.0f)
             {
-                gameObject.SetActive(true);
+                //gameObject.SetActive(true);
+                rend.enabled = true;
             }
         }
     }
