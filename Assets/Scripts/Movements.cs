@@ -24,6 +24,21 @@ public class Movements : NetworkBehaviour
     [SerializeField, Range(0, 1)] private float driftFactor;
     private bool holdingDrift = false;
 
+    //Variables for Items
+    public enum ItemType
+    {
+        BOW, //0
+        FEATHER, //1
+        POTION, //2
+        SWORD, //3
+        TRAP, //4
+        NOTHING //5
+    }
+    [SerializeField] private static ItemType itemInHand = ItemType.POTION;
+    private float speedBoostTimer = 0.0f;
+    private float speedBoostDuration = 0.5f;
+    private bool usedPotion = false;
+
     // Variables for klaxon
     private AudioSource klaxonSound;
 
@@ -131,7 +146,40 @@ public class Movements : NetworkBehaviour
         {
             // TODO
             // creates an instance of the item ans apply its effect
+            switch (itemInHand)
+            {
+                case ItemType.BOW:
+                    print("Headshot!");
+                    break;
+                case ItemType.FEATHER:
+                    print("Yahoo!");
+                    break;
+                case ItemType.POTION:
+                    print("Glou glou!");
+                    movementsSpeed *= 2;
+                    usedPotion = true;
+                    break;
+                case ItemType.SWORD:
+                    print("Chling!");
+                    break;
+                case ItemType.TRAP:
+                    print("Trapped loser!");
+                    break;
+                case ItemType.NOTHING:
+                    print("You have no item!");
+                    break;
+                default:
+                    print("Error : not an item!");
+                    break;
+            }
+            itemInHand = ItemType.NOTHING;
         }
+    }
+
+    public void SetItemType (ItemType type)
+    {
+        print("Setting item");
+        itemInHand = type;
     }
 
     public void Klaxon(InputAction.CallbackContext context)
@@ -158,12 +206,15 @@ public class Movements : NetworkBehaviour
 
     private void HandleMovement()
     {
+        if (!usedPotion)
+        {
+            rigidBody.velocity = Vector3.ClampMagnitude(rigidBody.velocity, maxSpeed);
+        }
         if (holdingZS)
         {
             //rigidBody.velocity += movements;
             rigidBody.AddForce(translationAcceleration * transform.forward, ForceMode.Acceleration);
         }
-        rigidBody.velocity = Vector3.ClampMagnitude(rigidBody.velocity, maxSpeed);
 
         if (holdingQD)
         {
@@ -184,6 +235,17 @@ public class Movements : NetworkBehaviour
             float driftTurnAmount = rotations.y * rotationSpeed * /*1.5f * */Time.deltaTime;
             Quaternion driftTurnRotation = Quaternion.Euler(0f, driftTurnAmount, 0f);
             rigidBody.MoveRotation(rigidBody.rotation * driftTurnRotation);
+        }
+        if (usedPotion)
+        {
+            rigidBody.velocity = Vector3.ClampMagnitude(rigidBody.velocity, maxSpeed*2);
+            speedBoostTimer += Time.deltaTime;
+            if(speedBoostTimer > speedBoostDuration)
+            {
+                movementsSpeed /= 2;
+                speedBoostTimer = 0f;
+                usedPotion = false;
+            }
         }
     }
 }
