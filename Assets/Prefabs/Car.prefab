@@ -199,7 +199,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  movementsSpeed: 500
+  movementsSpeed: 750
   maxSpeed: 30
   rotationSpeed: 45
   driftFactor: 0.1
@@ -347,7 +347,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 32
+  m_Constraints: 80
   m_CollisionDetection: 0
 --- !u!114 &5690382066180848021
 MonoBehaviour:

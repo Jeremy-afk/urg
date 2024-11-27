@@ -28,11 +28,11 @@ public class ItemBox : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!gameObject.activeSelf)//not working
+        if (!rend.enabled)
         {
             print("reloading box");
             timer += Time.deltaTime;
-            if (timer > 1.0f)
+            if (timer > 3.0f)
             {
                 //gameObject.SetActive(true);
                 rend.enabled = true;
