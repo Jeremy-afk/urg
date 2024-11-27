@@ -4,6 +4,15 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/RoomScenes/RoomOffline.unity
+    guid: 4279936481a071c48afb6feec5b02f01
+  - enabled: 1
+    path: Assets/Scenes/RoomScenes/RoomOnline.unity
+    guid: 2c82a669403e59d459847c37c9b95b38
+  - enabled: 1
+    path: Assets/Scenes/NetworkCheckpoints.unity
+    guid: 7a6a838a3339b8e4797d5d46a0b705f0
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 14daaea71d0bf4a44a74497b8974b9aa, type: 2}
