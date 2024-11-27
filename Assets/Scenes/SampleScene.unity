@@ -154,7 +154,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d68a370b3c684214a9e7b3ef2e3d9afb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isCrossed: 0
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
 --- !u!65 &116312460
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -407,7 +409,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d68a370b3c684214a9e7b3ef2e3d9afb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isCrossed: 0
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
 --- !u!65 &366930939
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -499,17 +503,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 5320308484135446322, guid: cbc4605e9e662fb4e87420bd673d42c6, type: 3}
   m_PrefabInstance: {fileID: 6073600197597153278}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &553775398 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6439723876895044827, guid: cbc4605e9e662fb4e87420bd673d42c6, type: 3}
-  m_PrefabInstance: {fileID: 6073600197597153278}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 553775397}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b31f82066fadcde4cabfa7b04584221d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!82 &553775406
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1152,6 +1145,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b7ab6e7721d604498a4c99d25172405, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   checkpoints:
   - {fileID: 116312459}
   - {fileID: 366930938}
@@ -1274,7 +1270,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d68a370b3c684214a9e7b3ef2e3d9afb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isCrossed: 0
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
 --- !u!65 &1426639130
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1493,23 +1491,23 @@ PrefabInstance:
     - target: {fileID: 917257720712672351, guid: cbc4605e9e662fb4e87420bd673d42c6, type: 3}
       propertyPath: m_ActionEvents.Array.data[0].m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 553775398}
+      objectReference: {fileID: 0}
     - target: {fileID: 917257720712672351, guid: cbc4605e9e662fb4e87420bd673d42c6, type: 3}
       propertyPath: m_ActionEvents.Array.data[1].m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 553775398}
+      objectReference: {fileID: 0}
     - target: {fileID: 917257720712672351, guid: cbc4605e9e662fb4e87420bd673d42c6, type: 3}
       propertyPath: m_ActionEvents.Array.data[2].m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 553775398}
+      objectReference: {fileID: 0}
     - target: {fileID: 917257720712672351, guid: cbc4605e9e662fb4e87420bd673d42c6, type: 3}
       propertyPath: m_ActionEvents.Array.data[3].m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 553775398}
+      objectReference: {fileID: 0}
     - target: {fileID: 917257720712672351, guid: cbc4605e9e662fb4e87420bd673d42c6, type: 3}
       propertyPath: m_ActionEvents.Array.data[4].m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 553775398}
+      objectReference: {fileID: 0}
     - target: {fileID: 917257720712672351, guid: cbc4605e9e662fb4e87420bd673d42c6, type: 3}
       propertyPath: m_ActionEvents.Array.data[4].m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
@@ -1569,6 +1567,10 @@ PrefabInstance:
     - target: {fileID: 5320308484135446322, guid: cbc4605e9e662fb4e87420bd673d42c6, type: 3}
       propertyPath: m_Name
       value: Car
+      objectReference: {fileID: 0}
+    - target: {fileID: 5690382066180848021, guid: cbc4605e9e662fb4e87420bd673d42c6, type: 3}
+      propertyPath: sceneId
+      value: 404408484
       objectReference: {fileID: 0}
     - target: {fileID: 6208763863764361818, guid: cbc4605e9e662fb4e87420bd673d42c6, type: 3}
       propertyPath: m_LocalPosition.x
