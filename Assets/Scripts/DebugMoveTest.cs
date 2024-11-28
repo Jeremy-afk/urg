@@ -27,7 +27,7 @@ public class DebugMoveTest : NetworkBehaviour
         Controls playerInputActions = new Controls();
 
         accelerateDecelerateAction = playerInputActions.Player.AccelerateDecelerate;
-        moveLeftRightAction = playerInputActions.Player.MoveLeftRight;
+        moveLeftRightAction = playerInputActions.Player.TurnLeftRight;
 
         accelerateDecelerateAction.Enable();
         accelerateDecelerateAction.performed += OnAccelerateDecelerate;

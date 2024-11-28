@@ -55,9 +55,9 @@ public class Movements : NetworkBehaviour
         controls.Player.AccelerateDecelerate.performed += AccelerateDecelerate;
         controls.Player.AccelerateDecelerate.canceled += AccelerateDecelerate;
 
-        controls.Player.MoveLeftRight.Enable();
-        controls.Player.MoveLeftRight.performed += MoveLeftRight;
-        controls.Player.MoveLeftRight.canceled += MoveLeftRight;
+        controls.Player.TurnLeftRight.Enable();
+        controls.Player.TurnLeftRight.performed += MoveLeftRight;
+        controls.Player.TurnLeftRight.canceled += MoveLeftRight;
 
         controls.Player.Drift.Enable();
         controls.Player.Drift.performed += Drift;
@@ -79,9 +79,9 @@ public class Movements : NetworkBehaviour
         controls.Player.AccelerateDecelerate.performed -= AccelerateDecelerate;
         controls.Player.AccelerateDecelerate.canceled += AccelerateDecelerate;
 
-        controls.Player.MoveLeftRight.Disable();
-        controls.Player.MoveLeftRight.performed -= MoveLeftRight;
-        controls.Player.MoveLeftRight.canceled -= MoveLeftRight;
+        controls.Player.TurnLeftRight.Disable();
+        controls.Player.TurnLeftRight.performed -= MoveLeftRight;
+        controls.Player.TurnLeftRight.canceled -= MoveLeftRight;
 
         controls.Player.Drift.Disable();
         controls.Player.Drift.performed -= Drift;
