@@ -32,7 +32,7 @@ public class Finish : NetworkBehaviour
             else
                 playerLapCount.Add(playerIdentity, 1);
 
-            Debug.Log("Player " + playerIdentity.netId + " completed a lap! Total Laps: " + playerLapCount[playerIdentity]);
+            // Debug.Log("Player " + playerIdentity.netId + " completed a lap! Total Laps: " + playerLapCount[playerIdentity]);
 
             // Reset this player's checkpoints for the next lap
             ResetPlayerCheckpoints(playerIdentity);

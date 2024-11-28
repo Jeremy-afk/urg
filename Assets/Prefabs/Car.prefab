@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 9076655551552601510}
   - component: {fileID: 6810664230161858496}
   m_Layer: 0
-  m_Name: Main Camera
+  m_Name: CameraInitialPos
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -111,6 +111,7 @@ GameObject:
   - component: {fileID: 2229338997470649735}
   - component: {fileID: 8919982455908797453}
   - component: {fileID: -8544855460271738251}
+  - component: {fileID: 4462574843917591175}
   m_Layer: 0
   m_Name: Car
   m_TagString: Player
@@ -528,3 +529,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &4462574843917591175
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5320308484135446322}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13e8c7d23bf24a54aaf1b140e99124c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  initialCamPos: {fileID: 1414391798581451675}
