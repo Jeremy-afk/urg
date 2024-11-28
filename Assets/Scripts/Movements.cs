@@ -24,17 +24,8 @@ public class Movements : NetworkBehaviour
     [SerializeField, Range(0, 1)] private float driftFactor;
     private bool holdingDrift = false;
 
-    //Variables for Items
-    public enum ItemType
-    {
-        BOW, //0
-        FEATHER, //1
-        POTION, //2
-        SWORD, //3
-        TRAP, //4
-        NOTHING //5
-    }
-    [SerializeField] private static ItemType itemInHand = ItemType.POTION;
+    //Variables for Item 
+    [SerializeField] private static ItemBox.ItemType itemInHand = ItemBox.ItemType.POTION;
     private float speedBoostTimer = 0.0f;
     private float speedBoostDuration = 0.5f;
     private bool usedPotion = false;
@@ -148,38 +139,43 @@ public class Movements : NetworkBehaviour
             // creates an instance of the item ans apply its effect
             switch (itemInHand)
             {
-                case ItemType.BOW:
+                case ItemBox.ItemType.BOW:
                     print("Headshot!");
                     break;
-                case ItemType.FEATHER:
+                case ItemBox.ItemType.FEATHER:
                     print("Yahoo!");
                     break;
-                case ItemType.POTION:
+                case ItemBox.ItemType.POTION:
                     print("Glou glou!");
                     movementsSpeed *= 2;
                     usedPotion = true;
                     break;
-                case ItemType.SWORD:
+                case ItemBox.ItemType.SWORD:
                     print("Chling!");
                     break;
-                case ItemType.TRAP:
+                case ItemBox.ItemType.TRAP:
                     print("Trapped loser!");
                     break;
-                case ItemType.NOTHING:
+                case ItemBox.ItemType.NOTHING:
                     print("You have no item!");
                     break;
                 default:
                     print("Error : not an item!");
                     break;
             }
-            itemInHand = ItemType.NOTHING;
+            itemInHand = ItemBox.ItemType.NOTHING;
         }
     }
 
-    public void SetItemType (ItemType type)
+    public void SetItemType (ItemBox.ItemType type)
     {
         print("Setting item");
         itemInHand = type;
+    }
+
+    public ItemBox.ItemType GetItemType()
+    {
+        return itemInHand;
     }
 
     public void Klaxon(InputAction.CallbackContext context)

@@ -6,14 +6,31 @@ using Mirror;
 public class ItemBox : MonoBehaviour
 {
     private float timer = 0.0f;
-    Renderer rend;
+    private Renderer rend;
+    private Movements moves;
+
+    public enum ItemType
+    {
+        BOW, //0
+        FEATHER, //1
+        POTION, //2
+        SWORD, //3
+        TRAP, //4
+        NOTHING //5
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         /*if (!isServer)
             return;*/
         if (other.tag == "Player")
         {
-            //gameObject.SetActive(false);
+            moves = GetComponent<Movements>();//Not working yet
+            if (moves.GetItemType() == ItemType.NOTHING)
+            {
+                print("CollisionWithBox");
+                moves.SetItemType(ItemType.POTION);
+            }
             rend.enabled = false;
             timer = 0.0f;
         }
@@ -34,7 +51,6 @@ public class ItemBox : MonoBehaviour
             timer += Time.deltaTime;
             if (timer > 3.0f)
             {
-                //gameObject.SetActive(true);
                 rend.enabled = true;
             }
         }
