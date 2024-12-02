@@ -30,6 +30,9 @@ public class Movements : NetworkBehaviour
     private float speedBoostDuration = 0.5f;
     private bool usedPotion = false;
 
+    [SerializeField] private Arrow arrowPrefab;
+    [SerializeField] private Vector3 offset = new Vector3(1, 0, 1);
+
     // Variables for klaxon
     private AudioSource klaxonSound;
 
@@ -141,6 +144,7 @@ public class Movements : NetworkBehaviour
             {
                 case ItemBox.ItemType.BOW:
                     print("Headshot!");
+                    Arrow newArrow = Instantiate(arrowPrefab, transform.position + offset, transform.rotation);
                     break;
                 case ItemBox.ItemType.FEATHER:
                     print("Yahoo!");

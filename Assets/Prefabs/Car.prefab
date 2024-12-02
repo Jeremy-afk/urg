@@ -203,6 +203,8 @@ MonoBehaviour:
   maxSpeed: 30
   rotationSpeed: 45
   driftFactor: 0.1
+  forceSpeedBoost: 5
+  arrowPrefab: {fileID: 3049916369886722278, guid: e4279cb1b88076d45a162eb3003f5066, type: 3}
 --- !u!65 &7194518662945828156
 BoxCollider:
   m_ObjectHideFlags: 0
