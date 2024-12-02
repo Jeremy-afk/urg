@@ -25,7 +25,7 @@ public class Movements : NetworkBehaviour
     private bool holdingDrift = false;
 
     //Variables for Item 
-    [SerializeField] private float forceSpeedBoost = 5.0f;
+    [SerializeField]  private float forceSpeedBoost = 5.0f;
     private float speedBoostTimer = 0.0f;
     private float speedBoostDuration = 0.5f;
     private bool usedPotion = false;
@@ -197,7 +197,6 @@ public class Movements : NetworkBehaviour
         }
         if (holdingZS)
         {
-            //rigidBody.velocity += movements;
             rigidBody.AddForce(translationAcceleration * transform.forward, ForceMode.Acceleration);
         }
 
@@ -213,11 +212,11 @@ public class Movements : NetworkBehaviour
             rigidBody.velocity = Vector3.Lerp(rigidBody.velocity, transform.forward * rigidBody.velocity.magnitude * 0.7f, driftFactor * Time.deltaTime);
 
             // Apply a slight sideways force opposite to the turn direction to enhance sliding
-            Vector3 driftForce = driftFactor * /*movementsSpeed * */rotations.y * -transform.right;
+            Vector3 driftForce = driftFactor * rotations.y * -transform.right;
             rigidBody.AddForce(driftForce, ForceMode.Acceleration);
 
             // Slightly increase the turn angle to exaggerate the drift effect
-            float driftTurnAmount = rotations.y * rotationSpeed * /*1.5f * */Time.deltaTime;
+            float driftTurnAmount = rotations.y * rotationSpeed * Time.deltaTime;
             Quaternion driftTurnRotation = Quaternion.Euler(0f, driftTurnAmount, 0f);
             rigidBody.MoveRotation(rigidBody.rotation * driftTurnRotation);
         }
