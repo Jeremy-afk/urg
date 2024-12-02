@@ -7,7 +7,6 @@ public class ItemBox : MonoBehaviour
 {
     private float timer = 0.0f;
     private Renderer rend;
-    private Movements moves;
 
     public enum ItemType
     {
@@ -25,14 +24,14 @@ public class ItemBox : MonoBehaviour
             return;*/
         if (other.tag == "Player")
         {
-            moves = GetComponent<Movements>();//Not working yet
-            if (moves.GetItemType() == ItemType.NOTHING)
+            if (ItemManager.Instance.GetItemInHand() == ItemType.NOTHING)
             {
                 print("CollisionWithBox");
-                moves.SetItemType(ItemType.POTION);
+                ItemManager.Instance.SetItemInHand(ItemType.POTION);
             }
             rend.enabled = false;
             timer = 0.0f;
+            Debug.Log("ReloadingBox");
         }
     }
 
@@ -47,11 +46,11 @@ public class ItemBox : MonoBehaviour
     {
         if (!rend.enabled)
         {
-            print("reloading box");
             timer += Time.deltaTime;
             if (timer > 3.0f)
             {
                 rend.enabled = true;
+                Debug.Log("ItemBox reloaded");
             }
         }
     }

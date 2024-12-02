@@ -25,7 +25,7 @@ public class Movements : NetworkBehaviour
     private bool holdingDrift = false;
 
     //Variables for Item 
-    [SerializeField] private static ItemBox.ItemType itemInHand = ItemBox.ItemType.POTION;
+    [SerializeField] private float forceSpeedBoost = 5.0f;
     private float speedBoostTimer = 0.0f;
     private float speedBoostDuration = 0.5f;
     private bool usedPotion = false;
@@ -47,8 +47,8 @@ public class Movements : NetworkBehaviour
         controls.Player.AccelerateDecelerate.canceled += AccelerateDecelerate;
 
         controls.Player.TurnLeftRight.Enable();
-        controls.Player.TurnLeftRight.performed += MoveLeftRight;
-        controls.Player.TurnLeftRight.canceled += MoveLeftRight;
+        controls.Player.TurnLeftRight.performed += TurnLeftRight;
+        controls.Player.TurnLeftRight.canceled += TurnLeftRight;
 
         controls.Player.Drift.Enable();
         controls.Player.Drift.performed += Drift;
@@ -68,11 +68,11 @@ public class Movements : NetworkBehaviour
     {
         controls.Player.AccelerateDecelerate.Disable();
         controls.Player.AccelerateDecelerate.performed -= AccelerateDecelerate;
-        controls.Player.AccelerateDecelerate.canceled += AccelerateDecelerate;
+        controls.Player.AccelerateDecelerate.canceled -= AccelerateDecelerate;
 
         controls.Player.TurnLeftRight.Disable();
-        controls.Player.TurnLeftRight.performed -= MoveLeftRight;
-        controls.Player.TurnLeftRight.canceled -= MoveLeftRight;
+        controls.Player.TurnLeftRight.performed -= TurnLeftRight;
+        controls.Player.TurnLeftRight.canceled -= TurnLeftRight;
 
         controls.Player.Drift.Disable();
         controls.Player.Drift.performed -= Drift;
@@ -104,7 +104,7 @@ public class Movements : NetworkBehaviour
         }
     }
 
-    public void MoveLeftRight(InputAction.CallbackContext context)
+    public void TurnLeftRight(InputAction.CallbackContext context)
     {
         // Called whenever a change is detected in the input (stick or key)
         if (context.performed)
@@ -137,7 +137,7 @@ public class Movements : NetworkBehaviour
         {
             // TODO
             // creates an instance of the item ans apply its effect
-            switch (itemInHand)
+            switch (ItemManager.Instance.GetItemInHand())
             {
                 case ItemBox.ItemType.BOW:
                     print("Headshot!");
@@ -147,7 +147,7 @@ public class Movements : NetworkBehaviour
                     break;
                 case ItemBox.ItemType.POTION:
                     print("Glou glou!");
-                    movementsSpeed *= 2;
+                    translationAcceleration *= forceSpeedBoost;
                     usedPotion = true;
                     break;
                 case ItemBox.ItemType.SWORD:
@@ -163,19 +163,8 @@ public class Movements : NetworkBehaviour
                     print("Error : not an item!");
                     break;
             }
-            itemInHand = ItemBox.ItemType.NOTHING;
+            ItemManager.Instance.SetItemInHand(ItemBox.ItemType.NOTHING);
         }
-    }
-
-    public void SetItemType (ItemBox.ItemType type)
-    {
-        print("Setting item");
-        itemInHand = type;
-    }
-
-    public ItemBox.ItemType GetItemType()
-    {
-        return itemInHand;
     }
 
     public void Klaxon(InputAction.CallbackContext context)
@@ -238,7 +227,7 @@ public class Movements : NetworkBehaviour
             speedBoostTimer += Time.deltaTime;
             if(speedBoostTimer > speedBoostDuration)
             {
-                movementsSpeed /= 2;
+                translationAcceleration /= forceSpeedBoost;
                 speedBoostTimer = 0f;
                 usedPotion = false;
             }
