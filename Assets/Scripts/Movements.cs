@@ -31,7 +31,7 @@ public class Movements : NetworkBehaviour
     private bool usedPotion = false;
 
     [SerializeField] private Arrow arrowPrefab;
-    [SerializeField] private Vector3 offset = new Vector3(1, 0, 1);
+    [SerializeField] private Vector3 offset = new Vector3(0, 0, 0);
 
     // Variables for klaxon
     private AudioSource klaxonSound;
@@ -144,7 +144,9 @@ public class Movements : NetworkBehaviour
             {
                 case ItemBox.ItemType.BOW:
                     print("Headshot!");
-                    Arrow newArrow = Instantiate(arrowPrefab, transform.position + offset, transform.rotation);
+                    Vector3 spawnPosition = transform.position + offset;
+                    Arrow newArrow = Instantiate(arrowPrefab, transform.position, Quaternion.identity);
+                    newArrow.SetDirection(transform.forward);
                     break;
                 case ItemBox.ItemType.FEATHER:
                     print("Yahoo!");

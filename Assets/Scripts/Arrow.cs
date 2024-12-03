@@ -6,9 +6,9 @@ public class Arrow : MonoBehaviour
 {
     [SerializeField] private float speed;
 
-    private Vector2 direction = new Vector2(1, 0);
+    private Vector3 direction;
 
-    public void SetDirection(Vector2 newDirection)
+    public void SetDirection(Vector3 newDirection)
     {
         direction = newDirection;
     }
