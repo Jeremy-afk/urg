@@ -145,7 +145,7 @@ public class Movements : NetworkBehaviour
                 case ItemBox.ItemType.BOW:
                     print("Headshot!");
                     Vector3 spawnPosition = transform.position + offset;
-                    Arrow newArrow = Instantiate(arrowPrefab, transform.position, Quaternion.identity);
+                    Arrow newArrow = Instantiate(arrowPrefab, transform.position + new Vector3(0, 0, 0.5f), Quaternion.identity);
                     newArrow.SetDirection(transform.forward);
                     break;
                 case ItemBox.ItemType.FEATHER:
