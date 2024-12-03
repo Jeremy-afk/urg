@@ -104,7 +104,7 @@ public class Movements : NetworkBehaviour
         {
             holdingZS = true;
             float direction = context.ReadValue<float>();
-            print(direction);
+            //print(direction);
             translationAcceleration = direction * movementsSpeed * Time.fixedDeltaTime;
         }
         if (context.canceled)
