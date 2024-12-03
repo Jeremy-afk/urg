@@ -24,20 +24,14 @@ public class Movements : NetworkBehaviour
     [SerializeField, Range(0, 1)] private float driftFactor;
     private bool holdingDrift = false;
 
-    //Variables for Items
-    public enum ItemType
-    {
-        BOW, //0
-        FEATHER, //1
-        POTION, //2
-        SWORD, //3
-        TRAP, //4
-        NOTHING //5
-    }
-    [SerializeField] private static ItemType itemInHand = ItemType.POTION;
+    //Variables for Item 
+    [SerializeField]  private float forceSpeedBoost = 5.0f;
     private float speedBoostTimer = 0.0f;
     private float speedBoostDuration = 0.5f;
     private bool usedPotion = false;
+
+    [SerializeField] private Arrow arrowPrefab;
+    [SerializeField] private Vector3 offset = new Vector3(0, 0, 0);
 
     // Variables for klaxon
     private AudioSource klaxonSound;
@@ -56,8 +50,8 @@ public class Movements : NetworkBehaviour
         controls.Player.AccelerateDecelerate.canceled += AccelerateDecelerate;
 
         controls.Player.TurnLeftRight.Enable();
-        controls.Player.TurnLeftRight.performed += MoveLeftRight;
-        controls.Player.TurnLeftRight.canceled += MoveLeftRight;
+        controls.Player.TurnLeftRight.performed += TurnLeftRight;
+        controls.Player.TurnLeftRight.canceled += TurnLeftRight;
 
         controls.Player.Drift.Enable();
         controls.Player.Drift.performed += Drift;
@@ -77,11 +71,11 @@ public class Movements : NetworkBehaviour
     {
         controls.Player.AccelerateDecelerate.Disable();
         controls.Player.AccelerateDecelerate.performed -= AccelerateDecelerate;
-        controls.Player.AccelerateDecelerate.canceled += AccelerateDecelerate;
+        controls.Player.AccelerateDecelerate.canceled -= AccelerateDecelerate;
 
         controls.Player.TurnLeftRight.Disable();
-        controls.Player.TurnLeftRight.performed -= MoveLeftRight;
-        controls.Player.TurnLeftRight.canceled -= MoveLeftRight;
+        controls.Player.TurnLeftRight.performed -= TurnLeftRight;
+        controls.Player.TurnLeftRight.canceled -= TurnLeftRight;
 
         controls.Player.Drift.Disable();
         controls.Player.Drift.performed -= Drift;
@@ -113,7 +107,7 @@ public class Movements : NetworkBehaviour
         }
     }
 
-    public void MoveLeftRight(InputAction.CallbackContext context)
+    public void TurnLeftRight(InputAction.CallbackContext context)
     {
         // Called whenever a change is detected in the input (stick or key)
         if (context.performed)
@@ -146,40 +140,37 @@ public class Movements : NetworkBehaviour
         {
             // TODO
             // creates an instance of the item ans apply its effect
-            switch (itemInHand)
+            switch (ItemManager.Instance.GetItemInHand())
             {
-                case ItemType.BOW:
+                case ItemBox.ItemType.BOW:
                     print("Headshot!");
+                    Vector3 spawnPosition = transform.position + offset;
+                    Arrow newArrow = Instantiate(arrowPrefab, transform.position + new Vector3(0, 0, 0.5f), Quaternion.identity);
+                    newArrow.SetDirection(transform.forward);
                     break;
-                case ItemType.FEATHER:
+                case ItemBox.ItemType.FEATHER:
                     print("Yahoo!");
                     break;
-                case ItemType.POTION:
+                case ItemBox.ItemType.POTION:
                     print("Glou glou!");
-                    movementsSpeed *= 2;
+                    translationAcceleration *= forceSpeedBoost;
                     usedPotion = true;
                     break;
-                case ItemType.SWORD:
+                case ItemBox.ItemType.SWORD:
                     print("Chling!");
                     break;
-                case ItemType.TRAP:
+                case ItemBox.ItemType.TRAP:
                     print("Trapped loser!");
                     break;
-                case ItemType.NOTHING:
+                case ItemBox.ItemType.NOTHING:
                     print("You have no item!");
                     break;
                 default:
                     print("Error : not an item!");
                     break;
             }
-            itemInHand = ItemType.NOTHING;
+            ItemManager.Instance.SetItemInHand(ItemBox.ItemType.NOTHING);
         }
-    }
-
-    public void SetItemType (ItemType type)
-    {
-        print("Setting item");
-        itemInHand = type;
     }
 
     public void Klaxon(InputAction.CallbackContext context)
@@ -212,7 +203,6 @@ public class Movements : NetworkBehaviour
         }
         if (holdingZS)
         {
-            //rigidBody.velocity += movements;
             rigidBody.AddForce(translationAcceleration * transform.forward, ForceMode.Acceleration);
         }
 
@@ -228,11 +218,11 @@ public class Movements : NetworkBehaviour
             rigidBody.velocity = Vector3.Lerp(rigidBody.velocity, transform.forward * rigidBody.velocity.magnitude * 0.7f, driftFactor * Time.deltaTime);
 
             // Apply a slight sideways force opposite to the turn direction to enhance sliding
-            Vector3 driftForce = driftFactor * /*movementsSpeed * */rotations.y * -transform.right;
+            Vector3 driftForce = driftFactor * rotations.y * -transform.right;
             rigidBody.AddForce(driftForce, ForceMode.Acceleration);
 
             // Slightly increase the turn angle to exaggerate the drift effect
-            float driftTurnAmount = rotations.y * rotationSpeed * /*1.5f * */Time.deltaTime;
+            float driftTurnAmount = rotations.y * rotationSpeed * Time.deltaTime;
             Quaternion driftTurnRotation = Quaternion.Euler(0f, driftTurnAmount, 0f);
             rigidBody.MoveRotation(rigidBody.rotation * driftTurnRotation);
         }
@@ -242,7 +232,7 @@ public class Movements : NetworkBehaviour
             speedBoostTimer += Time.deltaTime;
             if(speedBoostTimer > speedBoostDuration)
             {
-                movementsSpeed /= 2;
+                translationAcceleration /= forceSpeedBoost;
                 speedBoostTimer = 0f;
                 usedPotion = false;
             }

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - RaceStartPoint
   - ItemBox
+  - Wall
   layers:
   - Default
   - TransparentFX
