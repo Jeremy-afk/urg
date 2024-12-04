@@ -27,7 +27,7 @@ public class ItemBox : MonoBehaviour
             if (ItemManager.Instance.GetItemInHand() == ItemType.NOTHING)
             {
                 print("CollisionWithBox");
-                ItemManager.Instance.SetItemInHand(ItemType.TRAP);
+                ItemManager.Instance.SetItemInHand(ItemType.POTION);
             }
             rend.enabled = false;
             timer = 0.0f;
