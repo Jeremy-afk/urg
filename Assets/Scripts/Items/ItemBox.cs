@@ -7,6 +7,9 @@ public class ItemBox : MonoBehaviour
 {
     private float timer = 0.0f;
     private Renderer rend;
+    [SerializeField] private bool isBow;
+    [SerializeField] private bool isPotion;
+    [SerializeField] private bool isTrap;
 
     public enum ItemType
     {
@@ -27,7 +30,22 @@ public class ItemBox : MonoBehaviour
             if (ItemManager.Instance.GetItemInHand() == ItemType.NOTHING)
             {
                 print("CollisionWithBox");
-                ItemManager.Instance.SetItemInHand(ItemType.POTION);
+                if (isBow)
+                {
+                    print("You got a bow!");
+                    ItemManager.Instance.SetItemInHand(ItemType.BOW);
+                }
+                else if (isPotion) 
+                {
+                    print("You got a potion!");
+                    ItemManager.Instance.SetItemInHand(ItemType.POTION);
+                }
+                else if (isTrap)
+                {
+                    print("You got a trap!");
+                    ItemManager.Instance.SetItemInHand(ItemType.TRAP);
+                }
+                    
             }
             rend.enabled = false;
             timer = 0.0f;
