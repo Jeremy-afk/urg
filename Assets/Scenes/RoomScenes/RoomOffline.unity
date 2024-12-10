@@ -331,7 +331,7 @@ MonoBehaviour:
   minPlayers: 1
   roomPlayerPrefab: {fileID: 8134468604963387102, guid: ab30e472cfeb4854d9fb9976aec08bf7, type: 3}
   RoomScene: Assets/Scenes/RoomScenes/RoomOnline.unity
-  GameplayScene: Assets/Scenes/NetworkCheckpoints.unity
+  GameplayScene: Assets/Scenes/Demo1.unity
   _allPlayersReady: 0
   clientIndex: 0
 --- !u!1660057539 &9223372036854775807
