@@ -9,7 +9,7 @@ public class CarSound : NetworkBehaviour
     private bool autoStartEngine = false;
 
     [Header("Target")]
-    [SerializeField]
+    [SerializeField, Tooltip("")]
     private bool autoTargetRigidbody = false;
     [SerializeField]
     private Rigidbody targetRigidbody;
@@ -65,6 +65,7 @@ public class CarSound : NetworkBehaviour
         engineRpmSource.Play();
     }
 
+    // Use this to update the sound corresponding to the passed speed, useless if autoTargetRigidbody is enabled
     public void UpdateSpeed(float speed)
     {
         targetSpeedSound = speed;
