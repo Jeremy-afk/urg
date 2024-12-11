@@ -104,12 +104,26 @@ public class Finish : NetworkBehaviour
 
     private void FinishRace(NetworkIdentity playerIdentity)
     {
-        Debug.Log("Player " + playerIdentity.netId + " has finished the race!");
+        Debug.Log("Player " + playerIdentity.netId + " has finished the race! (Server log only)");
+
+        // TODO: Play a finish sound effect
         Movements playerMovements = playerIdentity.GetComponent<Movements>();
         playerMovements.SetMovementActive(false);
 
-        // TODO: Play a finish sound effect
-        GameManager.Instance.ShowFinishedUi(playerIdentity);
+        RpcFinishRace(playerIdentity);
+    }
+
+    [ClientRpc]
+    private void RpcFinishRace(NetworkIdentity playerIdentity)
+    {
+        Movements playerMovements = playerIdentity.GetComponent<Movements>();
+        playerMovements.SetMovementActive(false);
+
+        Debug.Log("Player " + playerIdentity.netId + " finished the race!");
+        if (playerIdentity.isLocalPlayer)
+        {
+            GameManager.Instance.ShowFinishedUi();
+        }
     }
 
     private bool IsAllCheckpointsCrossed(NetworkIdentity playerIdentity)
