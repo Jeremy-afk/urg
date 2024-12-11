@@ -346,6 +346,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!114 &83099828 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3177439030437421079, guid: b8de61c1d170ebe45a9a43647aaf8f57, type: 3}
+  m_PrefabInstance: {fileID: 946465658}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d68a370b3c684214a9e7b3ef2e3d9afb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &143076204
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -798,8 +809,7 @@ MonoBehaviour:
   playerPrefab: {fileID: 5320308484135446322, guid: cbc4605e9e662fb4e87420bd673d42c6, type: 3}
   autoCreatePlayer: 1
   playerSpawnMethod: 0
-  spawnPrefabs:
-  - {fileID: 3290779390764476288, guid: 738b6d910673a9a468ce835c9c46a83d, type: 3}
+  spawnPrefabs: []
   exceptionsDisconnect: 1
   snapshotSettings:
     bufferTimeMultiplier: 2
@@ -891,6 +901,28 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d78d7e17fd9787d43b947e9b0305efaf, type: 3}
+--- !u!114 &705826347 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3177439030437421079, guid: b8de61c1d170ebe45a9a43647aaf8f57, type: 3}
+  m_PrefabInstance: {fileID: 1700227015}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d68a370b3c684214a9e7b3ef2e3d9afb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &797285642 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3177439030437421079, guid: b8de61c1d170ebe45a9a43647aaf8f57, type: 3}
+  m_PrefabInstance: {fileID: 44880524}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d68a370b3c684214a9e7b3ef2e3d9afb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &836647006
 GameObject:
   m_ObjectHideFlags: 0
@@ -1366,6 +1398,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Finish (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 2235154613686823735, guid: e705eb985d6e9d74ba368da071e548ce, type: 3}
+      propertyPath: checkpoints.Array.data[0]
+      value: 
+      objectReference: {fileID: 83099828}
+    - target: {fileID: 2235154613686823735, guid: e705eb985d6e9d74ba368da071e548ce, type: 3}
+      propertyPath: checkpoints.Array.data[1]
+      value: 
+      objectReference: {fileID: 705826347}
+    - target: {fileID: 2235154613686823735, guid: e705eb985d6e9d74ba368da071e548ce, type: 3}
+      propertyPath: checkpoints.Array.data[2]
+      value: 
+      objectReference: {fileID: 797285642}
     - target: {fileID: 5069377856465957097, guid: e705eb985d6e9d74ba368da071e548ce, type: 3}
       propertyPath: m_LocalScale.z
       value: 50
@@ -1795,7 +1839,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1923486449}
   - component: {fileID: 1923486448}
-  - component: {fileID: 1923486447}
   m_Layer: 0
   m_Name: MainCamera
   m_TagString: MainCamera
@@ -1803,14 +1846,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &1923486447
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1923486446}
-  m_Enabled: 1
 --- !u!20 &1923486448
 Camera:
   m_ObjectHideFlags: 0
