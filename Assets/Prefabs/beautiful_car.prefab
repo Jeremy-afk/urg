@@ -120,6 +120,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: beautiful_car
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 28c807214589bdf4a954a2bf08d728a4, type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 65702495048144492, guid: 28c807214589bdf4a954a2bf08d728a4, type: 3}
@@ -202,8 +206,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 4.433157, y: 1.3035156, z: 1.8999672}
-  m_Center: {x: -0.021269798, y: 0.15175791, z: -0.044534683}
+  m_Size: {x: 1.7781134, y: 1.3035156, z: 4.019058}
+  m_Center: {x: 0.025836468, y: 0.1517579, z: 0.27116394}
 --- !u!114 &7970350237245314209
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -444,7 +448,7 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 1
+  MinDistance: 0.35013223
   MaxDistance: 500
   Pan2D: 0
   rolloffMode: 0
