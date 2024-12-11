@@ -155,7 +155,7 @@ public class Movements : NetworkBehaviour
                 case ItemBox.ItemType.BOW:
                     print("Headshot!");
                     Vector3 spawnPosition = transform.position + offsetArrow;
-                    Arrow newArrow = Instantiate(arrowPrefab, transform.position + new Vector3(0, 0, 0.5f), Quaternion.identity);
+                    Arrow newArrow = Instantiate(arrowPrefab, transform.position + new Vector3(3.0f, 0, 0.0f), Quaternion.identity);
                     newArrow.SetDirection(transform.forward);
                     break;
                 case ItemBox.ItemType.FEATHER:
@@ -170,7 +170,7 @@ public class Movements : NetworkBehaviour
                     print("Chling!");
                     break;
                 case ItemBox.ItemType.TRAP:
-                    Trap newTrap = Instantiate(trapPrefab, transform.position + new Vector3(0, -transform.position.y, -0.5f), Quaternion.identity);
+                    Trap newTrap = Instantiate(trapPrefab, transform.position + new Vector3(-2.0f, -transform.position.y, 0.0f), Quaternion.identity);
                     print("Trapped loser!");
                     break;
                 case ItemBox.ItemType.NOTHING:
