@@ -91,6 +91,10 @@ public class Finish : NetworkBehaviour
             {
                 FinishRace(playerIdentity);
             }
+            else
+            {
+                Debug.Log("Still in race !");
+            }
         }
         else
         {
@@ -104,12 +108,8 @@ public class Finish : NetworkBehaviour
         Movements playerMovements = playerIdentity.GetComponent<Movements>();
         playerMovements.SetMovementActive(false);
 
-        // Show the ui only on the client that finished the race
-        if (playerIdentity.isLocalPlayer)
-        {
-            // TODO: Play a finish sound effect
-            GameManager.Instance.ShowFinishedUi();
-        }
+        // TODO: Play a finish sound effect
+        GameManager.Instance.ShowFinishedUi(playerIdentity);
     }
 
     private bool IsAllCheckpointsCrossed(NetworkIdentity playerIdentity)

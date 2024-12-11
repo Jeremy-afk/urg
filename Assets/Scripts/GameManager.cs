@@ -23,11 +23,10 @@ public class GameManager : NetworkBehaviour
         finishLine.StartCountdown();
     }
 
-    public void ShowFinishedUi()
+    [ClientRpc]
+    public void ShowFinishedUi(NetworkIdentity player)
     {
-        if (isServer) return;
-
-        finishedUi.SetActive(true);
+        if (player.isLocalPlayer) finishedUi.SetActive(true);
     }
 
     public void RegisterPlayer(NetworkIdentity player)
