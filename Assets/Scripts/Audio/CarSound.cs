@@ -9,7 +9,7 @@ public class CarSound : NetworkBehaviour
     private bool autoStartEngine = false;
 
     [Header("Target")]
-    [SerializeField, Tooltip("")]
+    [SerializeField, Tooltip("Automatically listens to the target rigidbody, and adjusts the sound accordingly.\nThat makes this component autonomous that doesn't need any extern call.")]
     private bool autoTargetRigidbody = false;
     [SerializeField]
     private Rigidbody targetRigidbody;
@@ -91,7 +91,6 @@ public class CarSound : NetworkBehaviour
         }
 
         targetSpeedSound = targetRigidbody.velocity.magnitude;
-        print(targetRigidbody.velocity.magnitude);
     }
 
     private void UpdateSpeedSound()

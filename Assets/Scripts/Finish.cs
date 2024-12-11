@@ -1,11 +1,64 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using System.Collections;
 
 public class Finish : NetworkBehaviour
 {
-    public Checkpoint[] checkpoints; // Array of checkpoints to track
-    private Dictionary<NetworkIdentity, int> playerLapCount = new(); // Track laps per player
+    [SerializeField] private int countdownDelay = 2;
+    [SerializeField] private int requiredLaps = 3;
+    [SerializeField] private Checkpoint[] checkpoints;
+
+    private Dictionary<NetworkIdentity, int> playerLapCount = new();
+
+    public void RegisterPlayers(NetworkIdentity[] playerIdentities)
+    {
+        foreach (var playerIdentity in playerIdentities)
+        {
+            RegisterPlayer(playerIdentity);
+        }
+    }
+
+    public void RegisterPlayer(NetworkIdentity playerIdentity)
+    {
+        if (playerIdentity)
+        {
+            playerLapCount[playerIdentity] = 0;
+            ResetPlayerCheckpoints(playerIdentity);
+            Debug.Log("Player " + playerIdentity.netId + " registered successfully.");
+        }
+        else
+        {
+            Debug.LogError("Attempted to register a null or invalid player.");
+        }
+    }
+
+    public void StartCountdown()
+    {
+        StartCoroutine(StartRaceAnimation());
+    }
+
+    private IEnumerator StartRaceAnimation()
+    {
+        Debug.Log("Waiting for countdown");
+
+        yield return new WaitForSeconds(countdownDelay);
+
+        Debug.Log("Countdown started");
+        // TODO: Make a countdown animation (use a separate script for this)
+        Debug.Log("Countdown finished");
+        StartRace();
+    }
+
+    private void StartRace()
+    {
+        foreach (var playerIdentity in playerLapCount.Keys)
+        {
+            Movements playerMovements = playerIdentity.GetComponent<Movements>();
+            playerMovements.SetMovementActive(true);
+        }
+        Debug.Log("Race started, moving enabled!");
+    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -20,30 +73,46 @@ public class Finish : NetworkBehaviour
 
     private void CheckLapCompletion(NetworkIdentity playerIdentity)
     {
-        // Ensure this player has initialized their checkpoint data
-        //InitializePlayerCheckpointStatus(playerIdentity); // I think this shouldn't be called here since it resets every checkpoint for the player
-
         // Check if all checkpoints have been crossed for this specific player
-        if (AllCheckpointsCrossed(playerIdentity))
+        if (IsAllCheckpointsCrossed(playerIdentity))
         {
             // Increment lap count for the player
-            if (playerLapCount.ContainsKey(playerIdentity))
-                playerLapCount[playerIdentity]++;
+            if (playerLapCount.ContainsKey(playerIdentity)) playerLapCount[playerIdentity]++;
             else
+            {
+                Debug.LogWarning("Player was not registered. Registering player for the first time.");
                 playerLapCount.Add(playerIdentity, 1);
+            }
 
-            // Debug.Log("Player " + playerIdentity.netId + " completed a lap! Total Laps: " + playerLapCount[playerIdentity]);
-
-            // Reset this player's checkpoints for the next lap
             ResetPlayerCheckpoints(playerIdentity);
-
-            // Optionally, send the updated lap count to clients
             RpcLogLapCompletion(playerIdentity.netId, playerLapCount[playerIdentity]);
+
+            if (playerLapCount[playerIdentity] >= requiredLaps)
+            {
+                FinishRace(playerIdentity);
+            }
+        }
+        else
+        {
+            Debug.LogWarning("Checkpoint check failed. Lap not counted.");
         }
     }
 
-    // Check if all checkpoints in the array have been crossed for a specific player
-    private bool AllCheckpointsCrossed(NetworkIdentity playerIdentity)
+    private void FinishRace(NetworkIdentity playerIdentity)
+    {
+        Debug.Log("Player " + playerIdentity.netId + " has finished the race!");
+        Movements playerMovements = playerIdentity.GetComponent<Movements>();
+        playerMovements.SetMovementActive(false);
+
+        // Show the ui only on the client that finished the race
+        if (playerIdentity.isLocalPlayer)
+        {
+            // TODO: Play a finish sound effect
+            GameManager.Instance.ShowFinishedUi();
+        }
+    }
+
+    private bool IsAllCheckpointsCrossed(NetworkIdentity playerIdentity)
     {
         foreach (var cp in checkpoints)
         {
@@ -61,7 +130,6 @@ public class Finish : NetworkBehaviour
         return true; // All checkpoints have been crossed by this player
     }
 
-    // Reset all checkpoints for the next lap for a specific player
     private void ResetPlayerCheckpoints(NetworkIdentity playerIdentity)
     {
         foreach (var cp in checkpoints)
@@ -72,17 +140,6 @@ public class Finish : NetworkBehaviour
         }
     }
 
-    // Public method to initialize player checkpoint status if they are new
-    public void InitializePlayerCheckpointStatus(NetworkIdentity playerIdentity)
-    {
-        if (playerIdentity)
-        {
-            playerLapCount[playerIdentity] = 0;
-            ResetPlayerCheckpoints(playerIdentity);
-        }
-    }
-
-    // ClientRpc to log the lap completion on all clients
     [ClientRpc]
     private void RpcLogLapCompletion(uint playerId, int laps)
     {

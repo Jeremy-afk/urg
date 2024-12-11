@@ -31,15 +31,16 @@ public class Movements : NetworkBehaviour
     private bool usedPotion = false;
 
     [SerializeField] private Arrow arrowPrefab;
-    private Vector3 offsetArrow = new Vector3(0, 0, 0);
+    private Vector3 offsetArrow = new(0, 0, 0);
 
     [SerializeField] private Trap trapPrefab;
-    private Vector3 offsetTrap = new Vector3(0, 0, 0);
+    private Vector3 offsetTrap = new(0, 0, 0);
 
-    // Variables for klaxon
     private AudioSource klaxonSound;
-
     private Controls controls;
+
+    [SyncVar]
+    private bool canMove = false;
 
     private void Awake()
     {
@@ -94,14 +95,20 @@ public class Movements : NetworkBehaviour
         controls.Player.Klaxon.canceled -= Klaxon;
     }
 
+    // Called by the server to allow the player to move or not
+    
+    public void SetMovementActive(bool active)
+    {
+        canMove = active;
+    }
+
     public void AccelerateDecelerate(InputAction.CallbackContext context)
     {
         // This is called whenever the buttons associated with accelerating/decelerating are pressed (performed) or released (canceled)
-        if (context.performed)
+        if (context.performed && canMove)
         {
             holdingZS = true;
             float direction = context.ReadValue<float>();
-            //print(direction);
             translationAcceleration = direction * movementsSpeed * Time.fixedDeltaTime;
         }
         if (context.canceled)
@@ -113,7 +120,7 @@ public class Movements : NetworkBehaviour
     public void TurnLeftRight(InputAction.CallbackContext context)
     {
         // Called whenever a change is detected in the input (stick or key)
-        if (context.performed)
+        if (context.performed && canMove)
         {
             holdingQD = true;
             rotations = rotationSpeed * Time.fixedDeltaTime * context.ReadValue<float>() * transform.up;
@@ -127,7 +134,7 @@ public class Movements : NetworkBehaviour
 
     public void Drift(InputAction.CallbackContext context)
     {
-        if (context.performed)
+        if (context.performed && canMove)
         {
            holdingDrift = true;
         }
@@ -139,7 +146,7 @@ public class Movements : NetworkBehaviour
 
     public void Item(InputAction.CallbackContext context)
     {
-        if (context.performed)
+        if (context.performed && canMove)
         {
             // TODO
             // creates an instance of the item ans apply its effect
@@ -193,8 +200,8 @@ public class Movements : NetworkBehaviour
 
     private void FixedUpdate()
     {
-        // If this is not the local player, don't touch anything
-        if (!isLocalPlayer) return;
+        // If this is not the local player, or the player isn't allowed to move don't touch anything
+        if (!isLocalPlayer || !canMove) return;
         // Otherwise, this means this is the local player's car. Thus handle the movement.
         HandleMovement();
     }

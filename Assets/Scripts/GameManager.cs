@@ -1,20 +1,37 @@
-using System.Collections;
-using System.Collections.Generic;
+using Mirror;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+public class GameManager : NetworkBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private Finish finishLine;
+    [SerializeField] private GameObject finishedUi;
+
+    public static GameManager Instance { get; private set; }
+
+    private void Awake()
     {
-        
+        if (Instance)
+        {
+            Debug.LogWarning("Multiple GameManager instances detected in the scene. Only one GameManager is allowed.");
+            Destroy(gameObject);
+        }
+        Instance = this;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Start()
     {
-        
+        finishLine.StartCountdown();
     }
 
+    public void ShowFinishedUi()
+    {
+        if (isServer) return;
 
+        finishedUi.SetActive(true);
+    }
+
+    public void RegisterPlayer(NetworkIdentity player)
+    {
+        finishLine.RegisterPlayer(player);
+    }
 }

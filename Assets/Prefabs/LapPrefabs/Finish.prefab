@@ -122,6 +122,8 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
+  countdownDelay: 2
+  requiredLaps: 3
   checkpoints:
   - {fileID: 0}
   - {fileID: 0}
