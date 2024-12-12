@@ -152,35 +152,35 @@ public class Movements : NetworkBehaviour
             // creates an instance of the item ans apply its effect
             switch (ItemManager.Instance.GetItemInHand())
             {
-                case ItemBox.ItemType.BOW:
+                case ItemType.BOW:
                     print("Headshot!");
                     Vector3 spawnPosition = transform.position + offsetArrow;
                     Arrow newArrow = Instantiate(arrowPrefab, transform.position + new Vector3(3.0f, 0, 0.0f), Quaternion.identity);
                     newArrow.SetDirection(transform.forward);
                     break;
-                case ItemBox.ItemType.FEATHER:
+                case ItemType.FEATHER:
                     print("Yahoo!");
                     break;
-                case ItemBox.ItemType.POTION:
+                case ItemType.POTION:
                     print("Glou glou!");
                     translationAcceleration *= forceSpeedBoost;
                     usedPotion = true;
                     break;
-                case ItemBox.ItemType.SWORD:
+                case ItemType.SWORD:
                     print("Chling!");
                     break;
-                case ItemBox.ItemType.TRAP:
-                    Trap newTrap = Instantiate(trapPrefab, transform.position + new Vector3(-2.0f, -transform.position.y, 0.0f), Quaternion.identity);
+                case ItemType.TRAP:
+                    Instantiate(trapPrefab, transform.position + new Vector3(-2.0f, -transform.position.y, 0.0f), Quaternion.identity);
                     print("Trapped loser!");
                     break;
-                case ItemBox.ItemType.NOTHING:
+                case ItemType.NOTHING:
                     print("You have no item!");
                     break;
                 default:
                     print("Error : not an item!");
                     break;
             }
-            ItemManager.Instance.SetItemInHand(ItemBox.ItemType.NOTHING);
+            ItemManager.Instance.SetItemInHand(ItemType.NOTHING);
         }
     }
 

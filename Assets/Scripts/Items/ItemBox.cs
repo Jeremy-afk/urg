@@ -1,7 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using Mirror;
+
 
 public class ItemBox : MonoBehaviour
 {
@@ -11,21 +9,10 @@ public class ItemBox : MonoBehaviour
     [SerializeField] private bool isPotion;
     [SerializeField] private bool isTrap;
 
-    public enum ItemType
-    {
-        BOW, //0
-        FEATHER, //1
-        POTION, //2
-        SWORD, //3
-        TRAP, //4
-        NOTHING //5
-    }
 
     private void OnTriggerEnter(Collider other)
     {
-        /*if (!isServer)
-            return;*/
-        if (other.tag == "Player")
+        if (other.CompareTag("Player"))
         {
             if (ItemManager.Instance.GetItemInHand() == ItemType.NOTHING)
             {
@@ -53,14 +40,12 @@ public class ItemBox : MonoBehaviour
         }
     }
 
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        rend = this.GetComponent<Renderer>();
+        rend = GetComponent<Renderer>();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
         if (!rend.enabled)
         {

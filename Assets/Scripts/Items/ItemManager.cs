@@ -1,18 +1,30 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
+
+public enum ItemType
+{
+    BOW, //0
+    FEATHER, //1
+    POTION, //2
+    SWORD, //3
+    TRAP, //4
+    NOTHING //5
+}
 
 public class ItemManager : MonoBehaviour
 {
-    public static ItemBox.ItemType itemInHand = ItemBox.ItemType.NOTHING;
+    public static ItemType itemInHand = ItemType.NOTHING;
     public static ItemManager Instance;
 
-    public void SetItemInHand(ItemBox.ItemType item)
+    public static event Action<ItemType> OnItemChanged;
+
+    public void SetItemInHand(ItemType item)
     {
         itemInHand = item;
+        OnItemChanged?.Invoke(item);
     }
 
-    public ItemBox.ItemType GetItemInHand()
+    public ItemType GetItemInHand()
     {
         return itemInHand;
     }
@@ -28,16 +40,5 @@ public class ItemManager : MonoBehaviour
             Instance = this;
             DontDestroyOnLoad(gameObject);
         }
-    }
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
