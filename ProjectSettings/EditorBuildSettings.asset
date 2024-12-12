@@ -6,14 +6,11 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/Menu.unity
+    guid: fb0858c8fc87f434aa336163caac7fc2
+  - enabled: 1
     path: Assets/Scenes/RoomScenes/RoomOffline.unity
     guid: 4279936481a071c48afb6feec5b02f01
-  - enabled: 1
-    path: Assets/Scenes/RoomScenes/RoomOnline.unity
-    guid: 2c82a669403e59d459847c37c9b95b38
-  - enabled: 1
-    path: Assets/Scenes/NetworkCheckpoints.unity
-    guid: 7a6a838a3339b8e4797d5d46a0b705f0
   - enabled: 1
     path: Assets/Scenes/Demo1.unity
     guid: c8ba2680e3e806c41a22a11418a6d2ec

@@ -1,47 +1,28 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class OptionsMenu : MonoBehaviour
 {
-    [SerializeField] GameObject mainMenu;
-    [SerializeField] GameObject audioMenu;
-    [SerializeField] GameObject controlsMenu;
-    [SerializeField] GameObject userMenu;
+    [Header("Option Sub-Menus")]
+    [SerializeField] GameObject optionButtons;
+    [SerializeField] GameObject audioSubMenu;
+    [SerializeField] GameObject controlsSubMenu;
+    [SerializeField] GameObject userSubMenu;
 
-    public void Audio()
+    public void ToogleAudio(bool showAudioPanel)
     {
-        audioMenu.SetActive(true);
+        audioSubMenu.SetActive(showAudioPanel);
+        optionButtons.SetActive(!showAudioPanel);
     }
 
-    public void AudioReturn()
+    public void ToogleControls(bool showControlsPanel)
     {
-        audioMenu.SetActive(false);
+        controlsSubMenu.SetActive(showControlsPanel);
+        optionButtons.SetActive(!showControlsPanel);
     }
 
-    public void Controls()
+    public void ToogleUser(bool showUserPanel)
     {
-        controlsMenu.SetActive(true);
-    }
-
-    public void ControlsReturn()
-    {
-        controlsMenu.SetActive(false);
-    }
-
-    public void User()
-    {
-        userMenu.SetActive(true);
-    }
-
-    public void UserReturn()
-    {
-        userMenu.SetActive(false);
-    }
-
-    public void Return()
-    {
-        mainMenu.SetActive(true);
-        gameObject.SetActive(false);
+        userSubMenu.SetActive(showUserPanel);
+        optionButtons.SetActive(!showUserPanel);
     }
 }
