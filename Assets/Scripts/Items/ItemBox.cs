@@ -1,4 +1,5 @@
 using UnityEngine;
+using Mirror;
 
 
 public class ItemBox : MonoBehaviour
@@ -8,35 +9,43 @@ public class ItemBox : MonoBehaviour
     [SerializeField] private bool isBow;
     [SerializeField] private bool isPotion;
     [SerializeField] private bool isTrap;
+    private ItemManager itemManager;
 
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if ( other.TryGetComponent(out NetworkIdentity id))
         {
-            if (ItemManager.Instance.GetItemInHand() == ItemType.NOTHING)
+            if (id.isLocalPlayer)
             {
-                print("CollisionWithBox");
-                if (isBow)
+                if (other.CompareTag("Player"))
                 {
-                    print("You got a bow!");
-                    ItemManager.Instance.SetItemInHand(ItemType.BOW);
+                    itemManager = other.GetComponent<ItemManager>();
+                    if (itemManager.GetItemInHand() == ItemType.NOTHING)
+                    {
+                        print("CollisionWithBox");
+                        if (isBow)
+                        {
+                            print("You got a bow!");
+                            itemManager.SetItemInHand(ItemType.BOW);
+                        }
+                        else if (isPotion)
+                        {
+                            print("You got a potion!");
+                            itemManager.SetItemInHand(ItemType.POTION);
+                        }
+                        else if (isTrap)
+                        {
+                            print("You got a trap!");
+                            itemManager.SetItemInHand(ItemType.TRAP);
+                        }
+
+                    }
+                    rend.enabled = false;
+                    timer = 0.0f;
+                    Debug.Log("ReloadingBox");
                 }
-                else if (isPotion) 
-                {
-                    print("You got a potion!");
-                    ItemManager.Instance.SetItemInHand(ItemType.POTION);
-                }
-                else if (isTrap)
-                {
-                    print("You got a trap!");
-                    ItemManager.Instance.SetItemInHand(ItemType.TRAP);
-                }
-                    
             }
-            rend.enabled = false;
-            timer = 0.0f;
-            Debug.Log("ReloadingBox");
         }
     }
 

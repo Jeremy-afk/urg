@@ -377,6 +377,7 @@ GameObject:
   - component: {fileID: 8919982455908797453}
   - component: {fileID: -8544855460271738251}
   - component: {fileID: 4462574843917591175}
+  - component: {fileID: 1061243906684353721}
   m_Layer: 0
   m_Name: Car
   m_TagString: Player
@@ -814,3 +815,15 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   initialCamPos: {fileID: 1414391798581451675}
+--- !u!114 &1061243906684353721
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5320308484135446322}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78b6c7a4de0e0e54fb497557a0dfc246, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

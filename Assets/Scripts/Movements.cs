@@ -25,6 +25,7 @@ public class Movements : NetworkBehaviour
     private bool holdingDrift = false;
 
     //Variables for Item 
+    private ItemManager itemManager;
     [SerializeField]  private float forceSpeedBoost = 5.0f;
     private float speedBoostTimer = 0.0f;
     private float speedBoostDuration = 0.5f;
@@ -150,7 +151,7 @@ public class Movements : NetworkBehaviour
         {
             // TODO
             // creates an instance of the item ans apply its effect
-            switch (ItemManager.Instance.GetItemInHand())
+            switch (itemManager.GetItemInHand())
             {
                 case ItemType.BOW:
                     print("Headshot!");
@@ -180,7 +181,7 @@ public class Movements : NetworkBehaviour
                     print("Error : not an item!");
                     break;
             }
-            ItemManager.Instance.SetItemInHand(ItemType.NOTHING);
+            itemManager.SetItemInHand(ItemType.NOTHING);
         }
     }
 
@@ -196,6 +197,7 @@ public class Movements : NetworkBehaviour
     {
         rigidBody = GetComponent<Rigidbody>();
         klaxonSound = GetComponent<AudioSource>();
+        itemManager = GetComponent<ItemManager>();
     }
 
     private void FixedUpdate()

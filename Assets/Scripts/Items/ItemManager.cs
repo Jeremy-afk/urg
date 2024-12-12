@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using Mirror;
 
 public enum ItemType
 {
@@ -14,7 +15,6 @@ public enum ItemType
 public class ItemManager : MonoBehaviour
 {
     public static ItemType itemInHand = ItemType.NOTHING;
-    public static ItemManager Instance;
 
     public static event Action<ItemType> OnItemChanged;
 
@@ -31,14 +31,6 @@ public class ItemManager : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance)
-        {
-            Destroy(gameObject);
-        }
-        else
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
+        
     }
 }
