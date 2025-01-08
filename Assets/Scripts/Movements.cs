@@ -6,6 +6,14 @@ public class Movements : NetworkBehaviour
 {
     private Rigidbody rigidBody;
 
+    //Variables for verticality
+    [SerializeField]
+    private Transform groundRayPoint;
+    [SerializeField]
+    private  float groundRayLength = 1.5f;
+    [SerializeField]
+    private LayerMask raycastTarget;
+
     // Variables for forward/backward movements
     [SerializeField]
     private float movementsSpeed = 500.0f;
@@ -206,6 +214,17 @@ public class Movements : NetworkBehaviour
         if (!isLocalPlayer || !canMove) return;
         // Otherwise, this means this is the local player's car. Thus handle the movement.
         HandleMovement();
+        HandleVerticality();
+    }
+
+
+    private void HandleVerticality()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(groundRayPoint.position, -transform.up,  out hit, groundRayLength, raycastTarget))
+        {
+            transform.rotation = Quaternion.FromToRotation(transform.up,  hit.normal) * transform.rotation;
+        }
     }
 
     private void HandleMovement()
