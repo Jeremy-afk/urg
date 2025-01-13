@@ -221,14 +221,21 @@ public class Movements : NetworkBehaviour
     private void HandleVerticality()
     {
         RaycastHit hit;
-        if (Physics.Raycast(groundRayPoint.position, -transform.up,  out hit, groundRayLength, raycastTarget))
+        if (Physics.Raycast(groundRayPoint.position, -transform.up, out hit, groundRayLength, raycastTarget))
         {
-            transform.rotation = Quaternion.FromToRotation(transform.up,  hit.normal) * transform.rotation;
+            Quaternion targetRotation = Quaternion.FromToRotation(transform.up, hit.normal) * transform.rotation;
+            rigidBody.MoveRotation(Quaternion.Slerp(rigidBody.rotation, targetRotation, Time.fixedDeltaTime * 5f));
         }
     }
 
     private void HandleMovement()
     {
+        RaycastHit hit;
+        if (Physics.Raycast(groundRayPoint.position, -transform.up, out hit, groundRayLength, raycastTarget))
+        {
+            // Ajuste la direction de déplacement en fonction de la normale du sol
+            Vector3 forward = Vector3.ProjectOnPlane(transform.forward, hit.normal).normalized;
+        }
         if (!usedPotion)
         {
             rigidBody.velocity = Vector3.ClampMagnitude(rigidBody.velocity, maxSpeed);
