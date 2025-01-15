@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 
@@ -14,6 +12,8 @@ public class MyNetworkRoomManager : NetworkRoomManager
     /// <param name="sceneName">Name of the new scene.</param>
     public override void OnRoomServerSceneChanged(string sceneName)
     {
+        // TODO: We may start the race from there or from the game manager script
+
         // spawn the initial batch of Rewards
         //if (sceneName == GameplayScene)
         //    Spawner.InitialSpawn();
@@ -64,20 +64,25 @@ public class MyNetworkRoomManager : NetworkRoomManager
         }
         else
         {
+            // TODO: Launch coroutine that begins the race in 3 seconds like fall guys
+            // OR just enable a button for the leader to start the game
+
             showStartButton = true;
+            // SceneManager.LoadScene(GameplayScene); // DO NOT USE THIS FUNCTION TO CHANGE SCENE
         }
     }
 
     public override void OnGUI()
     {
+        // FUNCTION ONLY FOR DEBUGGING
         base.OnGUI();
 
-        if (allPlayersReady && showStartButton && GUI.Button(new Rect(150, 300, 120, 20), "START GAME"))
+        if (allPlayersReady && showStartButton && GUI.Button(new Rect(150, 300, 120, 20), "START GAME !!!!"))
         {
             // set to false to hide it in the game scene
             showStartButton = false;
 
-            ServerChangeScene(GameplayScene);
+            ServerChangeScene(GameplayScene); // TODO: FUNCTION TO USE TO CHANGE SCENE
         }
     }
 }

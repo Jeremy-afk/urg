@@ -250,7 +250,7 @@ MonoBehaviour:
   MaximizeSocketBuffers: 1
   ReliableMaxMessageSize: 297433
   UnreliableMaxMessageSize: 1194
-  debugLog: 0
+  debugLog: 1
   statisticsGUI: 0
   statisticsLog: 0
 --- !u!4 &2008127832
@@ -296,14 +296,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dontDestroyOnLoad: 1
   runInBackground: 1
-  headlessStartMode: 0
+  headlessStartMode: 1
   editorAutoStart: 0
   sendRate: 60
   offlineScene: Assets/Scenes/RoomScenes/RoomOffline.unity
   onlineScene: Assets/Scenes/RoomScenes/RoomOnline.unity
   offlineSceneLoadDelay: 0
   transport: {fileID: 2008127830}
-  networkAddress: localhost
+  networkAddress: 157.159.195.98
   maxConnections: 100
   disconnectInactiveConnections: 0
   disconnectInactiveTimeout: 60
