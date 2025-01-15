@@ -893,6 +893,8 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   initialCamPos: {fileID: 1205090113115250104}
+  rigidBody: {fileID: 268728271766534192}
+  repulsiveForce: 5
 --- !u!114 &6899617172760057350
 MonoBehaviour:
   m_ObjectHideFlags: 0
