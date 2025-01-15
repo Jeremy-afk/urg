@@ -53,8 +53,8 @@ public class Player : NetworkBehaviour
     {
         if (collideWithPlayer == true)
         {
-            rigidBody.AddForce(-repulsiveForce * transform.forward * 100, ForceMode.Acceleration);
-            rigidBody.rotation.SetFromToRotation(transform.forward, transform.forward + new Vector3(0, 45, 0));
+            rigidBody.AddForce(-repulsiveForce * new Vector3(transform.forward.x, 0, transform.forward.z) * 100, ForceMode.Acceleration);
+            rigidBody.rotation.SetFromToRotation(new Vector3(0, transform.forward.y, 0), new Vector3(0, transform.forward.y + 135, 0));
             repulsionTimer += Time.deltaTime;
             if (repulsionTimer > repulsiveDuration)
             {

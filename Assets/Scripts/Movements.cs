@@ -223,8 +223,13 @@ public class Movements : NetworkBehaviour
         RaycastHit hit;
         if (Physics.Raycast(groundRayPoint.position, -transform.up, out hit, groundRayLength, raycastTarget))
         {
-            Quaternion targetRotation = Quaternion.FromToRotation(transform.up, hit.normal) * transform.rotation;
-            rigidBody.MoveRotation(Quaternion.Slerp(rigidBody.rotation, targetRotation, Time.fixedDeltaTime * 5f));
+            Quaternion targetRotation = Quaternion.FromToRotation(transform.up, hit.normal) * transform.rotation; Vector3 currentEulerAngles = transform.eulerAngles;
+            Vector3 targetEulerAngles = targetRotation.eulerAngles;
+
+            // Only changes rotation on X and Z
+            Quaternion adjustedRotation = Quaternion.Euler(targetEulerAngles.x, currentEulerAngles.y, targetEulerAngles.z);
+
+            rigidBody.MoveRotation(Quaternion.Slerp(rigidBody.rotation, adjustedRotation, Time.fixedDeltaTime * 5f));
         }
     }
 
