@@ -7,6 +7,7 @@ public class ItemHolder : MonoBehaviour
     [SerializeField] private Image itemHolderImage;
     [Space]
     [SerializeField] private Sprite emptyHolder;
+
     [Header("Item Sprites")]
     [SerializeField] private Sprite bowSprite;
     [SerializeField] private Sprite potionSprite;

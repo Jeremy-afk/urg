@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 2772221897071357495}
   - component: {fileID: 328080516358278813}
   - component: {fileID: 3068023629733368463}
-  - component: {fileID: 2034906925809382381}
   - component: {fileID: 8901222850518343056}
   - component: {fileID: 6952998789078221494}
   - component: {fileID: 2451548863511674814}
@@ -19,6 +18,7 @@ GameObject:
   - component: {fileID: 9148140582932034763}
   - component: {fileID: 9087782695256684940}
   - component: {fileID: 708143933604979002}
+  - component: {fileID: 710335740132020894}
   m_Layer: 0
   m_Name: BaseCar
   m_TagString: Player
@@ -64,13 +64,61 @@ MonoBehaviour:
   raycastTarget:
     serializedVersion: 2
     m_Bits: 64
-  movementsSpeed: 750
+  accelerationCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: -1.000278
+      value: 0.50783634
+      inSlope: -0.1441108
+      outSlope: -0.1441108
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.16011174
+    - serializedVersion: 3
+      time: -0.0644696
+      value: 0.13608047
+      inSlope: -0.65182614
+      outSlope: -0.65182614
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.1159463
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.0024414062
+      value: 0.2
+      inSlope: 2.3489778
+      outSlope: 2.3489778
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.04025695
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: -0.0015960259
+      outSlope: 0
+      tangentMode: 1
+      weightedMode: 3
+      inWeight: 1
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1.2
+      value: -0.25
+      inSlope: -3.8974533
+      outSlope: -3.8974533
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.29673368
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  movementsSpeed: 90
   maxSpeed: 30
   rotationSpeed: 45
   driftFactor: 0.1
-  forceSpeedBoost: 5
-  arrowPrefab: {fileID: 3049916369886722278, guid: e4279cb1b88076d45a162eb3003f5066, type: 3}
-  trapPrefab: {fileID: 5645339636779247912, guid: a9098edcc0f721b4589022293c75de0f, type: 3}
 --- !u!65 &3068023629733368463
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -92,116 +140,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.55, y: 1.34, z: 4.2}
   m_Center: {x: 0, y: 0.12, z: 0}
---- !u!114 &2034906925809382381
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1136528745501484157}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: d49c01153d01fb84fa80bf79d9bcef10, type: 3}
-  m_NotificationBehavior: 2
-  m_UIInputModule: {fileID: 0}
-  m_DeviceLostEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_DeviceRegainedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ControlsChangedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ActionEvents:
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 328080516358278813}
-        m_TargetAssemblyTypeName: Movements, Assembly-CSharp
-        m_MethodName: AccelerateDecelerate
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: f9e9053a-4367-4a2c-ac05-edab52e00437
-    m_ActionName: Player/Accelerate/Decelerate[/Keyboard/s,/Keyboard/w]
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 328080516358278813}
-        m_TargetAssemblyTypeName: Movements, Assembly-CSharp
-        m_MethodName: TurnLeftRight
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: b79965de-cfa6-4204-b317-9128b872addb
-    m_ActionName: Player/Turn Left/Right[/Keyboard/a,/Keyboard/d]
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 328080516358278813}
-        m_TargetAssemblyTypeName: Movements, Assembly-CSharp
-        m_MethodName: Drift
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 5470292b-5f06-497b-8615-4c7d105555b8
-    m_ActionName: Player/Drift[/Keyboard/shift]
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 328080516358278813}
-        m_TargetAssemblyTypeName: Movements, Assembly-CSharp
-        m_MethodName: Item
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: f8481286-4117-413b-bf20-9af798c3975d
-    m_ActionName: Player/Item[/Keyboard/e]
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 9148140582932034763}
-        m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
-        m_MethodName: Play
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: e6a9ebc9-d710-4078-9384-1d78b0623a57
-    m_ActionName: Player/Klaxon[/Keyboard/space]
-  m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
-  m_DefaultActionMap: Player
-  m_SplitScreenIndex: -1
-  m_Camera: {fileID: 0}
 --- !u!54 &8901222850518343056
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -438,6 +376,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78b6c7a4de0e0e54fb497557a0dfc246, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  forceSpeedBoost: 1.5
+  speedBoostDuration: 0.8
+  arrowPrefab: {fileID: 3049916369886722278, guid: e4279cb1b88076d45a162eb3003f5066, type: 3}
+  offsetArrow: {x: 0, y: 0, z: 0}
+  trapPrefab: {fileID: 5645339636779247912, guid: a9098edcc0f721b4589022293c75de0f, type: 3}
+  offsetTrap: {x: 0, y: 0, z: 0}
+--- !u!114 &710335740132020894
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1136528745501484157}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32924119fc9ba904784384cde4f00a5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movements: {fileID: 328080516358278813}
+  itemManager: {fileID: 708143933604979002}
 --- !u!1 &3015385352075756943
 GameObject:
   m_ObjectHideFlags: 0

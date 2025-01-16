@@ -16,11 +16,17 @@ public class Movements : NetworkBehaviour
 
     // Variables for forward/backward movements
     [SerializeField]
+    private AnimationCurve accelerationCurve;
+    [SerializeField]
     private float movementsSpeed = 500.0f;
     [SerializeField]
     private float maxSpeed = 30.0f;
-    private float translationAcceleration;
+    [SyncVar]
+    private float accelerationDirection;
+    [SyncVar]
     private bool holdingZS;
+    public float BonusSpeedMult { get; set; } = 1f; // Set to make a boost
+    public float BonusSpeedMultTime { get; set; } = 0f;
 
     // Variables for left/right movements
     private Vector3 rotations;
@@ -34,78 +40,12 @@ public class Movements : NetworkBehaviour
 
     //Variables for Item 
     private ItemManager itemManager;
-    [SerializeField]  private float forceSpeedBoost = 5.0f;
-    private float speedBoostTimer = 0.0f;
-    private float speedBoostDuration = 0.5f;
-    private bool usedPotion = false;
-
-    [SerializeField] private Arrow arrowPrefab;
-    private Vector3 offsetArrow = new(0, 0, 0);
-
-    [SerializeField] private Trap trapPrefab;
-    private Vector3 offsetTrap = new(0, 0, 0);
 
     private AudioSource klaxonSound;
-    private Controls controls;
-
     [SyncVar]
     private bool canMove = false;
 
-    private void Awake()
-    {
-        controls = new();
-    }
-
-    private void OnEnable()
-    {
-        controls.Player.AccelerateDecelerate.Enable();
-        controls.Player.AccelerateDecelerate.performed += AccelerateDecelerate;
-        controls.Player.AccelerateDecelerate.canceled += AccelerateDecelerate;
-
-        controls.Player.TurnLeftRight.Enable();
-        controls.Player.TurnLeftRight.performed += TurnLeftRight;
-        controls.Player.TurnLeftRight.canceled += TurnLeftRight;
-
-        controls.Player.Drift.Enable();
-        controls.Player.Drift.performed += Drift;
-        controls.Player.Drift.canceled += Drift;
-
-        // Gotta also do it for Item and Klaxon
-        controls.Player.Item.Enable();
-        controls.Player.Item.performed += Item;
-        controls.Player.Item.canceled += Item;
-
-        controls.Player.Klaxon.Enable();
-        controls.Player.Klaxon.performed += Klaxon;
-        controls.Player.Klaxon.canceled += Klaxon;
-    }
-
-    private void OnDisable()
-    {
-        controls.Player.AccelerateDecelerate.Disable();
-        controls.Player.AccelerateDecelerate.performed -= AccelerateDecelerate;
-        controls.Player.AccelerateDecelerate.canceled -= AccelerateDecelerate;
-
-        controls.Player.TurnLeftRight.Disable();
-        controls.Player.TurnLeftRight.performed -= TurnLeftRight;
-        controls.Player.TurnLeftRight.canceled -= TurnLeftRight;
-
-        controls.Player.Drift.Disable();
-        controls.Player.Drift.performed -= Drift;
-        controls.Player.Drift.canceled -= Drift;
-
-        // Gotta also to it for Item and Klaxon
-        controls.Player.Item.Disable();
-        controls.Player.Item.performed -= Item;
-        controls.Player.Item.canceled -= Item;
-
-        controls.Player.Klaxon.Disable();
-        controls.Player.Klaxon.performed -= Klaxon;
-        controls.Player.Klaxon.canceled -= Klaxon;
-    }
-
     // Called by the server to allow the player to move or not
-    
     public void SetMovementActive(bool active)
     {
         canMove = active;
@@ -118,11 +58,12 @@ public class Movements : NetworkBehaviour
         {
             holdingZS = true;
             float direction = context.ReadValue<float>();
-            translationAcceleration = direction * movementsSpeed * Time.fixedDeltaTime;
+            accelerationDirection = direction;
         }
         if (context.canceled)
         {
             holdingZS = false;
+            accelerationDirection = 0;
         }
     }
 
@@ -152,47 +93,7 @@ public class Movements : NetworkBehaviour
             holdingDrift = false;
         }
     }
-
-    public void Item(InputAction.CallbackContext context)
-    {
-        if (context.performed && canMove)
-        {
-            // TODO
-            // creates an instance of the item ans apply its effect
-            switch (itemManager.GetItemInHand())
-            {
-                case ItemType.BOW:
-                    print("Headshot!");
-                    Vector3 spawnPosition = transform.position + offsetArrow;
-                    Arrow newArrow = Instantiate(arrowPrefab, transform.position + new Vector3(3.0f, 0, 0.0f), Quaternion.identity);
-                    newArrow.SetDirection(transform.forward);
-                    break;
-                case ItemType.FEATHER:
-                    print("Yahoo!");
-                    break;
-                case ItemType.POTION:
-                    print("Glou glou!");
-                    translationAcceleration *= forceSpeedBoost;
-                    usedPotion = true;
-                    break;
-                case ItemType.SWORD:
-                    print("Chling!");
-                    break;
-                case ItemType.TRAP:
-                    Instantiate(trapPrefab, transform.position + new Vector3(-2.0f, -transform.position.y, 0.0f), Quaternion.identity);
-                    print("Trapped loser!");
-                    break;
-                case ItemType.NOTHING:
-                    print("You have no item!");
-                    break;
-                default:
-                    print("Error : not an item!");
-                    break;
-            }
-            itemManager.SetItemInHand(ItemType.NOTHING);
-        }
-    }
-
+    
     public void Klaxon(InputAction.CallbackContext context)
     {
         if (context.performed)
@@ -217,7 +118,6 @@ public class Movements : NetworkBehaviour
         HandleVerticality();
     }
 
-
     private void HandleVerticality()
     {
         RaycastHit hit;
@@ -239,15 +139,42 @@ public class Movements : NetworkBehaviour
         if (Physics.Raycast(groundRayPoint.position, -transform.up, out hit, groundRayLength, raycastTarget))
         {
             // Ajuste la direction de déplacement en fonction de la normale du sol
-            Vector3 forward = Vector3.ProjectOnPlane(transform.forward, hit.normal).normalized;
-        }
-        if (!usedPotion)
-        {
-            rigidBody.velocity = Vector3.ClampMagnitude(rigidBody.velocity, maxSpeed);
+            Vector3 forward = Vector3.ProjectOnPlane(transform.forward, hit.normal).normalized; // ???
         }
         if (holdingZS)
         {
-            rigidBody.AddForce(translationAcceleration * transform.forward, ForceMode.Acceleration);
+            // If the player is inputing a movement, we want to accelerate towards its max speed using an acceleration curve
+            // by using the DIFFERENCE between the current speed and the max speed
+
+            if (BonusSpeedMultTime > 0)
+            {
+                print("Applying bonus!");
+                BonusSpeedMultTime -= Time.fixedDeltaTime;
+            }
+
+            float currentSpeed = Vector3.Dot(rigidBody.velocity, transform.forward);
+            float targetSpeed = accelerationDirection * maxSpeed * (BonusSpeedMultTime > 0 ? BonusSpeedMult : 1);
+
+            float acceleration;
+            if (targetSpeed == 0)
+            {
+                // If the player is not inputing any movement, we want to decelerate to a stop
+                acceleration = -currentSpeed;
+            }
+            else
+            {
+                // If the player is inputing a movement, we want to accelerate towards its max speed using an acceleration curve
+
+                // This curve allows easy customization of the acceleration response
+                // From [-1 to 0]: when the player changes direction (high values = high response = high braking)
+                // From [0 to 1]: when the player accelerates (high values = high response = high acceleration)
+                // From [1 to 2]: when the player reaches its max speed (high values = agressive clamping to max speed)
+                acceleration = accelerationCurve.Evaluate(currentSpeed / targetSpeed) * movementsSpeed * accelerationDirection * (BonusSpeedMultTime > 0 ? BonusSpeedMult : 1);
+            }
+
+            rigidBody.AddForce(acceleration * transform.forward, ForceMode.Acceleration);
+
+            print("acceleration at " + acceleration + " m/s");
         }
 
         if (holdingQD)
@@ -270,16 +197,9 @@ public class Movements : NetworkBehaviour
             Quaternion driftTurnRotation = Quaternion.Euler(0f, driftTurnAmount, 0f);
             rigidBody.MoveRotation(rigidBody.rotation * driftTurnRotation);
         }
-        if (usedPotion)
+        else
         {
-            rigidBody.velocity = Vector3.ClampMagnitude(rigidBody.velocity, maxSpeed*2);
-            speedBoostTimer += Time.deltaTime;
-            if(speedBoostTimer > speedBoostDuration)
-            {
-                translationAcceleration /= forceSpeedBoost;
-                speedBoostTimer = 0f;
-                usedPotion = false;
-            }
+            // TODO: Apply traction to the car's wheels by converting part of the car's speed vector towards the car's forward vector
         }
     }
 }
