@@ -33,7 +33,7 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Tire
-    second: {fileID: 6470628660411565095, guid: 28c807214589bdf4a954a2bf08d728a4, type: 3}
+    second: {fileID: 2100000, guid: f99eb0ccecdacb744b7fc449fe88ffb8, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
