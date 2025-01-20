@@ -5,12 +5,12 @@ using UnityEngine.InputSystem;
 
 public enum ItemType
 {
-    NOTHING, //0
-    BOW, //1
-    FEATHER, //2
-    POTION, //3
-    SWORD, //4
-    TRAP, //5
+    BOW, //0
+    FEATHER, //1
+    POTION, //2
+    SWORD, //3
+    TRAP, //4
+    NOTHING //5
 }
 
 public class ItemManager : NetworkBehaviour
