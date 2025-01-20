@@ -4,47 +4,55 @@ using Mirror;
 
 public class ItemBox : MonoBehaviour
 {
-    private float timer = 0.0f;
-    private Renderer rend;
-    [SerializeField] private bool isBow;
-    [SerializeField] private bool isPotion;
-    [SerializeField] private bool isTrap;
+    [Header("Box")]
+    [SerializeField] private float reloadTime = 3.0f;
+
+    [Header("Item")]
+    [SerializeField] ItemType item;
     private ItemManager itemManager;
 
+    private Renderer rend;
+    private float timer = 0.0f;
+    private bool isBoxActive = true;
 
+    // The server should be the only one to handle the collision (for now it's not the case)
     private void OnTriggerEnter(Collider other)
     {
-        if ( other.TryGetComponent(out NetworkIdentity id))
+        if (!isBoxActive) return;
+
+        if (other.TryGetComponent(out NetworkIdentity id))
         {
-            if (id.isLocalPlayer)
+            if (other.CompareTag("Player"))
             {
-                if (other.CompareTag("Player"))
+                if (id.isLocalPlayer)
                 {
                     itemManager = other.GetComponent<ItemManager>();
                     if (itemManager.GetItemInHand() == ItemType.NOTHING)
                     {
-                        print("CollisionWithBox");
-                        if (isBow)
+                        switch (item)
                         {
-                            print("You got a bow!");
-                            itemManager.SetItemInHand(ItemType.BOW);
+                            case ItemType.BOW:
+                                print("You got a bow!");
+                                itemManager.SetItemInHand(ItemType.BOW);
+                                break;
+                            case ItemType.POTION:
+                                print("You got a potion!");
+                                itemManager.SetItemInHand(ItemType.POTION);
+                                break;
+                            case ItemType.TRAP:
+                                print("You got a trap!");
+                                itemManager.SetItemInHand(ItemType.TRAP);
+                                break;
                         }
-                        else if (isPotion)
-                        {
-                            print("You got a potion!");
-                            itemManager.SetItemInHand(ItemType.POTION);
-                        }
-                        else if (isTrap)
-                        {
-                            print("You got a trap!");
-                            itemManager.SetItemInHand(ItemType.TRAP);
-                        }
-
                     }
-                    rend.enabled = false;
-                    timer = 0.0f;
-                    Debug.Log("ReloadingBox");
+                    
                 }
+
+                // Disable the box
+                isBoxActive = false;
+                rend.enabled = false;
+                timer = 0.0f;
+                Debug.Log("ReloadingBox");
             }
         }
     }
@@ -56,13 +64,17 @@ public class ItemBox : MonoBehaviour
 
     private void Update()
     {
-        if (!rend.enabled)
+        if (!isBoxActive)
         {
-            timer += Time.deltaTime;
-            if (timer > 3.0f)
+            if (timer > reloadTime)
             {
                 rend.enabled = true;
+                isBoxActive = true;
                 Debug.Log("ItemBox reloaded");
+            }
+            else
+            {
+                timer += Time.deltaTime;
             }
         }
     }
