@@ -3,7 +3,7 @@ name: Build and Deploy Unity Server
 on:
   push:
     branches:
-      - main  # or any branch you'd like to trigger the build on
+      - dev  # or any branch you'd like to trigger the build on
 
 jobs:
   build:
