@@ -180,7 +180,8 @@ public class Movements : NetworkBehaviour
                 acceleration = accelerationCurve.Evaluate(currentSpeed / targetSpeed) * movementsSpeed * accelerationDirection * (BonusSpeedMultTime > 0 ? BonusSpeedMult : 1);
             }
             rigidBody.AddForce(acceleration * transform.forward, ForceMode.Acceleration);
-            smoke.Play();
+            var emitParams = new ParticleSystem.EmitParams();
+            smoke.Emit(emitParams, Mathf.RoundToInt(rigidBody.velocity.magnitude/maxSpeed*1.5f));
 
             //print("acceleration at " + acceleration + " m/s");
         }
