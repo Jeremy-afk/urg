@@ -32,8 +32,6 @@ public class PlayerInputManager : MonoBehaviour
         controls.Player.Drift.performed += movements.Drift;
         controls.Player.Drift.canceled += movements.Drift;
 
-        controls.Player.Item.performed += itemManager.Item;
-
-        controls.Player.Klaxon.performed += movements.Klaxon;
+        controls.Player.Item.performed += itemManager.RequestItemUse;
     }
 }

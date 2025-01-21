@@ -1,6 +1,6 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections.Generic;
 
 public class ItemHolder : MonoBehaviour
 {
@@ -17,7 +17,7 @@ public class ItemHolder : MonoBehaviour
 
     private Dictionary<ItemType, Sprite> itemSprites = new();
 
-    void Start()
+    private void Start()
     {
         itemSprites.Add(ItemType.NOTHING, emptyHolder);
 
@@ -28,7 +28,16 @@ public class ItemHolder : MonoBehaviour
         itemSprites.Add(ItemType.TRAP, trapSprite);
 
         // Subscribe to the event of item change
+    }
+
+    private void OnEnable()
+    {
         ItemManager.OnItemChanged += UpdateItem;
+    }
+
+    private void OnDisable()
+    {
+        ItemManager.OnItemChanged -= UpdateItem;
     }
 
     public void UpdateItem(ItemType currentItem)

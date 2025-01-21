@@ -1,8 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
+using Mirror;
 using UnityEngine;
 
-public class Arrow : MonoBehaviour
+public class Arrow : NetworkBehaviour
 {
     [SerializeField] private float speed;
 
@@ -10,30 +9,24 @@ public class Arrow : MonoBehaviour
 
     public void SetDirection(Vector3 newDirection)
     {
-        direction = newDirection;
+        direction = newDirection.normalized;
     }
 
     public void OnTriggerEnter(Collider collided)
     {
-        if (collided.tag == "Player")
+        if (collided.CompareTag("Player"))
         {
             Destroy(gameObject);
         }
-        else if (collided.tag == "Wall")
+        else if (collided.CompareTag("Wall"))
         {
-            Destroy(gameObject);
+            // Bounce in the future?
+            Destroy(this.gameObject);
         }
     }
 
-    // Start is called before the first frame update
-    void Start()
+    private void FixedUpdate()
     {
-        
-    }
-
-    // Update is called once per frame
-    void FixedUpdate()
-    {
-        transform.Translate(direction.normalized * speed * Time.deltaTime);
+        transform.Translate(speed * Time.deltaTime * direction);
     }
 }

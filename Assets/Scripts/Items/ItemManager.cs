@@ -1,16 +1,16 @@
+using Mirror;
 using System;
 using UnityEngine;
-using Mirror;
 using UnityEngine.InputSystem;
 
 public enum ItemType
 {
-    BOW, //0
-    FEATHER, //1
-    POTION, //2
-    SWORD, //3
-    TRAP, //4
-    NOTHING //5
+    NOTHING, //0
+    BOW, //1
+    FEATHER, //2
+    POTION, //3
+    SWORD, //4
+    TRAP, //5
 }
 
 public class ItemManager : NetworkBehaviour
@@ -22,10 +22,11 @@ public class ItemManager : NetworkBehaviour
 
     [Header("Potion")]
     [SerializeField] private float forceSpeedBoost = 1.5f;
-    [SerializeField] private float speedBoostDuration = 0.5f;
+    [SerializeField] private float speedBoostDuration = 1.5f;
 
     [Header("Arrow")]
     [SerializeField] private Arrow arrowPrefab;
+    [SerializeField] private float arrowSpeed = 1f;
     [SerializeField] private Vector3 offsetArrow = new(0, 0, 0);
 
     [Header("Trap")]
@@ -33,6 +34,8 @@ public class ItemManager : NetworkBehaviour
     [SerializeField] private Vector3 offsetTrap = new(0, 0, 0);
 
     private Movements movementsScript;
+
+    [SyncVar(hook = nameof(OnItemInHandChanged))]
     private ItemType itemInHand = ItemType.NOTHING;
 
     private void Start()
@@ -40,10 +43,18 @@ public class ItemManager : NetworkBehaviour
         movementsScript = GetComponent<Movements>();
     }
 
+    private void OnItemInHandChanged(ItemType oldValue, ItemType newValue)
+    {
+        if (isLocalPlayer)
+        {
+            OnItemChanged?.Invoke(itemInHand);
+        }
+    }
+
     public void SetItemInHand(ItemType item)
     {
+        print("Setting item in hand");
         itemInHand = item;
-        OnItemChanged?.Invoke(item);
     }
 
     public ItemType GetItemInHand()
@@ -51,10 +62,27 @@ public class ItemManager : NetworkBehaviour
         return itemInHand;
     }
 
-    // This will be called on the server when the player tries to use an item
-    public void Item(InputAction.CallbackContext context)
+    public void RequestItemUse(InputAction.CallbackContext context)
     {
-        if (context.performed && CanUseItem)
+        if (context.performed && CanUseItem && isLocalPlayer)
+        {
+            if (itemInHand != ItemType.NOTHING)
+            {
+                print("Asking server to use item");
+                UseItem();
+            }
+            else
+            {
+                print("You have no item!");
+            }
+        }
+    }
+
+    // This will be called by the server when the player tries to use an item
+    [Command]
+    public void UseItem()
+    {
+        if (CanUseItem)
         {
             // creates an instance of the item ans apply its effect
             switch (itemInHand)
@@ -63,7 +91,8 @@ public class ItemManager : NetworkBehaviour
                     print("Headshot!");
                     Vector3 spawnPosition = transform.position + offsetArrow;
                     Arrow newArrow = Instantiate(arrowPrefab, transform.position + new Vector3(3.0f, 0, 0.0f), Quaternion.identity);
-                    newArrow.SetDirection(transform.forward);
+                    newArrow.SetDirection(transform.forward * arrowSpeed);
+                    NetworkServer.Spawn(newArrow.gameObject);
                     break;
                 case ItemType.FEATHER:
                     print("Yahoo!");
@@ -77,7 +106,8 @@ public class ItemManager : NetworkBehaviour
                     print("Chling!");
                     break;
                 case ItemType.TRAP:
-                    Instantiate(trapPrefab, transform.position + new Vector3(-2.0f, -transform.position.y, 0.0f), Quaternion.identity);
+                    Trap trap = Instantiate(trapPrefab, transform.position + new Vector3(-2.0f, -transform.position.y, 0.0f), Quaternion.identity);
+                    NetworkServer.Spawn(trap.gameObject);
                     print("Trapped loser!");
                     break;
                 case ItemType.NOTHING:
