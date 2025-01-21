@@ -22,6 +22,11 @@ public class Player : NetworkBehaviour
     [SerializeField]
     private float maxFOV = 120.0f;
 
+    public void SetMaxFOV(float newMaxFOV)
+    {
+        maxFOV = newMaxFOV;
+    }
+
     private void Start()
     {
         if (isLocalPlayer)
