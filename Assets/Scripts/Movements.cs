@@ -44,6 +44,7 @@ public class Movements : NetworkBehaviour
     [SyncVar]
     private bool canMove = false;
     private Player activePlayer;
+    private ParticleSystem smoke;
 
     // Called by the server to allow the player to move or not
     public void SetMovementActive(bool active)
@@ -108,6 +109,7 @@ public class Movements : NetworkBehaviour
         rigidBody = GetComponent<Rigidbody>();
         klaxonSound = GetComponent<AudioSource>();
         activePlayer = GetComponent<Player>();
+        smoke = GetComponent<ParticleSystem>();
     }
 
     private void FixedUpdate()
@@ -178,8 +180,13 @@ public class Movements : NetworkBehaviour
                 acceleration = accelerationCurve.Evaluate(currentSpeed / targetSpeed) * movementsSpeed * accelerationDirection * (BonusSpeedMultTime > 0 ? BonusSpeedMult : 1);
             }
             rigidBody.AddForce(acceleration * transform.forward, ForceMode.Acceleration);
+            smoke.Play();
 
             //print("acceleration at " + acceleration + " m/s");
+        }
+        else
+        {
+            smoke.Clear();
         }
 
         if (holdingQD)
