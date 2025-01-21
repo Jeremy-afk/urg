@@ -10,10 +10,6 @@ jobs:
     runs-on: ubuntu-latest  # You can use other OSes as well
 
     steps:
-    - name: Unity - Activate
-      uses: game-ci/unity-activate@v2.0.0
-      id: getManualLicenseFile
-
     - name: Checkout repository
       uses: actions/checkout@v3
       
