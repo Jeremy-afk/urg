@@ -14,21 +14,33 @@ public class Player : NetworkBehaviour
 
     private bool collideWithPlayer = false;
 
+    private Movements moves;
+
+    private Camera mainCamera;
+    [SerializeField]
+    private float minFOV = 60.0f;
+    [SerializeField]
+    private float maxFOV = 120.0f;
+
+    public void SetMaxFOV(float newMaxFOV)
+    {
+        maxFOV = newMaxFOV;
+    }
+
     private void Start()
     {
-        if (isLocalPlayer)
-        {
-            //rigidBody = GetComponent<Rigidbody>();
-            //Debug.Log(rigidBody == null);
+        if (!isLocalPlayer) return;
 
-            GameObject mainCamera = Camera.main.gameObject;
-            mainCamera.transform.SetParent(gameObject.transform);
-            mainCamera.transform.localPosition = initialCamPos.localPosition;
-            mainCamera.transform.rotation = initialCamPos.rotation;
+        mainCamera = Camera.main;
+        mainCamera.transform.SetParent(gameObject.transform);
+        mainCamera.transform.localPosition = initialCamPos.localPosition;
+        mainCamera.transform.rotation = initialCamPos.rotation;
+        mainCamera.fieldOfView = 60.0f;
 
-            // Register to the game manager
-            GameManager.Instance.RegisterPlayer(GetComponent<NetworkIdentity>());
-        }
+        moves = GetComponent<Movements>();
+
+        // Register to the game manager
+        GameManager.Instance.RegisterPlayer(GetComponent<NetworkIdentity>());
     }
     private void OnCollisionEnter(Collision other)
     {
@@ -41,17 +53,13 @@ public class Player : NetworkBehaviour
                     collideWithPlayer = true;
                     Debug.Log("Collide with another player");
                 }
-                else
-                {
-
-                }
             }
         }
     }
 
     private void FixedUpdate()
     {
-        if (collideWithPlayer == true)
+        if (collideWithPlayer)
         {
             rigidBody.AddForce(-repulsiveForce * new Vector3(transform.forward.x, 0, transform.forward.z) * 100, ForceMode.Acceleration);
             rigidBody.rotation.SetFromToRotation(new Vector3(0, transform.forward.y, 0), new Vector3(0, transform.forward.y + 135, 0));
@@ -61,5 +69,13 @@ public class Player : NetworkBehaviour
                 collideWithPlayer = false;
             }
         }
+    }
+
+    private void Update()
+    {
+        if (!isLocalPlayer) return;
+
+        float ratio = rigidBody.velocity.magnitude / moves.GetMaxSpeed();
+        mainCamera.fieldOfView = Mathf.Lerp(minFOV, maxFOV, ratio);
     }
 }

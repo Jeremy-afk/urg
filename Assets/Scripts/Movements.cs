@@ -18,9 +18,9 @@ public class Movements : NetworkBehaviour
     [SerializeField]
     private AnimationCurve accelerationCurve;
     [SerializeField]
-    private float movementsSpeed = 500.0f;
+    private float movementsSpeed = 65.0f;
     [SerializeField]
-    private float maxSpeed = 30.0f;
+    private float maxSpeed = 50.0f;
     [SyncVar]
     private float accelerationDirection;
     [SyncVar]
@@ -43,6 +43,7 @@ public class Movements : NetworkBehaviour
     private AudioSource klaxonSound;
     [SyncVar]
     private bool canMove = false;
+    private Player activePlayer;
 
     // Called by the server to allow the player to move or not
     public void SetMovementActive(bool active)
@@ -106,6 +107,7 @@ public class Movements : NetworkBehaviour
     {
         rigidBody = GetComponent<Rigidbody>();
         klaxonSound = GetComponent<AudioSource>();
+        activePlayer = GetComponent<Player>();
     }
 
     private void FixedUpdate()
@@ -149,6 +151,11 @@ public class Movements : NetworkBehaviour
             {
                 print("Applying bonus!");
                 BonusSpeedMultTime -= Time.fixedDeltaTime;
+                activePlayer.SetMaxFOV(150.0f);
+            }
+            else
+            {
+                activePlayer.SetMaxFOV(120.0f);
             }
 
             float currentSpeed = Vector3.Dot(rigidBody.velocity, transform.forward);
@@ -170,10 +177,9 @@ public class Movements : NetworkBehaviour
                 // From [1 to 2]: when the player reaches its max speed (high values = agressive clamping to max speed)
                 acceleration = accelerationCurve.Evaluate(currentSpeed / targetSpeed) * movementsSpeed * accelerationDirection * (BonusSpeedMultTime > 0 ? BonusSpeedMult : 1);
             }
-
             rigidBody.AddForce(acceleration * transform.forward, ForceMode.Acceleration);
 
-            print("acceleration at " + acceleration + " m/s");
+            //print("acceleration at " + acceleration + " m/s");
         }
 
         if (holdingQD)
@@ -200,5 +206,9 @@ public class Movements : NetworkBehaviour
         {
             // TODO: Apply traction to the car's wheels by converting part of the car's speed vector towards the car's forward vector
         }
+    }
+
+    public float GetMaxSpeed() {  
+        return maxSpeed;
     }
 }

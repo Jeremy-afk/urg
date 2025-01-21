@@ -22,7 +22,7 @@ public class ItemManager : NetworkBehaviour
 
     [Header("Potion")]
     [SerializeField] private float forceSpeedBoost = 1.5f;
-    [SerializeField] private float speedBoostDuration = 0.5f;
+    [SerializeField] private float speedBoostDuration = 1.5f;
 
     [Header("Arrow")]
     [SerializeField] private Arrow arrowPrefab;
