@@ -1,13 +1,13 @@
-using UnityEngine;
 using Mirror;
+using UnityEngine;
 
 public class Player : NetworkBehaviour
 {
-    [SerializeField] 
+    [SerializeField]
     private Transform initialCamPos;
     [SerializeField]
     private Rigidbody rigidBody;
-    [SerializeField] 
+    [SerializeField]
     private float repulsiveForce = 5.0f;
     private float repulsionTimer = 0.0f;
     private float repulsiveDuration = 0.5f;
