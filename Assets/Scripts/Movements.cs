@@ -10,7 +10,7 @@ public class Movements : NetworkBehaviour
     [SerializeField]
     private Transform groundRayPoint;
     [SerializeField]
-    private  float groundRayLength = 1.5f;
+    private float groundRayLength = 1.5f;
     [SerializeField]
     private LayerMask raycastTarget;
 
@@ -86,14 +86,14 @@ public class Movements : NetworkBehaviour
     {
         if (context.performed && canMove)
         {
-           holdingDrift = true;
+            holdingDrift = true;
         }
         if (context.canceled)
         {
             holdingDrift = false;
         }
     }
-    
+
     // TODO: Move this to an AUDIO manager script
     public void Klaxon(InputAction.CallbackContext context)
     {
@@ -208,7 +208,8 @@ public class Movements : NetworkBehaviour
         }
     }
 
-    public float GetMaxSpeed() {  
+    public float GetMaxSpeed()
+    {
         return maxSpeed;
     }
 }

@@ -1,6 +1,6 @@
+using Mirror;
 using System;
 using UnityEngine;
-using Mirror;
 using UnityEngine.InputSystem;
 
 public enum ItemType
