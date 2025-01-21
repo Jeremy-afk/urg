@@ -12,9 +12,9 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
-
-    - name: Set up Unity
-      uses: game-ci/unity-actions/setup@v3
+      
+    - name: Unity - Builder
+      uses: game-ci/unity-builder@v4.3.0
       with:
         version: '2022.3.47f1'  # Use the Unity version you need
 
