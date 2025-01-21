@@ -13,6 +13,15 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v3
       
+    - name: Restore Library Cache
+      uses: actions/cache@v4
+      with:
+        path: Library
+        key: Library-PFE
+        restore-keys: |
+          Library-PFE
+          Library
+
     - name: Unity - Builder
       uses: game-ci/unity-builder@v4.3.0
       env:
