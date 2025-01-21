@@ -18,9 +18,9 @@ public class Movements : NetworkBehaviour
     [SerializeField]
     private AnimationCurve accelerationCurve;
     [SerializeField]
-    private float movementsSpeed = 500.0f;
+    private float movementsSpeed = 65.0f;
     [SerializeField]
-    private float maxSpeed = 30.0f;
+    private float maxSpeed = 50.0f;
     [SyncVar]
     private float accelerationDirection;
     [SyncVar]
@@ -174,7 +174,7 @@ public class Movements : NetworkBehaviour
 
             rigidBody.AddForce(acceleration * transform.forward, ForceMode.Acceleration);
 
-            print("acceleration at " + acceleration + " m/s");
+            //print("acceleration at " + acceleration + " m/s");
         }
 
         if (holdingQD)
@@ -201,5 +201,9 @@ public class Movements : NetworkBehaviour
         {
             // TODO: Apply traction to the car's wheels by converting part of the car's speed vector towards the car's forward vector
         }
+    }
+
+    public float GetMaxSpeed() {  
+        return maxSpeed;
     }
 }

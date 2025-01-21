@@ -14,6 +14,14 @@ public class Player : NetworkBehaviour
 
     private bool collideWithPlayer = false;
 
+    private Movements moves;
+
+    private Camera mainCamera;
+    [SerializeField]
+    private float minFOV = 60.0f;
+    [SerializeField]
+    private float maxFOV = 120.0f;
+
     private void Start()
     {
         if (isLocalPlayer)
@@ -21,10 +29,13 @@ public class Player : NetworkBehaviour
             //rigidBody = GetComponent<Rigidbody>();
             //Debug.Log(rigidBody == null);
 
-            GameObject mainCamera = Camera.main.gameObject;
+            mainCamera = Camera.main;
             mainCamera.transform.SetParent(gameObject.transform);
             mainCamera.transform.localPosition = initialCamPos.localPosition;
             mainCamera.transform.rotation = initialCamPos.rotation;
+            mainCamera.fieldOfView = 60.0f;
+
+            moves = GetComponent<Movements>();
 
             // Register to the game manager
             GameManager.Instance.RegisterPlayer(GetComponent<NetworkIdentity>());
@@ -61,5 +72,11 @@ public class Player : NetworkBehaviour
                 collideWithPlayer = false;
             }
         }
+    }
+
+    private void Update()
+    {
+        float ratio = rigidBody.velocity.magnitude / moves.GetMaxSpeed();
+        mainCamera.fieldOfView = Mathf.Lerp(minFOV, maxFOV, ratio);
     }
 }

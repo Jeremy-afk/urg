@@ -10,11 +10,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 328080516358278813, guid: 24cd780ac4685d24793dcc051d31397f, type: 3}
       propertyPath: maxSpeed
-      value: 30
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 328080516358278813, guid: 24cd780ac4685d24793dcc051d31397f, type: 3}
       propertyPath: movementsSpeed
-      value: 500
+      value: 65
       objectReference: {fileID: 0}
     - target: {fileID: 1136528745501484157, guid: 24cd780ac4685d24793dcc051d31397f, type: 3}
       propertyPath: m_Name
