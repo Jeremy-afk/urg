@@ -6,9 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Menu.unity
-    guid: fb0858c8fc87f434aa336163caac7fc2
-  - enabled: 1
     path: Assets/Scenes/RoomScenes/RoomOffline.unity
     guid: 4279936481a071c48afb6feec5b02f01
   - enabled: 1
@@ -17,5 +14,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Spline/Circuit.unity
     guid: e0bb5a371904b0242bec10c20455318c
+  - enabled: 1
+    path: Assets/Scenes/Menu.unity
+    guid: fb0858c8fc87f434aa336163caac7fc2
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 14daaea71d0bf4a44a74497b8974b9aa, type: 2}
