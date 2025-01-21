@@ -235,9 +235,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -7817231791534892574, guid: d78d7e17fd9787d43b947e9b0305efaf, type: 3}
+      propertyPath: sceneId
+      value: 2092345310
+      objectReference: {fileID: 0}
     - target: {fileID: 4874821693403014065, guid: d78d7e17fd9787d43b947e9b0305efaf, type: 3}
       propertyPath: m_Name
       value: ItemBox (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5594917628954317499, guid: d78d7e17fd9787d43b947e9b0305efaf, type: 3}
+      propertyPath: item
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5594917628954317499, guid: d78d7e17fd9787d43b947e9b0305efaf, type: 3}
       propertyPath: isPotion
@@ -494,9 +502,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -7817231791534892574, guid: d78d7e17fd9787d43b947e9b0305efaf, type: 3}
+      propertyPath: sceneId
+      value: 3228882040
+      objectReference: {fileID: 0}
     - target: {fileID: 4874821693403014065, guid: d78d7e17fd9787d43b947e9b0305efaf, type: 3}
       propertyPath: m_Name
       value: ItemBox (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5594917628954317499, guid: d78d7e17fd9787d43b947e9b0305efaf, type: 3}
+      propertyPath: item
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5594917628954317499, guid: d78d7e17fd9787d43b947e9b0305efaf, type: 3}
       propertyPath: isBow
@@ -677,9 +693,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -7817231791534892574, guid: d78d7e17fd9787d43b947e9b0305efaf, type: 3}
+      propertyPath: sceneId
+      value: 2371478254
+      objectReference: {fileID: 0}
     - target: {fileID: 4874821693403014065, guid: d78d7e17fd9787d43b947e9b0305efaf, type: 3}
       propertyPath: m_Name
       value: ItemBox (11)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5594917628954317499, guid: d78d7e17fd9787d43b947e9b0305efaf, type: 3}
+      propertyPath: item
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5594917628954317499, guid: d78d7e17fd9787d43b947e9b0305efaf, type: 3}
       propertyPath: isTrap
@@ -738,9 +762,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -7817231791534892574, guid: d78d7e17fd9787d43b947e9b0305efaf, type: 3}
+      propertyPath: sceneId
+      value: 865276718
+      objectReference: {fileID: 0}
     - target: {fileID: 4874821693403014065, guid: d78d7e17fd9787d43b947e9b0305efaf, type: 3}
       propertyPath: m_Name
       value: ItemBox (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5594917628954317499, guid: d78d7e17fd9787d43b947e9b0305efaf, type: 3}
+      propertyPath: item
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5594917628954317499, guid: d78d7e17fd9787d43b947e9b0305efaf, type: 3}
       propertyPath: isPotion
@@ -1248,7 +1280,14 @@ MonoBehaviour:
   playerPrefab: {fileID: 355452477037155879, guid: 846f6e6248a013b4f870cf1cdd194a44, type: 3}
   autoCreatePlayer: 1
   playerSpawnMethod: 0
-  spawnPrefabs: []
+  spawnPrefabs:
+  - {fileID: 8950603573164696097, guid: e4279cb1b88076d45a162eb3003f5066, type: 3}
+  - {fileID: 5320308484135446322, guid: cbc4605e9e662fb4e87420bd673d42c6, type: 3}
+  - {fileID: 355452477037155879, guid: c237f8e804d85fa46ab999b6747e7b4f, type: 3}
+  - {fileID: 6141194972356185909, guid: b8de61c1d170ebe45a9a43647aaf8f57, type: 3}
+  - {fileID: 246978893970097692, guid: e705eb985d6e9d74ba368da071e548ce, type: 3}
+  - {fileID: 4874821693403014065, guid: d78d7e17fd9787d43b947e9b0305efaf, type: 3}
+  - {fileID: 3062828005192739801, guid: a9098edcc0f721b4589022293c75de0f, type: 3}
   exceptionsDisconnect: 1
   snapshotSettings:
     bufferTimeMultiplier: 2
@@ -1287,9 +1326,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -7817231791534892574, guid: d78d7e17fd9787d43b947e9b0305efaf, type: 3}
+      propertyPath: sceneId
+      value: 248830110
+      objectReference: {fileID: 0}
     - target: {fileID: 4874821693403014065, guid: d78d7e17fd9787d43b947e9b0305efaf, type: 3}
       propertyPath: m_Name
       value: ItemBox (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5594917628954317499, guid: d78d7e17fd9787d43b947e9b0305efaf, type: 3}
+      propertyPath: item
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5594917628954317499, guid: d78d7e17fd9787d43b947e9b0305efaf, type: 3}
       propertyPath: isTrap
@@ -1589,9 +1636,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -7817231791534892574, guid: d78d7e17fd9787d43b947e9b0305efaf, type: 3}
+      propertyPath: sceneId
+      value: 1961196076
+      objectReference: {fileID: 0}
     - target: {fileID: 4874821693403014065, guid: d78d7e17fd9787d43b947e9b0305efaf, type: 3}
       propertyPath: m_Name
       value: ItemBox (9)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5594917628954317499, guid: d78d7e17fd9787d43b947e9b0305efaf, type: 3}
+      propertyPath: item
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5594917628954317499, guid: d78d7e17fd9787d43b947e9b0305efaf, type: 3}
       propertyPath: isBow
@@ -1650,9 +1705,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -7817231791534892574, guid: d78d7e17fd9787d43b947e9b0305efaf, type: 3}
+      propertyPath: sceneId
+      value: 1247327760
+      objectReference: {fileID: 0}
     - target: {fileID: 4874821693403014065, guid: d78d7e17fd9787d43b947e9b0305efaf, type: 3}
       propertyPath: m_Name
       value: ItemBox (7)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5594917628954317499, guid: d78d7e17fd9787d43b947e9b0305efaf, type: 3}
+      propertyPath: item
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5594917628954317499, guid: d78d7e17fd9787d43b947e9b0305efaf, type: 3}
       propertyPath: isBow
@@ -1711,9 +1774,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -7817231791534892574, guid: d78d7e17fd9787d43b947e9b0305efaf, type: 3}
+      propertyPath: sceneId
+      value: 3259649431
+      objectReference: {fileID: 0}
     - target: {fileID: 4874821693403014065, guid: d78d7e17fd9787d43b947e9b0305efaf, type: 3}
       propertyPath: m_Name
       value: ItemBox (6)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5594917628954317499, guid: d78d7e17fd9787d43b947e9b0305efaf, type: 3}
+      propertyPath: item
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5594917628954317499, guid: d78d7e17fd9787d43b947e9b0305efaf, type: 3}
       propertyPath: isBow
@@ -1925,9 +1996,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -7817231791534892574, guid: d78d7e17fd9787d43b947e9b0305efaf, type: 3}
+      propertyPath: sceneId
+      value: 277670901
+      objectReference: {fileID: 0}
     - target: {fileID: 4874821693403014065, guid: d78d7e17fd9787d43b947e9b0305efaf, type: 3}
       propertyPath: m_Name
       value: ItemBox (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5594917628954317499, guid: d78d7e17fd9787d43b947e9b0305efaf, type: 3}
+      propertyPath: item
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5594917628954317499, guid: d78d7e17fd9787d43b947e9b0305efaf, type: 3}
       propertyPath: isPotion
@@ -1986,9 +2065,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -7817231791534892574, guid: d78d7e17fd9787d43b947e9b0305efaf, type: 3}
+      propertyPath: sceneId
+      value: 1712189369
+      objectReference: {fileID: 0}
     - target: {fileID: 4874821693403014065, guid: d78d7e17fd9787d43b947e9b0305efaf, type: 3}
       propertyPath: m_Name
       value: ItemBox
+      objectReference: {fileID: 0}
+    - target: {fileID: 5594917628954317499, guid: d78d7e17fd9787d43b947e9b0305efaf, type: 3}
+      propertyPath: item
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5594917628954317499, guid: d78d7e17fd9787d43b947e9b0305efaf, type: 3}
       propertyPath: isPotion
@@ -2374,9 +2461,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -7817231791534892574, guid: d78d7e17fd9787d43b947e9b0305efaf, type: 3}
+      propertyPath: sceneId
+      value: 2601086413
+      objectReference: {fileID: 0}
     - target: {fileID: 4874821693403014065, guid: d78d7e17fd9787d43b947e9b0305efaf, type: 3}
       propertyPath: m_Name
       value: ItemBox (12)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5594917628954317499, guid: d78d7e17fd9787d43b947e9b0305efaf, type: 3}
+      propertyPath: item
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5594917628954317499, guid: d78d7e17fd9787d43b947e9b0305efaf, type: 3}
       propertyPath: isTrap
@@ -2527,9 +2622,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -7817231791534892574, guid: d78d7e17fd9787d43b947e9b0305efaf, type: 3}
+      propertyPath: sceneId
+      value: 3224743529
+      objectReference: {fileID: 0}
     - target: {fileID: 4874821693403014065, guid: d78d7e17fd9787d43b947e9b0305efaf, type: 3}
       propertyPath: m_Name
       value: ItemBox (8)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5594917628954317499, guid: d78d7e17fd9787d43b947e9b0305efaf, type: 3}
+      propertyPath: item
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5594917628954317499, guid: d78d7e17fd9787d43b947e9b0305efaf, type: 3}
       propertyPath: isBow
@@ -2787,9 +2890,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -7817231791534892574, guid: d78d7e17fd9787d43b947e9b0305efaf, type: 3}
+      propertyPath: sceneId
+      value: 3039188482
+      objectReference: {fileID: 0}
     - target: {fileID: 4874821693403014065, guid: d78d7e17fd9787d43b947e9b0305efaf, type: 3}
       propertyPath: m_Name
       value: ItemBox (10)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5594917628954317499, guid: d78d7e17fd9787d43b947e9b0305efaf, type: 3}
+      propertyPath: item
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5594917628954317499, guid: d78d7e17fd9787d43b947e9b0305efaf, type: 3}
       propertyPath: isBow

@@ -25,7 +25,9 @@ public class Movements : NetworkBehaviour
     private float accelerationDirection;
     [SyncVar]
     private bool holdingZS;
+    [field: SyncVar]
     public float BonusSpeedMult { get; set; } = 1f; // Set to make a boost
+    [field: SyncVar]
     public float BonusSpeedMultTime { get; set; } = 0f;
 
     // Variables for left/right movements
@@ -37,9 +39,6 @@ public class Movements : NetworkBehaviour
     // Variables for drifting
     [SerializeField, Range(0, 1)] private float driftFactor;
     private bool holdingDrift = false;
-
-    //Variables for Item 
-    private ItemManager itemManager;
 
     private AudioSource klaxonSound;
     [SyncVar]
@@ -94,6 +93,7 @@ public class Movements : NetworkBehaviour
         }
     }
     
+    // TODO: Move this to an AUDIO manager script
     public void Klaxon(InputAction.CallbackContext context)
     {
         if (context.performed)
@@ -106,7 +106,6 @@ public class Movements : NetworkBehaviour
     {
         rigidBody = GetComponent<Rigidbody>();
         klaxonSound = GetComponent<AudioSource>();
-        itemManager = GetComponent<ItemManager>();
     }
 
     private void FixedUpdate()

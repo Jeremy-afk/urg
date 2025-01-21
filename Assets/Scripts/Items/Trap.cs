@@ -1,27 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
+using Mirror;
 using UnityEngine;
 
-public class Trap : MonoBehaviour
+public class Trap : NetworkBehaviour
 {
-
     public void OnTriggerEnter(Collider collided)
     {
-        if (collided.tag == "Player")
+        if (collided.CompareTag("Player"))
         {
+            print("TRAP ACTIVATION");
             Destroy(gameObject);
         }
-    }
-
-        // Start is called before the first frame update
-        void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
