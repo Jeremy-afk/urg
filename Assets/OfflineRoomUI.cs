@@ -12,6 +12,7 @@ public class OfflineRoomUI : MonoBehaviour
         createRoomButton.onClick.AddListener(StartServer);
         joinRoomButton.onClick.AddListener(StartClient);
     }
+
     private void StartServer()
     {
         throw new NotImplementedException();
