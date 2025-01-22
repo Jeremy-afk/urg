@@ -10,6 +10,9 @@ jobs:
     runs-on: ubuntu-latest  # You can use other OSes as well
 
     steps:
+    - run: echo "Starting build process"
+    - run: pwd
+
     - name: Checkout repository
       uses: actions/checkout@v3
       
@@ -37,6 +40,7 @@ jobs:
       with:
         name: MedievalRacingServer
         path: ./Builds/Server/*
+        if-no-files-found: warn
 
     - name: Setup SSH
       uses: webfactory/ssh-agent@v0.7.0
