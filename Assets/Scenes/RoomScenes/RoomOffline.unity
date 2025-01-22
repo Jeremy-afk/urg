@@ -122,71 +122,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &28343531
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 28343532}
-  - component: {fileID: 28343533}
-  - component: {fileID: 28343534}
-  m_Layer: 0
-  m_Name: ServerManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &28343532
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 28343531}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &28343533
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 28343531}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4d2d56f36cd1e814aa7cd4f4ccafc8e4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
---- !u!114 &28343534
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 28343531}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sceneId: 550379717
-  _assetId: 0
-  serverOnly: 1
-  visibility: 0
-  hasSpawned: 0
 --- !u!1 &224743523
 GameObject:
   m_ObjectHideFlags: 0
@@ -838,6 +773,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4cdcfb7e380c8604a9f6fba51a5e9843, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ip: 127.0.0.1
+  port: 7777
 --- !u!1 &1595135132
 GameObject:
   m_ObjectHideFlags: 0
@@ -890,6 +827,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   createRoomButton: {fileID: 1089331437}
   joinRoomButton: {fileID: 224743525}
+  clientManager: {fileID: 1492371037}
 --- !u!1 &1643111033
 GameObject:
   m_ObjectHideFlags: 0
@@ -1305,4 +1243,3 @@ SceneRoots:
   - {fileID: 833510903}
   - {fileID: 1643111036}
   - {fileID: 1492371036}
-  - {fileID: 28343532}
