@@ -34,7 +34,11 @@ jobs:
       with:
         buildMethod: MedievalRacingBuildPipeline.HeadlessBuildServerForLinux
         unityVersion: '2022.3.47f1'
-        
+    
+    - run: ls -la ./Builds/Server
+    - run: find . -name "MedievalRacingServer.exe"
+    - run: cat Editor.log
+
     - name: Saving Server Build
       uses: actions/upload-artifact@v3
       with:
