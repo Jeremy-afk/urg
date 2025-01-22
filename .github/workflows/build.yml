@@ -19,10 +19,10 @@ jobs:
         path: Library
         key: Library-PFE
         restore-keys: |
-          Library-PFE-
-          Library-
+          Library-PFE
+          Library
 
-    - name: Unity - Builder
+    - name: Client Build
       uses: game-ci/unity-builder@v4.3.0
       env:
         UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
@@ -32,7 +32,7 @@ jobs:
         targetPlatform: StandaloneWindows64
         unityVersion: '2022.3.47f1'
 
-    - name: Build the server
+    - name: Server Build
       run: |
         /usr/bin/Unity -batchmode -nographics -quit -projectPath ${{ github.workspace }} -executeMethod BuildScript.BuildServer -buildTarget StandaloneLinux64 -logFile build.log
 
