@@ -35,6 +35,8 @@ public class Movements : NetworkBehaviour
     [SerializeField]
     private float rotationSpeed;
     private bool holdingQD;
+    [SerializeField]
+    private float turnDrag = 0.25f;
 
     // Variables for drifting
     [SerializeField, Range(0, 1)] private float driftFactor;
@@ -148,7 +150,7 @@ public class Movements : NetworkBehaviour
         {
             // If the player is inputing a movement, we want to accelerate towards its max speed using an acceleration curve
             // by using the DIFFERENCE between the current speed and the max speed
-
+            rigidBody.drag = 0;
             if (BonusSpeedMultTime > 0)
             {
                 print("Applying bonus!");
@@ -192,8 +194,13 @@ public class Movements : NetworkBehaviour
 
         if (holdingQD)
         {
-            Quaternion quaternionRotation = Quaternion.Euler(rotations);
-            rigidBody.MoveRotation(rigidBody.rotation * quaternionRotation);
+            float currentSpeed = Vector3.Dot(rigidBody.velocity, transform.forward);
+            if (currentSpeed < -0.1 || currentSpeed > 0.1)
+            {
+                Quaternion quaternionRotation = Quaternion.Euler(rotations);
+                rigidBody.MoveRotation(rigidBody.rotation * quaternionRotation);
+                rigidBody.drag = turnDrag;
+            }
         }
 
         if (holdingDrift)
