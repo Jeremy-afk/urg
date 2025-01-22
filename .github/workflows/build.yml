@@ -19,10 +19,9 @@ jobs:
       with:
         customImage: unityci/editor:ubuntu-2022.3.47f1-linux-il2cpp-3.1.0
         path: Library
-        key: Library-PFE
+        key: Library-${{ github.ref }}
         restore-keys: |
-          Library-PFE
-          Library
+          Library-
 
     - name: Building Server
       uses: game-ci/unity-builder@v4.3.0
@@ -32,11 +31,12 @@ jobs:
         UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
       with:
         buildMethod: MedievalRacingBuildPipeline.HeadlessBuildServerForLinux
+        targetPlatform: StandaloneLinux64
         unityVersion: '2022.3.47f1'
+        customParameters: -standaloneBuildSubtarget Server
     
     - run: ls -la ./Builds/Server
-    - run: find . -name "MedievalRacingServer.exe"
-    - run: cat Editor.log
+    - run: find . -name "MedievalRacingServer"
 
     - name: Saving Server Build
       uses: actions/upload-artifact@v3
