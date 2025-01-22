@@ -9762,7 +9762,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8901222850518343056, guid: 24cd780ac4685d24793dcc051d31397f, type: 3}
       propertyPath: m_Drag
-      value: 0
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 8901222850518343056, guid: 24cd780ac4685d24793dcc051d31397f, type: 3}
       propertyPath: m_AngularDrag
@@ -9783,6 +9783,10 @@ PrefabInstance:
     - target: {fileID: 9087782695256684940, guid: 24cd780ac4685d24793dcc051d31397f, type: 3}
       propertyPath: cameraLerpSpeedPosition
       value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 9087782695256684940, guid: 24cd780ac4685d24793dcc051d31397f, type: 3}
+      propertyPath: cameraLerpSpeedRotation
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

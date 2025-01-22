@@ -95,18 +95,14 @@ public class Player : NetworkBehaviour
         float ratio = rigidBody.velocity.magnitude / moves.GetMaxSpeed();
         mainCamera.fieldOfView = Mathf.Lerp(minFOV, maxFOV, ratio);
 
-        // Vérifier si la voiture est en train de tourner
-        Vector3 rotations = moves.GetRotations();
-        isTurning = Mathf.Abs(rotations.y) > 0.1f; // Détecte si une rotation significative est en cours
-
-        if (isTurning)
+        if (moves.GetHoldingDrift())
         {
             // Si la voiture tourne, garder une rotation fixe mais orientée vers l'avant
-            targetCameraRotation = Quaternion.LookRotation(transform.forward, Vector3.up);
+            Vector3 driftOffset = transform.right * 1.5f * Mathf.Sign(moves.GetRotations().y); // Décalage selon la direction du drift
+            targetCameraRotation = Quaternion.LookRotation(transform.forward + driftOffset, Vector3.up);
         }
         else
         {
-            // Suivre légèrement la rotation et position de la voiture de manière fluide
             targetCameraRotation = Quaternion.LookRotation(transform.forward, Vector3.up);
         }
 
