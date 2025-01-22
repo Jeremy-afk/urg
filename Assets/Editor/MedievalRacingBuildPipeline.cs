@@ -21,6 +21,7 @@ public class MedievalRacingBuildPipeline
     };
 
     private static readonly string DEFAULT_BUILD_REPO = "Builds";
+    private static readonly string HEADLESS_DEFAULT_SERVER_BUILD = "Builds/Server";
 
     [MenuItem("File/Custom Build/Client Build")]
     public static void BuildGameForWindows()
@@ -49,6 +50,22 @@ public class MedievalRacingBuildPipeline
         {
             scenes = SCENES_SERVER,
             locationPathName = path + "/Server/MedievalRacingServer.exe",
+            target = BuildTarget.StandaloneLinux64,
+            options = BuildOptions.None,
+            subtarget = (int)StandaloneBuildSubtarget.Server
+        };
+
+        ReportBuild(BuildPipeline.BuildPlayer(buildPlayerOptions));
+    }
+
+    public static void HeadlessBuildServerForLinux()
+    {
+        Directory.CreateDirectory(HEADLESS_DEFAULT_SERVER_BUILD);
+
+        var buildPlayerOptions = new BuildPlayerOptions
+        {
+            scenes = SCENES_SERVER,
+            locationPathName = HEADLESS_DEFAULT_SERVER_BUILD + "/MedievalRacingServer.exe",
             target = BuildTarget.StandaloneLinux64,
             options = BuildOptions.None,
             subtarget = (int)StandaloneBuildSubtarget.Server
