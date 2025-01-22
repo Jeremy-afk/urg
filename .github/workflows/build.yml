@@ -10,8 +10,6 @@ jobs:
     runs-on: ubuntu-latest  # You can use other OSes as well
 
     steps:
-    - run: echo "Starting build process"
-    - run: pwd
 
     - name: Checkout repository
       uses: actions/checkout@v3
@@ -19,6 +17,7 @@ jobs:
     - name: Restore Library Cache
       uses: actions/cache@v4
       with:
+        customImage: unityci/editor:ubuntu-2022.3.47f1-linux-il2cpp-3.1.0
         path: Library
         key: Library-PFE
         restore-keys: |
@@ -43,7 +42,7 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: MedievalRacingServer
-        path: ./Builds/Server/*
+        path: ./Builds/Server
         if-no-files-found: warn
 
     - name: Setup SSH
