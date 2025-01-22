@@ -17,11 +17,10 @@ jobs:
     - name: Restore Library Cache
       uses: actions/cache@v4
       with:
-        customImage: unityci/editor:ubuntu-2022.3.47f1-linux-il2cpp-3.1.0
         path: Library
-        key: Library-${{ github.ref }}
+        key: Library-${{ runner.os }}-${{ hashFiles('**/*.cs') }}
         restore-keys: |
-          Library-
+          Library-${{ runner.os }}-
 
     - name: Building Server
       uses: game-ci/unity-builder@v4.3.0
@@ -35,8 +34,7 @@ jobs:
         unityVersion: '2022.3.47f1'
         customParameters: -standaloneBuildSubtarget Server
     
-    - run: ls -la ./Builds/Server
-    - run: find . -name "MedievalRacingServer"
+    - run: ls -la Library
 
     - name: Saving Server Build
       uses: actions/upload-artifact@v3
