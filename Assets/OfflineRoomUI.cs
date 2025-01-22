@@ -6,6 +6,7 @@ public class OfflineRoomUI : MonoBehaviour
 {
     [SerializeField] private Button createRoomButton;
     [SerializeField] private Button joinRoomButton;
+    [SerializeField] private ClientManager clientManager;
 
     void Start()
     {
@@ -15,7 +16,7 @@ public class OfflineRoomUI : MonoBehaviour
 
     private void StartServer()
     {
-        throw new NotImplementedException();
+        clientManager.CreateRoom();
     }
 
     private void StartClient()
