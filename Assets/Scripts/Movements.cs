@@ -41,12 +41,14 @@ public class Movements : NetworkBehaviour
     // Variables for drifting
     [SerializeField, Range(0, 1)] private float driftFactor;
     private bool holdingDrift = false;
+    public ParticleSystem rightWheelPart;
+    public ParticleSystem leftWheelPart;
 
     private AudioSource klaxonSound;
     [SyncVar]
     private bool canMove = false;
     private Player activePlayer;
-    private ParticleSystem smoke;
+    public ParticleSystem smoke;
 
     // Called by the server to allow the player to move or not
     public void SetMovementActive(bool active)
@@ -111,7 +113,6 @@ public class Movements : NetworkBehaviour
         rigidBody = GetComponent<Rigidbody>();
         klaxonSound = GetComponent<AudioSource>();
         activePlayer = GetComponent<Player>();
-        smoke = GetComponent<ParticleSystem>();
     }
 
     private void FixedUpdate()
@@ -194,12 +195,15 @@ public class Movements : NetworkBehaviour
 
         if (holdingQD)
         {
+            if (!holdingDrift)
+            {
+                rigidBody.drag = turnDrag;
+            }
             float currentSpeed = Vector3.Dot(rigidBody.velocity, transform.forward);
             if (currentSpeed < -0.1 || currentSpeed > 0.1)
             {
                 Quaternion quaternionRotation = Quaternion.Euler(rotations);
                 rigidBody.MoveRotation(rigidBody.rotation * quaternionRotation);
-                rigidBody.drag = turnDrag;
             }
         }
 
@@ -216,6 +220,13 @@ public class Movements : NetworkBehaviour
             float driftTurnAmount = rotations.y * rotationSpeed * Time.deltaTime;
             Quaternion driftTurnRotation = Quaternion.Euler(0f, driftTurnAmount, 0f);
             rigidBody.MoveRotation(rigidBody.rotation * driftTurnRotation);
+            rightWheelPart.Play();
+            leftWheelPart.Play();
+        }
+        if (!holdingDrift)
+        {
+            rightWheelPart.Clear();
+            leftWheelPart.Clear();
         }
         else
         {
@@ -226,5 +237,20 @@ public class Movements : NetworkBehaviour
     public float GetMaxSpeed()
     {
         return maxSpeed;
+    }
+    
+    public bool GetHoldingDrift()
+    {
+        return holdingDrift;
+    }
+    
+    public Vector3 GetRotations()
+    {
+        return rotations;
+    }
+
+    public bool GetHoldingQD()
+    {
+        return holdingQD;
     }
 }
