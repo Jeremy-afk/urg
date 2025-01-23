@@ -37,7 +37,7 @@ jobs:
     - run: ls -la Library
 
     - name: Saving Server Build
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: MedievalRacingServer
         path: ./Builds/Server
