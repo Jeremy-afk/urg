@@ -9674,7 +9674,7 @@ PrefabInstance:
       objectReference: {fileID: -7900479634763431553}
     - target: {fileID: 328080516358278813, guid: 24cd780ac4685d24793dcc051d31397f, type: 3}
       propertyPath: maxSpeed
-      value: 50
+      value: 70
       objectReference: {fileID: 0}
     - target: {fileID: 328080516358278813, guid: 24cd780ac4685d24793dcc051d31397f, type: 3}
       propertyPath: turnDrag
@@ -9832,9 +9832,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08175923f6222274181ff0f29083759c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  finishLine: {fileID: 0}
-  timerText: {fileID: 0}
-  lapText: {fileID: 0}
 --- !u!198 &-7900479634763431553
 ParticleSystem:
   m_ObjectHideFlags: 0

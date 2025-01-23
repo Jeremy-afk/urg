@@ -169,4 +169,9 @@ public class Finish : NetworkBehaviour
     {
         return requiredLaps;
     }
+
+    public int GetCountdownDelay()
+    {
+        return countdownDelay;
+    }
 }

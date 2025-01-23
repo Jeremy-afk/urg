@@ -30,14 +30,20 @@ public class Timer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (timer < finishLine.GetCountdownDelay())
+        {
+            timer += Time.deltaTime;
+            return;
+        }
         int lapCount = finishLine.GetPlayerCompletedLap(playerIdentity) + 1;
         int requiredLap = finishLine.GetRequiredLaps();
         if (lapCount <= requiredLap)
         {
             timer += Time.deltaTime;
-            int minutes = Mathf.FloorToInt(timer / 60);
-            int seconds = Mathf.FloorToInt(timer - minutes * 60);
-            int centiemes = Mathf.FloorToInt((timer - minutes * 60 - seconds) * 100);
+            float realTimer = timer - 2;
+            int minutes = Mathf.FloorToInt(realTimer / 60);
+            int seconds = Mathf.FloorToInt(realTimer - minutes * 60);
+            int centiemes = Mathf.FloorToInt((realTimer - minutes * 60 - seconds) * 100);
 
             string time = string.Format("{0:00}:{1:00}.{2:00}", minutes, seconds, centiemes);
             timerText.text = time;

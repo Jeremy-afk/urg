@@ -98,7 +98,7 @@ public class Player : NetworkBehaviour
         if (moves.GetHoldingDrift())
         {
             // Si la voiture tourne, garder une rotation fixe mais orientée vers l'avant
-            Vector3 driftOffset = transform.right * 1.5f * moves.GetRotations().y; // Décalage selon la direction du drift
+            Vector3 driftOffset = transform.right * 0.75f * moves.GetRotations().y; // Décalage selon la direction du drift
             targetCameraRotation = Quaternion.LookRotation(transform.forward + driftOffset, Vector3.up);
         }
         else
