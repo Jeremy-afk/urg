@@ -2,15 +2,6 @@ name: Build and Deploy Unity Server
 
 on:
   workflow_dispatch:
-    inputs:
-      branch_name:
-        description: 'Build basing on branch...'
-        required: true
-        default: 'dev'
-        type: choice
-        options:
-          - 'main'
-          - 'dev'
 
 jobs:
   build:
