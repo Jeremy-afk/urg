@@ -36,7 +36,9 @@ public class Movements : NetworkBehaviour
     private float rotationSpeed;
     private bool holdingQD;
     [SerializeField]
-    private float turnDrag = 0.25f;
+    private float turnDrag = 0.25f; 
+    [SerializeField]
+    private float normalDrag = 0.1f;
 
     // Variables for drifting
     [SerializeField, Range(0, 1)] private float driftFactor;
@@ -151,7 +153,7 @@ public class Movements : NetworkBehaviour
         {
             // If the player is inputing a movement, we want to accelerate towards its max speed using an acceleration curve
             // by using the DIFFERENCE between the current speed and the max speed
-            rigidBody.drag = 0;
+            rigidBody.drag = normalDrag;
             if (BonusSpeedMultTime > 0)
             {
                 print("Applying bonus!");
