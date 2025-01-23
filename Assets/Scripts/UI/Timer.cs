@@ -1,3 +1,4 @@
+using Mirror;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,12 +7,23 @@ using TMPro;
 
 public class Timer : MonoBehaviour
 {
-    public TextMeshProUGUI timerText;
+    private NetworkIdentity playerIdentity;
+    private Finish finishLine;
+
+    private TextMeshProUGUI timerText;
     static float timer;
+
+    private TextMeshProUGUI lapText;
 
     // Start is called before the first frame update
     void Start()
     {
+        playerIdentity = GetComponent<NetworkIdentity>();
+        finishLine = GameObject.Find("Finish").GetComponent<Finish>();
+
+        timerText = GameObject.Find("GameUi/LapTimer/Timer").GetComponent< TextMeshProUGUI>();
+        lapText = GameObject.Find("GameUi/LapTimer/LapCount").GetComponent<TextMeshProUGUI>();
+
         timer = 0;
     }
 
@@ -25,5 +37,10 @@ public class Timer : MonoBehaviour
 
         string time = string.Format("{0:00}:{1:00}.{2:00}", minutes, seconds, centiemes);
         timerText.text = time;
+
+        int lapCount = finishLine.GetPlayerCompletedLap(playerIdentity)+1;
+        int requiredLap = finishLine.GetRequiredLaps();
+        string laps = string.Format("Lap {0:0} / {1:0}", lapCount, requiredLap);
+        lapText.text = laps;
     }
 }

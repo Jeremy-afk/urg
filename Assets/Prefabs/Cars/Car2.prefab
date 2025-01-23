@@ -9702,15 +9702,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2772221897071357495, guid: 24cd780ac4685d24793dcc051d31397f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 22.686096
       objectReference: {fileID: 0}
     - target: {fileID: 2772221897071357495, guid: 24cd780ac4685d24793dcc051d31397f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.000061035156
       objectReference: {fileID: 0}
     - target: {fileID: 2772221897071357495, guid: 24cd780ac4685d24793dcc051d31397f, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -304.70752
       objectReference: {fileID: 0}
     - target: {fileID: 2772221897071357495, guid: 24cd780ac4685d24793dcc051d31397f, type: 3}
       propertyPath: m_LocalRotation.w
@@ -9807,6 +9807,9 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 1136528745501484157, guid: 24cd780ac4685d24793dcc051d31397f, type: 3}
       insertIndex: -1
+      addedObject: {fileID: 2325823062611309956}
+    - targetCorrespondingSourceObject: {fileID: 1136528745501484157, guid: 24cd780ac4685d24793dcc051d31397f, type: 3}
+      insertIndex: -1
       addedObject: {fileID: -7900479634763431553}
     - targetCorrespondingSourceObject: {fileID: 1136528745501484157, guid: 24cd780ac4685d24793dcc051d31397f, type: 3}
       insertIndex: -1
@@ -9817,6 +9820,21 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 1136528745501484157, guid: 24cd780ac4685d24793dcc051d31397f, type: 3}
   m_PrefabInstance: {fileID: 804755625903387226}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2325823062611309956
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 355452477037155879}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08175923f6222274181ff0f29083759c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  finishLine: {fileID: 0}
+  timerText: {fileID: 0}
+  lapText: {fileID: 0}
 --- !u!198 &-7900479634763431553
 ParticleSystem:
   m_ObjectHideFlags: 0
