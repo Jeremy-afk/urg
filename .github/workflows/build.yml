@@ -1,9 +1,6 @@
 name: Build and Deploy Unity Server
 
-on:
-  push:
-    branches:
-      - dev  # or any branch you'd like to trigger the build on
+on: workflow_dispatch
 
 jobs:
   build:

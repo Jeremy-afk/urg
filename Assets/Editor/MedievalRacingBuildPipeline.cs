@@ -26,7 +26,7 @@ public class MedievalRacingBuildPipeline
     [MenuItem("File/Custom Build/Client Build")]
     public static void BuildGameForWindows()
     {
-        var path = EditorUtility.SaveFolderPanel("Choose Client Build Location", DEFAULT_BUILD_REPO, "New Client Build");
+        var path = EditorUtility.SaveFolderPanel("Choose Client Build Location", DEFAULT_BUILD_REPO, "");
         Directory.CreateDirectory(path + "/Client");
 
         var buildPlayerOptions = new BuildPlayerOptions
