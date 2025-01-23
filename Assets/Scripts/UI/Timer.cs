@@ -33,7 +33,7 @@ public class Timer : MonoBehaviour
         timer += Time.deltaTime;
         int minutes = Mathf.FloorToInt(timer / 60);
         int seconds = Mathf.FloorToInt(timer - minutes * 60);
-        int centiemes = Mathf.FloorToInt((timer-seconds)*100);
+        int centiemes = Mathf.FloorToInt((timer-minutes*60-seconds)*100);
 
         string time = string.Format("{0:00}:{1:00}.{2:00}", minutes, seconds, centiemes);
         timerText.text = time;
