@@ -1,7 +1,6 @@
-using Mirror;
 using UnityEngine;
 
-public class AudioManager : NetworkBehaviour
+public class AudioManager : MonoBehaviour
 {
     public static AudioManager Instance { get; private set; }
 
@@ -9,10 +8,13 @@ public class AudioManager : NetworkBehaviour
     [SerializeField] private AudioSource ambianceSource;
     [SerializeField] private AudioSource soundEffectSources;
 
+    [Header("Musics")]
+    public AudioClip mainMenuMusic;
+    [Header("Sounds")]
+    public AudioClip[] collisionSounds;
+
     private void Awake()
     {
-        if (!isLocalPlayer) return;
-
         if (Instance == null)
         {
             Instance = this;
@@ -24,6 +26,7 @@ public class AudioManager : NetworkBehaviour
     }
 
     #region Play Methods
+
     public void PlayMusic(AudioClip clip)
     {
         musicSource.clip = clip;
@@ -36,10 +39,15 @@ public class AudioManager : NetworkBehaviour
         ambianceSource.Play();
     }
 
-    public void PlaySoundEffect(AudioClip clip)
+    public void PlaySoundEffect(AudioClip clip, float volume = 1f)
     {
-        soundEffectSources.clip = clip;
-        soundEffectSources.Play();
+        soundEffectSources.PlayOneShot(clip, volume);
+    }
+
+    public void PlaySoundEffect(AudioClip[] clips, float volume = 1f)
+    {
+        // Random sound effect
+        soundEffectSources.PlayOneShot(clips[Random.Range(0, clips.Length)], volume);
     }
 
     #endregion
