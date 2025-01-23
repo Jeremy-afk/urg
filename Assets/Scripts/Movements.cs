@@ -228,7 +228,9 @@ public class Movements : NetworkBehaviour
         if (!holdingDrift)
         {
             rightWheelPart.Clear();
+            rightWheelPart.Pause();
             leftWheelPart.Clear();
+            leftWheelPart.Pause();
         }
         else
         {
