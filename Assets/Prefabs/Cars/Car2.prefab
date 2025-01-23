@@ -9678,6 +9678,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 328080516358278813, guid: 24cd780ac4685d24793dcc051d31397f, type: 3}
       propertyPath: turnDrag
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 328080516358278813, guid: 24cd780ac4685d24793dcc051d31397f, type: 3}
+      propertyPath: normalDrag
       value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 328080516358278813, guid: 24cd780ac4685d24793dcc051d31397f, type: 3}
@@ -9762,7 +9766,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8901222850518343056, guid: 24cd780ac4685d24793dcc051d31397f, type: 3}
       propertyPath: m_Drag
-      value: 0.1
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 8901222850518343056, guid: 24cd780ac4685d24793dcc051d31397f, type: 3}
       propertyPath: m_AngularDrag
