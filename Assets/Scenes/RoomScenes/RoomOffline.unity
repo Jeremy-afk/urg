@@ -775,6 +775,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ip: 127.0.0.1
   port: 7777
+  maxConnectionAttempt: 30
+  delayBetweenConnectionAttempt: 1
 --- !u!1 &1595135132
 GameObject:
   m_ObjectHideFlags: 0
@@ -1211,7 +1213,12 @@ MonoBehaviour:
   playerPrefab: {fileID: 355452477037155879, guid: c237f8e804d85fa46ab999b6747e7b4f, type: 3}
   autoCreatePlayer: 1
   playerSpawnMethod: 0
-  spawnPrefabs: []
+  spawnPrefabs:
+  - {fileID: 8950603573164696097, guid: e4279cb1b88076d45a162eb3003f5066, type: 3}
+  - {fileID: 1136528745501484157, guid: 24cd780ac4685d24793dcc051d31397f, type: 3}
+  - {fileID: 355452477037155879, guid: 846f6e6248a013b4f870cf1cdd194a44, type: 3}
+  - {fileID: 4874821693403014065, guid: d78d7e17fd9787d43b947e9b0305efaf, type: 3}
+  - {fileID: 3062828005192739801, guid: a9098edcc0f721b4589022293c75de0f, type: 3}
   exceptionsDisconnect: 1
   snapshotSettings:
     bufferTimeMultiplier: 2
