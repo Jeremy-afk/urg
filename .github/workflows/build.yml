@@ -1,0 +1,53 @@
+name: Build and Deploy Unity Server
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest  # You can use other OSes as well
+
+    steps:
+
+    - name: Checkout repository
+      uses: actions/checkout@v3
+      
+    - name: Restore Library Cache
+      uses: actions/cache@v4
+      with:
+        path: Library
+        key: Library-${{ runner.os }}-${{ hashFiles('**/*.cs') }}
+        restore-keys: |
+          Library-${{ runner.os }}-
+
+    - name: Building Server
+      uses: game-ci/unity-builder@v4.3.0
+      env:
+        UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+        UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+        UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+      with:
+        buildMethod: MedievalRacingBuildPipeline.HeadlessBuildServerForLinux
+        targetPlatform: StandaloneLinux64
+        unityVersion: '2022.3.47f1'
+        customParameters: -standaloneBuildSubtarget Server
+    
+    - run: ls -la Library
+
+    - name: Saving Server Build
+      uses: actions/upload-artifact@v4
+      with:
+        name: MedievalRacingServer
+        path: ./Builds/Server
+        if-no-files-found: warn
+
+    - name: Setup SSH
+      uses: webfactory/ssh-agent@v0.7.0
+      with:
+        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+    - name: Deploy to VM
+      run: |
+        ssh -o StrictHostKeyChecking=no jlenoir@157.159.195.98 "mkdir -p /home/jlenoir/server && rm -rf /home/jlenoir/server_lastest_version/*"
+        scp -r ./Builds/Server/* jlenoir@157.159.195.98:/home/jlenoir/server_lastest_version
+        ssh -o StrictHostKeyChecking=no jlenoir@157.159.195.98 "/home/jlenoir/scripts/hooks/new_version_available.sh"
