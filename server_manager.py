@@ -24,17 +24,48 @@ class Server:
 
 def handle_client_connection(client_socket, client_address):
     print(f"Connexion reçue de {client_address}")
-    # Démarrer l'instance de serveur Mirror
-    instantiate_server()
+    print("Bordel ça bloque")
 
-    server = server_instances[len(server_instances) - 1]
+    try:
+        print("Avant data collecte")
+        data = client_socket.recv(1024)  # Taille maximale des données reçues (en octets)
+        print(data)
 
-    # Informer le client de l'hôte et du port où se connecter
-    response = f"{server.port} {server.sessionCode}"
-    client_socket.sendall(response.encode())
+        if data:
+            decoded_data = data.decode()
+            print(f"Données reçues du client {client_address}: {decoded_data}")
 
-    # Fermer la connexion avec le client
-    client_socket.close()
+            words = decoded_data.split(' ')
+            print(words)
+
+            if words[0] == "createRoom":
+                instantiate_server()
+                server = server_instances[len(server_instances) - 1]
+                response = f"{server.port} {server.sessionCode}"
+
+                client_socket.sendall(response.encode())
+                client_socket.close()
+            elif words[0] == "joinRoom":
+                for server in server_instances:
+                    print("------------")
+                    print(server.sessionCode)
+                    print(words[1])
+                    if server.sessionCode == words[1]:
+                        response = f"{server.port}"
+                        client_socket.sendall(response.encode())
+                        client_socket.close()
+                        return
+                
+                response = f"ERREUR: aucune room associé à ce code de session."
+                client_socket.sendall(response.encode())
+                client_socket.close()
+        else:
+            print("ERREUR: aucune erreur reçu")
+
+
+    except Exception as e:
+        print(f"Erreur lors de la réception des données du client {client_address}: {e}")
+
 
 def start_listening():
     global is_running
@@ -60,7 +91,7 @@ def instantiate_server():
     print(f"Lancement du serveur sur le port {port}...")
     try:
         process = subprocess.Popen([SERVER_EXECUTABLE, "--args", "-port", str(port)])
-        session_code = ''.join(random.choices(string.ascii_uppercase + string.digits, k=8))
+        session_code = ''.join(random.choices(string.ascii_uppercase + string.digits, k=4))
         server_instantiated = Server(process=process, port=port, sessionCode=session_code)
         server_instances.append(server_instantiated)
         print(f"Instance de serveur démarrée sur le port {port}")

@@ -21,7 +21,7 @@ public class OfflineRoomUI : MonoBehaviour
 
     private void StartClient()
     {
-        MyNetworkRoomManager.singleton.StartClient();
+        clientManager.JoinRoom();
     }
 
 }

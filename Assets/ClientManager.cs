@@ -10,6 +10,7 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.UI;
 
 public class ClientManager : MonoBehaviour
 {
@@ -22,8 +23,11 @@ public class ClientManager : MonoBehaviour
     private float connectionAttempts = 0;
 
     [SerializeField] private GameObject sessionCodeHolder;
+    [SerializeField] private TMP_InputField sessionCodeInput;
 
-    IEnumerator GetServerInfoAndConnect()
+    // requestRoom == true -> utilisateur a cliqué sur create room
+    // requestRoom == false -> utilisateur a cliqué sur join room
+    IEnumerator GetServerInfoAndConnect(bool requestRoom)
     {
         Debug.Log("Connexion au script Python pour récupérer les informations du serveur...");
 
@@ -36,7 +40,13 @@ public class ClientManager : MonoBehaviour
                 Debug.Log("Connecté au serveur Python.");
 
                 // Envoi d'une requête pour récupérer les informations du serveur (par exemple, le port du serveur Mirror)
-                string requestMessage = "";
+                string requestMessage = "createRoom";
+                
+                if (!requestRoom)
+                {
+                    requestMessage = "joinRoom " + sessionCodeInput.text;
+                }
+
                 byte[] requestBytes = Encoding.UTF8.GetBytes(requestMessage);
                 clientSocket.Send(requestBytes);
 
@@ -49,13 +59,15 @@ public class ClientManager : MonoBehaviour
 
                 // Convertir la réponse en entier (port du serveur Mirror)
                 int serverPort = int.Parse(serverInfoParts[0]);
-                string sessionCode = serverInfoParts[1];
+
+                if (serverInfoParts.Length > 1)
+                {
+                    sessionCodeHolder.GetComponent<SessionCodeHolder>().sessionCode = serverInfoParts[1];
+                }
 
                 // Connecter au serveur Mirror avec le port récupéré
                 KcpTransport transport = MyNetworkRoomManager.singleton.GetComponent<KcpTransport>();
                 transport.port = (ushort)serverPort;
-
-                sessionCodeHolder.GetComponent<SessionCodeHolder>().sessionCode = sessionCode;
 
                 // Démarrer la connexion client
                 Debug.Log($"Connexion au serveur sur {ip}:{serverPort}...");
@@ -73,7 +85,12 @@ public class ClientManager : MonoBehaviour
 
     public void CreateRoom()
     {
-        StartCoroutine(GetServerInfoAndConnect());
+        StartCoroutine(GetServerInfoAndConnect(true));
+    }
+
+    public void JoinRoom()
+    {
+        StartCoroutine(GetServerInfoAndConnect(false));
     }
 
     private IEnumerator TryToStartClient()
