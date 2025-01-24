@@ -4,10 +4,12 @@ import threading
 import random
 import string
 
-HOST = '127.0.0.1'
+# HOST = '127.0.0.1'
+HOST = '157.159.195.98'
 LISTEN_PORT = 7777 # Port d'écoute où tourne notre script python pour gérer les connexions des joueurs
 SERVER_BASE_PORT = 7778 # Le port de base 
-SERVER_EXECUTABLE = "C:/Users/STEEVEN/Desktop/ServerBuild/URG.exe"
+# SERVER_EXECUTABLE = "C:/Users/STEEVEN/Desktop/ServerBuild/URG.exe"
+SERVER_EXECUTABLE = "/home/jlenoir/server/MedievalRacingServer.exe"
 
 server_instances = []
 

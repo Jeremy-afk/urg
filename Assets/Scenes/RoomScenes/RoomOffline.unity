@@ -1180,8 +1180,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4cdcfb7e380c8604a9f6fba51a5e9843, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ip: 127.0.0.1
-  port: 7777
   maxConnectionAttempt: 30
   delayBetweenConnectionAttempt: 1
   sessionCodeHolder: {fileID: 1415068220}
@@ -1769,7 +1767,7 @@ MonoBehaviour:
   onlineScene: Assets/Scenes/RoomScenes/RoomOnline.unity
   offlineSceneLoadDelay: 0
   transport: {fileID: 2008127830}
-  networkAddress: localhost
+  networkAddress: 157.159.195.98
   maxConnections: 100
   disconnectInactiveConnections: 0
   disconnectInactiveTimeout: 60

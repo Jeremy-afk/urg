@@ -14,8 +14,9 @@ using UnityEngine.UI;
 
 public class ClientManager : MonoBehaviour
 {
-    public string ip = "127.0.0.1";
-    public string port = "7777";
+    // private string ip = "127.0.0.1";
+    private string ip = "157.159.195.98";
+    private string port = "7777";
     public int maxConnectionAttempt = 30;
     // Delay in seconds
     public float delayBetweenConnectionAttempt = 1;
@@ -35,6 +36,7 @@ public class ClientManager : MonoBehaviour
         {
             try
             {
+                Debug.Log($"Tentative de connexion à {ip}:{port}...");
                 // Connexion au serveur Python
                 clientSocket.Connect(new IPEndPoint(IPAddress.Parse(ip), int.Parse(port)));
                 Debug.Log("Connecté au serveur Python.");
