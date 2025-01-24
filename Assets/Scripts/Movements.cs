@@ -143,7 +143,8 @@ public class Movements : NetworkBehaviour
         RaycastHit hit;
         if (Physics.Raycast(groundRayPoint.position, -transform.up, out hit, groundRayLength, raycastTarget))
         {
-            Quaternion targetRotation = Quaternion.FromToRotation(transform.up, hit.normal) * transform.rotation; Vector3 currentEulerAngles = transform.eulerAngles;
+            Quaternion targetRotation = Quaternion.FromToRotation(transform.up, hit.normal) * transform.rotation; 
+            Vector3 currentEulerAngles = transform.eulerAngles;
             Vector3 targetEulerAngles = targetRotation.eulerAngles;
 
             // Only changes rotation on X and Z
