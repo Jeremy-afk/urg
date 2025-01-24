@@ -22,7 +22,10 @@ public class Movements : NetworkBehaviour
     [SerializeField]
     private float movementsSpeed = 65.0f;
     [SerializeField]
-    private float maxSpeed = 50.0f;
+    private float maxSpeedNoDrifting = 100.0f;
+    [SerializeField]
+    private float maxSpeedDrifting = 100 - 25;
+    private float maxSpeed;
     [SyncVar]
     private float accelerationDirection;
     [SyncVar]
@@ -220,6 +223,7 @@ public class Movements : NetworkBehaviour
 
         if (holdingDrift)
         {
+            maxSpeed = maxSpeedDrifting;
             // Reduce forward speed while drifting for a looser control feel
             rigidBody.velocity = Vector3.Lerp(rigidBody.velocity, transform.forward * rigidBody.velocity.magnitude * 0.7f, driftFactor * Time.deltaTime);
 
@@ -238,6 +242,7 @@ public class Movements : NetworkBehaviour
         {
             rightWheelPart.Stop();
             leftWheelPart.Stop();
+            maxSpeed = maxSpeedNoDrifting;
         }
         else
         {

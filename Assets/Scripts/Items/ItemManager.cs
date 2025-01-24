@@ -27,11 +27,11 @@ public class ItemManager : NetworkBehaviour
     [Header("Arrow")]
     [SerializeField] private Arrow arrowPrefab;
     [SerializeField] private float arrowSpeed = 1f;
-    [SerializeField] private Vector3 offsetArrow = new(0, 0, 0);
+    public Transform arrowSpawnPosition;
 
     [Header("Trap")]
     [SerializeField] private Trap trapPrefab;
-    [SerializeField] private Vector3 offsetTrap = new(0, 0, 0);
+    public Transform trapSpawnPosition;
 
     private Movements movementsScript;
 
@@ -89,8 +89,8 @@ public class ItemManager : NetworkBehaviour
             {
                 case ItemType.BOW:
                     print("Headshot!");
-                    Vector3 spawnPosition = transform.position + offsetArrow;
-                    Arrow newArrow = Instantiate(arrowPrefab, transform.position + new Vector3(3.0f, 0, 0.0f), Quaternion.identity);
+                    Vector3 spawnPosition = arrowSpawnPosition.position;
+                    Arrow newArrow = Instantiate(arrowPrefab, spawnPosition, Quaternion.identity);
                     newArrow.SetDirection(transform.forward * arrowSpeed);
                     NetworkServer.Spawn(newArrow.gameObject);
                     break;
@@ -106,7 +106,7 @@ public class ItemManager : NetworkBehaviour
                     print("Chling!");
                     break;
                 case ItemType.TRAP:
-                    Trap trap = Instantiate(trapPrefab, transform.position + new Vector3(-2.0f, -transform.position.y, 0.0f), Quaternion.identity);
+                    Trap trap = Instantiate(trapPrefab, trapSpawnPosition.position, Quaternion.identity);
                     NetworkServer.Spawn(trap.gameObject);
                     print("Trapped loser!");
                     break;

@@ -18,7 +18,7 @@ public class Arrow : NetworkBehaviour
         {
             Destroy(gameObject);
         }
-        else if (collided.CompareTag("Wall"))
+        else if (collided.CompareTag("Ground"))
         {
             // Bounce in the future?
             Destroy(this.gameObject);

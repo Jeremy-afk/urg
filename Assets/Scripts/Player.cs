@@ -13,6 +13,11 @@ public class Player : NetworkBehaviour
     private float repulsiveDuration = 0.5f;
 
     private bool collideWithPlayer = false;
+    private bool isHitByArrow = false;
+    private bool isTrapped = false;
+    private float arrowTimer = 0.0f;
+    private float trappedTimer = 0.0f;
+    private float stunDuration = 1.0f;
 
     private Movements moves;
 
@@ -69,6 +74,18 @@ public class Player : NetworkBehaviour
                     collideWithPlayer = true;
                     Debug.Log("Collide with another player");
                 }
+                else if (other.gameObject.CompareTag("Arrow"))
+                {
+                    isHitByArrow = true;
+                    moves.SetMovementActive(false);
+                    Debug.Log("Collide with arrow");
+                }
+                else if (other.gameObject.CompareTag("Trap"))
+                {
+                    isTrapped = true;
+                    moves.SetMovementActive(false);
+                    Debug.Log("Collide with trap");
+                }
             }
         }
     }
@@ -110,5 +127,30 @@ public class Player : NetworkBehaviour
         targetCameraPosition = initialCamPos.position;
         mainCamera.transform.position = Vector3.Lerp(mainCamera.transform.position, targetCameraPosition, Time.deltaTime * cameraLerpSpeedPosition);
         mainCamera.transform.rotation = Quaternion.Lerp(mainCamera.transform.rotation, targetCameraRotation, Time.deltaTime * cameraLerpSpeedRotation);
+
+        if (isHitByArrow){
+            if (arrowTimer < stunDuration)
+            {
+                arrowTimer += Time.deltaTime;
+            }
+            else
+            {
+                arrowTimer = 0;
+                moves.SetMovementActive(true);
+            }
+        }
+
+        if (isTrapped)
+        {
+            if (trappedTimer < stunDuration)
+            {
+                trappedTimer += Time.deltaTime;
+            }
+            else
+            {
+                arrowTimer = 0;
+                moves.SetMovementActive(true);
+            }
+        }
     }
 }

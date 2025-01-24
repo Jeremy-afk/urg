@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &99927961689997891
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4928130330487503053}
+  m_Layer: 0
+  m_Name: ArrowSpawnPosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4928130330487503053
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 99927961689997891}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.25, z: 2.78}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2772221897071357495}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &642380582861509645
 GameObject:
   m_ObjectHideFlags: 0
@@ -4862,6 +4893,37 @@ Transform:
   - {fileID: 4677847724747133791}
   m_Father: {fileID: 2772221897071357495}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1041108159649756576
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2634891355703826622}
+  m_Layer: 0
+  m_Name: TrapSpawnPosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2634891355703826622
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1041108159649756576}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.5, z: -3}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2772221897071357495}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1136528745501484157
 GameObject:
   m_ObjectHideFlags: 0
@@ -4900,7 +4962,7 @@ Transform:
   m_GameObject: {fileID: 1136528745501484157}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 369.9, y: 0.533, z: 282.8}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -4910,6 +4972,8 @@ Transform:
   - {fileID: 4959078383065850531}
   - {fileID: 7607246317924207241}
   - {fileID: 7232352514913836350}
+  - {fileID: 2634891355703826622}
+  - {fileID: 4928130330487503053}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &328080516358278813
@@ -4984,7 +5048,8 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   movementsSpeed: 70
-  maxSpeed: 70
+  maxSpeedNoDrifting: 100
+  maxSpeedDrifting: 75
   rotationSpeed: 45
   turnDrag: 0.5
   normalDrag: 0.25
@@ -5260,9 +5325,9 @@ MonoBehaviour:
   speedBoostDuration: 0.8
   arrowPrefab: {fileID: 3049916369886722278, guid: e4279cb1b88076d45a162eb3003f5066, type: 3}
   arrowSpeed: 1
-  offsetArrow: {x: 0, y: 0, z: 0}
+  arrowSpawnPosition: {fileID: 4928130330487503053}
   trapPrefab: {fileID: 5645339636779247912, guid: a9098edcc0f721b4589022293c75de0f, type: 3}
-  offsetTrap: {x: 0, y: 0, z: 0}
+  trapSpawnPosition: {fileID: 2634891355703826622}
 --- !u!114 &710335740132020894
 MonoBehaviour:
   m_ObjectHideFlags: 0
