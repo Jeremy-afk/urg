@@ -159,4 +159,19 @@ public class Finish : NetworkBehaviour
     {
         Debug.Log("Player " + playerId + " completed a lap! Total Laps: " + laps);
     }
+
+    public int GetPlayerCompletedLap(NetworkIdentity playerIdentity)
+    {
+        return playerLapCount[playerIdentity];
+    }
+
+    public int GetRequiredLaps()
+    {
+        return requiredLaps;
+    }
+
+    public int GetCountdownDelay()
+    {
+        return countdownDelay;
+    }
 }

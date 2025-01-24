@@ -6,6 +6,7 @@ public class Movements : NetworkBehaviour
 {
     private Rigidbody rigidBody;
 
+    [Header("Verticality")]
     //Variables for verticality
     [SerializeField]
     private Transform groundRayPoint;
@@ -14,6 +15,7 @@ public class Movements : NetworkBehaviour
     [SerializeField]
     private LayerMask raycastTarget;
 
+    [Header("Acceleration")]
     // Variables for forward/backward movements
     [SerializeField]
     private AnimationCurve accelerationCurve;
@@ -30,6 +32,7 @@ public class Movements : NetworkBehaviour
     [field: SyncVar]
     public float BonusSpeedMultTime { get; set; } = 0f;
 
+    [Header("Turn movements")]
     // Variables for left/right movements
     private Vector3 rotations;
     [SerializeField]
@@ -37,16 +40,26 @@ public class Movements : NetworkBehaviour
     private bool holdingQD;
     [SerializeField]
     private float turnDrag = 0.25f;
+    [SerializeField]
+    private float normalDrag = 0.1f;
 
+    [Header("Drifting")]
     // Variables for drifting
-    [SerializeField, Range(0, 1)] private float driftFactor;
+    [SerializeField, Range(0, 1)]
+    private float driftFactor;
+    [SerializeField]
+    private ParticleSystem rightWheelPart;
+    [SerializeField]
+    private ParticleSystem leftWheelPart;
     private bool holdingDrift = false;
 
-    private AudioSource klaxonSound;
-    [SyncVar]
-    private bool canMove = false;
-    private Player activePlayer;
+    [Header("Animations")]
+    [SerializeField]
     private ParticleSystem smoke;
+
+    private AudioSource klaxonSound;
+    private Player activePlayer;
+    [SyncVar] private bool canMove = false;
 
     // Called by the server to allow the player to move or not
     public void SetMovementActive(bool active)
@@ -111,7 +124,6 @@ public class Movements : NetworkBehaviour
         rigidBody = GetComponent<Rigidbody>();
         klaxonSound = GetComponent<AudioSource>();
         activePlayer = GetComponent<Player>();
-        smoke = GetComponent<ParticleSystem>();
     }
 
     private void FixedUpdate()
@@ -150,7 +162,7 @@ public class Movements : NetworkBehaviour
         {
             // If the player is inputing a movement, we want to accelerate towards its max speed using an acceleration curve
             // by using the DIFFERENCE between the current speed and the max speed
-            rigidBody.drag = 0;
+            rigidBody.drag = normalDrag;
             if (BonusSpeedMultTime > 0)
             {
                 print("Applying bonus!");
@@ -183,7 +195,7 @@ public class Movements : NetworkBehaviour
             }
             rigidBody.AddForce(acceleration * transform.forward, ForceMode.Acceleration);
             var emitParams = new ParticleSystem.EmitParams();
-            smoke.Emit(emitParams, Mathf.RoundToInt(rigidBody.velocity.magnitude/maxSpeed*1.5f));
+            smoke.Emit(emitParams, Mathf.RoundToInt(rigidBody.velocity.magnitude / maxSpeed * 1.5f));
 
             //print("acceleration at " + acceleration + " m/s");
         }
@@ -194,12 +206,15 @@ public class Movements : NetworkBehaviour
 
         if (holdingQD)
         {
+            if (!holdingDrift)
+            {
+                rigidBody.drag = turnDrag;
+            }
             float currentSpeed = Vector3.Dot(rigidBody.velocity, transform.forward);
             if (currentSpeed < -0.1 || currentSpeed > 0.1)
             {
                 Quaternion quaternionRotation = Quaternion.Euler(rotations);
                 rigidBody.MoveRotation(rigidBody.rotation * quaternionRotation);
-                rigidBody.drag = turnDrag;
             }
         }
 
@@ -216,6 +231,13 @@ public class Movements : NetworkBehaviour
             float driftTurnAmount = rotations.y * rotationSpeed * Time.deltaTime;
             Quaternion driftTurnRotation = Quaternion.Euler(0f, driftTurnAmount, 0f);
             rigidBody.MoveRotation(rigidBody.rotation * driftTurnRotation);
+            rightWheelPart.Play();
+            leftWheelPart.Play();
+        }
+        if (!holdingDrift)
+        {
+            rightWheelPart.Stop();
+            leftWheelPart.Stop();
         }
         else
         {
@@ -226,5 +248,20 @@ public class Movements : NetworkBehaviour
     public float GetMaxSpeed()
     {
         return maxSpeed;
+    }
+
+    public bool GetHoldingDrift()
+    {
+        return holdingDrift;
+    }
+
+    public Vector3 GetRotations()
+    {
+        return rotations;
+    }
+
+    public bool GetHoldingQD()
+    {
+        return holdingQD;
     }
 }

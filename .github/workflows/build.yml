@@ -1,15 +1,14 @@
 name: Build and Deploy Unity Server
 
 on:
-  push:
-    branches:
-      - dev  # or any branch you'd like to trigger the build on
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest  # You can use other OSes as well
 
     steps:
+
     - name: Checkout repository
       uses: actions/checkout@v3
       
@@ -17,35 +16,38 @@ jobs:
       uses: actions/cache@v4
       with:
         path: Library
-        key: Library-PFE
+        key: Library-${{ runner.os }}-${{ hashFiles('**/*.cs') }}
         restore-keys: |
-          Library-PFE-
-          Library-
+          Library-${{ runner.os }}-
 
-    - name: Unity - Builder
+    - name: Building Server
       uses: game-ci/unity-builder@v4.3.0
       env:
         UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
         UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
         UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
       with:
-        targetPlatform: StandaloneWindows64
+        buildMethod: MedievalRacingBuildPipeline.HeadlessBuildServerForLinux
+        targetPlatform: StandaloneLinux64
         unityVersion: '2022.3.47f1'
+        customParameters: -standaloneBuildSubtarget Server
+    
+    - run: ls -la Library
 
-    - name: Build the server
-      run: |
-        /usr/bin/Unity -batchmode -nographics -quit -projectPath ${{ github.workspace }} -executeMethod BuildScript.BuildServer -buildTarget StandaloneLinux64 -logFile build.log
-
-    - name: Upload build artifacts
-      uses: actions/upload-artifact@v3
+    - name: Saving Server Build
+      uses: actions/upload-artifact@v4
       with:
-        name: unity-server-build
-        path: ./Build/*  # Adjust the path if necessary
+        name: MedievalRacingServer
+        path: ./Builds/Server
+        if-no-files-found: warn
+
+    - name: Setup SSH
+      uses: webfactory/ssh-agent@v0.7.0
+      with:
+        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
     - name: Deploy to VM
-      env:
-        PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
       run: |
-        ssh -i $PRIVATE_KEY -o StrictHostKeyChecking=no jlenoir@157.159.195.98 "mkdir -p /jlenoir/home/server && rm -rf /jlenoir/home/server/*"
-        scp -i $PRIVATE_KEY -r ./Build/* jlenoir@157.159.195.98:/jlenoir/home/server
-        ssh -i $PRIVATE_KEY -o StrictHostKeyChecking=no jlenoir@157.159.195.98 "cd /jlenoir/home/server && nohup /jlenoir/home/server/server.x86_64 &"
+        ssh -o StrictHostKeyChecking=no jlenoir@157.159.195.98 "mkdir -p /home/jlenoir/server && rm -rf /home/jlenoir/server_lastest_version/*"
+        scp -r ./Builds/Server/* jlenoir@157.159.195.98:/home/jlenoir/server_lastest_version
+        ssh -o StrictHostKeyChecking=no jlenoir@157.159.195.98 "/home/jlenoir/scripts/hooks/new_version_available.sh"
