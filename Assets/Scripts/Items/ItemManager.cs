@@ -91,7 +91,9 @@ public class ItemManager : NetworkBehaviour
                     print("Headshot!");
                     Vector3 spawnPosition = arrowSpawnPosition.position;
                     Arrow newArrow = Instantiate(arrowPrefab, spawnPosition, Quaternion.identity);
-                    newArrow.SetDirection(transform.forward * arrowSpeed);
+                    Vector3 shootDirection = transform.forward;
+                    newArrow.SetDirection(shootDirection * arrowSpeed);
+                    newArrow.SetOrientation(shootDirection);
                     NetworkServer.Spawn(newArrow.gameObject);
                     break;
                 case ItemType.FEATHER:

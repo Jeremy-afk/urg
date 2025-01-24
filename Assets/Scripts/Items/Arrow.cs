@@ -8,9 +8,15 @@ public class Arrow : NetworkBehaviour
     private Vector3 direction;
 
     public void SetDirection(Vector3 newDirection)
-    {
+    { 
         direction = newDirection.normalized;
     }
+
+    public void SetOrientation(Vector3 shootDirection)
+    {
+        transform.rotation = Quaternion.LookRotation(shootDirection, Vector3.up);
+    }
+
 
     public void OnTriggerEnter(Collider collided)
     {
@@ -27,6 +33,6 @@ public class Arrow : NetworkBehaviour
 
     private void FixedUpdate()
     {
-        transform.Translate(speed * Time.deltaTime * direction);
+        transform.position += direction * speed * Time.deltaTime;
     }
 }
