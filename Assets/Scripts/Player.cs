@@ -75,18 +75,6 @@ public class Player : NetworkBehaviour
                     collideWithPlayer = true;
                     Debug.Log("Collide with another player");
                 }
-                /*else if (other.gameObject.CompareTag("Arrow"))
-                {
-                    isHitByArrow = true;
-                    moves.SetMovementActive(false);
-                    Debug.Log("Collide with arrow");
-                }*/
-                else if (other.gameObject.CompareTag("Trap"))
-                {
-                    isTrapped = true;
-                    moves.SetMovementActive(false);
-                    Debug.Log("Collide with trap");
-                }
             }
         }
     }
@@ -149,7 +137,7 @@ public class Player : NetworkBehaviour
             }
             else
             {
-                arrowTimer = 0;
+                trappedTimer = 0;
                 moves.SetMovementActive(true);
             }
         }

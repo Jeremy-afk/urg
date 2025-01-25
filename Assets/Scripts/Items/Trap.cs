@@ -19,6 +19,7 @@ public class Trap : NetworkBehaviour
             {
                 Debug.Log("Trap triggered");
                 player = collided.GetComponent<Player>();
+                Debug.Log(player !=null);
                 player.GetMoves().SetMovementActive(false);
                 player.SetIsTrapped(true);
                 //Destroy the trap
