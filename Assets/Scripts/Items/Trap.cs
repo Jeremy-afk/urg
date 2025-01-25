@@ -9,13 +9,21 @@ public class Trap : NetworkBehaviour
     private float groundRayLength = 1.5f;
     [SerializeField]
     private LayerMask raycastTarget;
+    private Player player;
 
     public void OnTriggerEnter(Collider collided)
     {
-        if (collided.CompareTag("Player"))
+        if (collided.TryGetComponent(out NetworkIdentity id))
         {
-            print("TRAP ACTIVATION");
-            Destroy(gameObject);
+            if (collided.CompareTag("Player"))
+            {
+                Debug.Log("Trap triggered");
+                player = collided.GetComponent<Player>();
+                player.GetMoves().SetMovementActive(false);
+                player.SetIsTrapped(true);
+                //Destroy the trap
+                Destroy(gameObject);
+            }
         }
     }
 

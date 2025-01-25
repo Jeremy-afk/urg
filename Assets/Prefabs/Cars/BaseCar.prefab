@@ -5302,6 +5302,7 @@ MonoBehaviour:
   initialCamPos: {fileID: 3378587095291577671}
   rigidBody: {fileID: 8901222850518343056}
   repulsiveForce: 5
+  stunDuration: 2
   minFOV: 60
   maxFOV: 120
   cameraLerpSpeedRotation: 5
