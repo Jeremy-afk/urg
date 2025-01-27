@@ -143,7 +143,7 @@ public class Movements : NetworkBehaviour
         RaycastHit hit;
         if (Physics.Raycast(groundRayPoint.position, -transform.up, out hit, groundRayLength, raycastTarget))
         {
-            Quaternion targetRotation = Quaternion.FromToRotation(transform.up, hit.normal) * transform.rotation; 
+            Quaternion targetRotation = Quaternion.FromToRotation(transform.up, hit.normal) * transform.rotation;
             Vector3 currentEulerAngles = transform.eulerAngles;
             Vector3 targetEulerAngles = targetRotation.eulerAngles;
 
@@ -239,15 +239,11 @@ public class Movements : NetworkBehaviour
             rightWheelPart.Play();
             leftWheelPart.Play();
         }
-        if (!holdingDrift)
+        else
         {
             rightWheelPart.Stop();
             leftWheelPart.Stop();
             maxSpeed = maxSpeedNoDrifting;
-        }
-        else
-        {
-            // TODO: Apply traction to the car's wheels by converting part of the car's speed vector towards the car's forward vector
         }
     }
 
