@@ -28,8 +28,13 @@ public class GameManager : NetworkBehaviour
         finishedUi.SetActive(true);
     }
 
-    public void RegisterPlayer(NetworkIdentity player)
+    /// <summary>
+    /// Register a player for the race
+    /// </summary>
+    /// <param name="player"></param>
+    /// <returns>The team number</returns>
+    public uint RegisterPlayer(NetworkIdentity player)
     {
-        finishLine.RegisterPlayer(player);
+        return finishLine.RegisterPlayer(player);
     }
 }

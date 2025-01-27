@@ -1,9 +1,6 @@
 using Mirror;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
+using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
@@ -11,7 +8,7 @@ public class UIManager : MonoBehaviour
     private Finish finishLine;
 
     private TextMeshProUGUI timerText;
-    static float timer;
+    private float timer;
 
     private TextMeshProUGUI lapText;
 
@@ -21,7 +18,7 @@ public class UIManager : MonoBehaviour
         playerIdentity = GetComponent<NetworkIdentity>();
         finishLine = GameObject.Find("Finish").GetComponent<Finish>();
 
-        timerText = GameObject.Find("GameUi/LapTimer/Timer").GetComponent< TextMeshProUGUI>();
+        timerText = GameObject.Find("GameUi/LapTimer/Timer").GetComponent<TextMeshProUGUI>();
         lapText = GameObject.Find("GameUi/LapTimer/LapCount").GetComponent<TextMeshProUGUI>();
 
         timer = 0;
@@ -35,7 +32,7 @@ public class UIManager : MonoBehaviour
             timer += Time.deltaTime;
             return;
         }
-        int lapCount = finishLine.GetPlayerCompletedLap(playerIdentity) + 1;
+        int lapCount = finishLine.GetPlayerCompletedLapCount(playerIdentity) + 1;
         int requiredLap = finishLine.GetRequiredLaps();
         if (lapCount <= requiredLap)
         {

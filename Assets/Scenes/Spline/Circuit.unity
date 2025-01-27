@@ -647,7 +647,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!43 &277858451
+--- !u!43 &363614321
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1929,7 +1929,7 @@ MonoBehaviour:
     m_DataPoints: []
   m_Spline: {fileID: 1069567230}
   m_SegmentsPerMeter: 10
-  m_Mesh: {fileID: 277858451}
+  m_Mesh: {fileID: 363614321}
   m_TextureScale: 100
 --- !u!33 &1069567233
 MeshFilter:
@@ -1938,7 +1938,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1069567229}
-  m_Mesh: {fileID: 277858451}
+  m_Mesh: {fileID: 363614321}
 --- !u!23 &1069567234
 MeshRenderer:
   m_ObjectHideFlags: 0

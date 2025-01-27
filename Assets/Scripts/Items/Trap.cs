@@ -1,37 +1,33 @@
-using Mirror;
 using UnityEngine;
 
-public class Trap : NetworkBehaviour
+public class Trap : ThrowableItem
 {
+    [Header("Trap")]
+    [SerializeField]
+    private float stunDuration = 1.5f;
+
+    [Header("Placement")]
     [SerializeField]
     private Transform groundRayPoint;
     [SerializeField]
     private float groundRayLength = 1.5f;
     [SerializeField]
     private LayerMask raycastTarget;
-    private Player player;
 
-    public void OnTriggerEnter(Collider collided)
+    protected override void OnHit(Collider damageable)
     {
-        if (collided.TryGetComponent(out NetworkIdentity id))
+        Debug.Log("Trap triggered");
+
+        if (damageable.TryGetComponent(out Player player))
         {
-            if (collided.CompareTag("Player"))
-            {
-                Debug.Log("Trap triggered");
-                player = collided.GetComponent<Player>();
-                Debug.Log(player !=null);
-                player.GetMoves().SetMovementActive(false);
-                player.SetIsTrapped(true);
-                //Destroy the trap
-                Destroy(gameObject);
-            }
+            player.Stun(stunDuration);
+            Destroy(gameObject);
         }
     }
 
     private void Start()
     {
-        RaycastHit hit;
-        if (Physics.Raycast(groundRayPoint.position, -transform.up, out hit, groundRayLength, raycastTarget))
+        if (Physics.Raycast(groundRayPoint.position, -transform.up, out RaycastHit hit, groundRayLength, raycastTarget))
         {
             Quaternion targetRotation = Quaternion.FromToRotation(transform.up, hit.normal) * transform.rotation;
             Vector3 currentEulerAngles = transform.eulerAngles;

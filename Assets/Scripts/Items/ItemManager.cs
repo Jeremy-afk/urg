@@ -18,6 +18,7 @@ public class ItemManager : NetworkBehaviour
     [field: SyncVar]
     public bool CanUseItem { get; set; } = true;
 
+
     public static event Action<ItemType> OnItemChanged;
 
     [Header("Potion")]
@@ -27,22 +28,25 @@ public class ItemManager : NetworkBehaviour
     [Header("Arrow")]
     [SerializeField] private Arrow arrowPrefab;
     [SerializeField] private float arrowSpeed = 1f;
-    public Transform arrowSpawnPosition;
+    [SerializeField] private Transform arrowSpawnPosition;
 
     [Header("Trap")]
     [SerializeField] private Trap trapPrefab;
-    public Transform trapSpawnPosition;
+    [SerializeField] private Transform trapSpawnPosition;
 
     private Movements movementsScript;
+    private uint playerTeam;
 
     [SyncVar(hook = nameof(OnItemInHandChanged))]
     private ItemType itemInHand = ItemType.NOTHING;
 
     private void Start()
     {
+        playerTeam = GetComponent<Player>().GetTeam();
         movementsScript = GetComponent<Movements>();
     }
 
+    [Client]
     private void OnItemInHandChanged(ItemType oldValue, ItemType newValue)
     {
         if (isLocalPlayer)
@@ -62,6 +66,7 @@ public class ItemManager : NetworkBehaviour
         return itemInHand;
     }
 
+    [Client]
     public void RequestItemUse(InputAction.CallbackContext context)
     {
         if (context.performed && CanUseItem && isLocalPlayer)
@@ -94,6 +99,7 @@ public class ItemManager : NetworkBehaviour
                     Vector3 shootDirection = transform.forward;
                     newArrow.SetDirection(shootDirection * arrowSpeed);
                     newArrow.SetOrientation(shootDirection);
+                    newArrow.SetTeam(playerTeam);
                     NetworkServer.Spawn(newArrow.gameObject);
                     break;
                 case ItemType.FEATHER:
@@ -109,6 +115,7 @@ public class ItemManager : NetworkBehaviour
                     break;
                 case ItemType.TRAP:
                     Trap trap = Instantiate(trapPrefab, trapSpawnPosition.position, Quaternion.identity);
+                    trap.SetTeam(playerTeam);
                     NetworkServer.Spawn(trap.gameObject);
                     print("Trapped loser!");
                     break;

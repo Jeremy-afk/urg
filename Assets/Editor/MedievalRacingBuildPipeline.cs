@@ -43,7 +43,7 @@ public class MedievalRacingBuildPipeline
     [MenuItem("File/Custom Build/Server Build")]
     public static void BuildServerForLinux()
     {
-        var path = EditorUtility.SaveFolderPanel("Choose Server Build Location", DEFAULT_BUILD_REPO, "New Server Build");
+        var path = EditorUtility.SaveFolderPanel("Choose Server Build Location", DEFAULT_BUILD_REPO, "");
         Directory.CreateDirectory(path + "/Server");
 
         var buildPlayerOptions = new BuildPlayerOptions
