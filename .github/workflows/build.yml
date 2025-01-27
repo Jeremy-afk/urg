@@ -2,10 +2,23 @@ name: Build and Deploy Unity Server
 
 on:
   workflow_dispatch:
+    inputs:
+      serverManagerSourcePath:
+        description: "Local path to the server manager in this repository (relative to the repository root)"
+        required: true
+        default: "server_manager.py"
+      serverManagerDestinationPath:
+        description: "Path of where the server manager will be located in the VM"
+        required: true
+        default: "/home/jlenoir/server_manager.py"
+      runServerManager:
+        description: "Trigger the new version available script."
+        required: true
+        default: "true"
 
 jobs:
   build:
-    runs-on: ubuntu-latest  # You can use other OSes as well
+    runs-on: ubuntu-latest
 
     steps:
 
@@ -46,8 +59,22 @@ jobs:
       with:
         ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-    - name: Deploy to VM
+    - name: Deploy Server Script
+      run: |
+        if [ -f "${{ github.event.inputs.serverManagerSourcePath }}" ]; then
+          scp ${{ github.event.inputs.serverManagerSourcePath }} jlenoir@157.159.195.98:${{ github.event.inputs.serverManagerDestinationPath }}
+          echo "Uploaded server manager to VM (at ${{ github.event.inputs.serverManagerDestinationPath }})."
+        else
+          echo "Error: File ${{ github.event.inputs.serverManagerSourcePath }} does not exist!"
+          echo "Warning: Server manager was not updated!"
+          exit 1
+        fi
+
+    - name: Deploy Build to VM
       run: |
         ssh -o StrictHostKeyChecking=no jlenoir@157.159.195.98 "mkdir -p /home/jlenoir/server && rm -rf /home/jlenoir/server_lastest_version/*"
         scp -r ./Builds/Server/* jlenoir@157.159.195.98:/home/jlenoir/server_lastest_version
-        ssh -o StrictHostKeyChecking=no jlenoir@157.159.195.98 "/home/jlenoir/scripts/hooks/new_version_available.sh"
+        if [ "${{ github.event.inputs.runServerManager }}" == "true" ]; then
+            echo "Launching server..."
+          ssh -o StrictHostKeyChecking=no jlenoir@157.159.195.98 "/home/jlenoir/scripts/hooks/new_version_available.sh"
+        fi

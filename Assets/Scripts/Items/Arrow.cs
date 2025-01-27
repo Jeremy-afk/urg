@@ -7,18 +7,34 @@ public class Arrow : NetworkBehaviour
 
     private Vector3 direction;
 
+    private Player player;
+
     public void SetDirection(Vector3 newDirection)
-    {
+    { 
         direction = newDirection.normalized;
     }
 
+    public void SetOrientation(Vector3 shootDirection)
+    {
+        transform.rotation = Quaternion.LookRotation(shootDirection, Vector3.up);
+    }
+
+
     public void OnTriggerEnter(Collider collided)
     {
-        if (collided.CompareTag("Player"))
+        if (collided.TryGetComponent(out NetworkIdentity id))
         {
-            Destroy(gameObject);
+            if (collided.CompareTag("Player"))
+            {
+                Debug.Log("You have been hit!");
+                player = collided.GetComponent<Player>();
+                player.GetMoves().SetMovementActive(false);
+                player.SetIsHitByArrow(true);
+                //Destroy the arrow
+                Destroy(gameObject);
+            }
         }
-        else if (collided.CompareTag("Wall"))
+        else if (collided.CompareTag("Ground"))
         {
             // Bounce in the future?
             Destroy(this.gameObject);
@@ -27,6 +43,11 @@ public class Arrow : NetworkBehaviour
 
     private void FixedUpdate()
     {
-        transform.Translate(speed * Time.deltaTime * direction);
+        transform.position += direction * speed * Time.deltaTime;
+    }
+
+    private void Update()
+    {
+
     }
 }

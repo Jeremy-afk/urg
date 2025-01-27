@@ -21,11 +21,7 @@ public class OfflineRoomUI : MonoBehaviour
 
     private void StartClient()
     {
-        // Récupérer l'adresse du serveur
-        string address = MyNetworkRoomManager.singleton.networkAddress;
-
-        // Démarrer le client
-        MyNetworkRoomManager.singleton.StartClient();
+        clientManager.JoinRoom();
     }
 
 }

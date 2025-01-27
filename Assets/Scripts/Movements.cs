@@ -6,6 +6,7 @@ public class Movements : NetworkBehaviour
 {
     private Rigidbody rigidBody;
 
+    [Header("Verticality")]
     //Variables for verticality
     [SerializeField]
     private Transform groundRayPoint;
@@ -14,13 +15,17 @@ public class Movements : NetworkBehaviour
     [SerializeField]
     private LayerMask raycastTarget;
 
+    [Header("Acceleration")]
     // Variables for forward/backward movements
     [SerializeField]
     private AnimationCurve accelerationCurve;
     [SerializeField]
     private float movementsSpeed = 65.0f;
     [SerializeField]
-    private float maxSpeed = 50.0f;
+    private float maxSpeedNoDrifting = 100.0f;
+    [SerializeField]
+    private float maxSpeedDrifting = 100 - 25;
+    private float maxSpeed;
     [SyncVar]
     private float accelerationDirection;
     [SyncVar]
@@ -30,27 +35,34 @@ public class Movements : NetworkBehaviour
     [field: SyncVar]
     public float BonusSpeedMultTime { get; set; } = 0f;
 
+    [Header("Turn movements")]
     // Variables for left/right movements
     private Vector3 rotations;
     [SerializeField]
     private float rotationSpeed;
     private bool holdingQD;
     [SerializeField]
-    private float turnDrag = 0.25f; 
+    private float turnDrag = 0.25f;
     [SerializeField]
     private float normalDrag = 0.1f;
 
+    [Header("Drifting")]
     // Variables for drifting
-    [SerializeField, Range(0, 1)] private float driftFactor;
+    [SerializeField, Range(0, 1)]
+    private float driftFactor;
+    [SerializeField]
+    private ParticleSystem rightWheelPart;
+    [SerializeField]
+    private ParticleSystem leftWheelPart;
     private bool holdingDrift = false;
-    public ParticleSystem rightWheelPart;
-    public ParticleSystem leftWheelPart;
+
+    [Header("Animations")]
+    [SerializeField]
+    private ParticleSystem smoke;
 
     private AudioSource klaxonSound;
-    [SyncVar]
-    private bool canMove = false;
     private Player activePlayer;
-    public ParticleSystem smoke;
+    [SyncVar] private bool canMove = false;
 
     // Called by the server to allow the player to move or not
     public void SetMovementActive(bool active)
@@ -131,7 +143,8 @@ public class Movements : NetworkBehaviour
         RaycastHit hit;
         if (Physics.Raycast(groundRayPoint.position, -transform.up, out hit, groundRayLength, raycastTarget))
         {
-            Quaternion targetRotation = Quaternion.FromToRotation(transform.up, hit.normal) * transform.rotation; Vector3 currentEulerAngles = transform.eulerAngles;
+            Quaternion targetRotation = Quaternion.FromToRotation(transform.up, hit.normal) * transform.rotation; 
+            Vector3 currentEulerAngles = transform.eulerAngles;
             Vector3 targetEulerAngles = targetRotation.eulerAngles;
 
             // Only changes rotation on X and Z
@@ -186,7 +199,7 @@ public class Movements : NetworkBehaviour
             }
             rigidBody.AddForce(acceleration * transform.forward, ForceMode.Acceleration);
             var emitParams = new ParticleSystem.EmitParams();
-            smoke.Emit(emitParams, Mathf.RoundToInt(rigidBody.velocity.magnitude/maxSpeed*1.5f));
+            smoke.Emit(emitParams, Mathf.RoundToInt(rigidBody.velocity.magnitude / maxSpeed * 1.5f));
 
             //print("acceleration at " + acceleration + " m/s");
         }
@@ -211,6 +224,7 @@ public class Movements : NetworkBehaviour
 
         if (holdingDrift)
         {
+            maxSpeed = maxSpeedDrifting;
             // Reduce forward speed while drifting for a looser control feel
             rigidBody.velocity = Vector3.Lerp(rigidBody.velocity, transform.forward * rigidBody.velocity.magnitude * 0.7f, driftFactor * Time.deltaTime);
 
@@ -227,8 +241,9 @@ public class Movements : NetworkBehaviour
         }
         if (!holdingDrift)
         {
-            rightWheelPart.Clear();
-            leftWheelPart.Clear();
+            rightWheelPart.Stop();
+            leftWheelPart.Stop();
+            maxSpeed = maxSpeedNoDrifting;
         }
         else
         {
@@ -240,12 +255,12 @@ public class Movements : NetworkBehaviour
     {
         return maxSpeed;
     }
-    
+
     public bool GetHoldingDrift()
     {
         return holdingDrift;
     }
-    
+
     public Vector3 GetRotations()
     {
         return rotations;

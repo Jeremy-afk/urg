@@ -1,6 +1,9 @@
 using kcp2k;
 using Mirror;
+using System;
+using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 
 public class MyNetworkRoomManager : NetworkRoomManager
@@ -56,6 +59,12 @@ public class MyNetworkRoomManager : NetworkRoomManager
         // spawn the initial batch of Rewards
         //if (sceneName == GameplayScene)
         //    Spawner.InitialSpawn();
+
+
+        if (sceneName == offlineScene)
+        {
+            TextMeshProUGUI sessionCodeText = FindObjectOfType<TextMeshProUGUI>();
+        }
     }
 
     /// <summary>
