@@ -45,6 +45,7 @@ public class Player : NetworkBehaviour, IDamageable
 
         // Enregistrer le joueur dans le GameManager
         SetTeam(GameManager.Instance.RegisterPlayer(GetComponent<NetworkIdentity>()));
+        print("registered player with team " + team);
 
         if (!isLocalPlayer) return;
 

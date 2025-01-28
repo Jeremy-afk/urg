@@ -11,21 +11,32 @@ public class Finish : NetworkBehaviour
     [SerializeField] private Checkpoint[] checkpoints;
 
     [Header("Client Events")]
+    [SerializeField] private UnityEvent<float> onCountdownStart; // Countdown time in seconds
+    [SerializeField] private UnityEvent onRaceStart;
     [SerializeField] private UnityEvent<int> onLapCompleted; // int is the number of laps completed
-    [SerializeField] private UnityEvent<int> onNewPlacement; // int is the new position
-    [SerializeField] private UnityEvent<int> onRaceFinished;
+    [SerializeField] private UnityEvent<int> onPlayerFinishedRace;
+    [SerializeField] private UnityEvent onRaceFinished;
 
     private Dictionary<NetworkIdentity, int> playerLapCount = new();
 
+    private NetworkIdentity[] placements; // Players in order of finish, only communicated to clients at the end
+
     private Player localPlayer;
     private int localPlayerPosition = 0;
+    private int playerExpectedCount = 0;
+    private int playerRegisteredCount = 0;
     private int finishedPlayerCount = 0;
     private int teamCount = 0;
+    private bool registrationsOpened = true;
     private bool inRace = true;
 
     private void Start()
     {
-        if (isLocalPlayer) localPlayer = GetComponent<Player>();
+        if (isServer)
+        {
+            NetworkManager nm = FindObjectOfType<NetworkManager>();
+            playerExpectedCount = nm.numPlayers;
+        }
     }
 
     /// <summary>
@@ -35,6 +46,12 @@ public class Finish : NetworkBehaviour
     /// <returns>The team number</returns>
     public uint RegisterPlayersAsTeam(NetworkIdentity[] playerIdentities)
     {
+        if (!registrationsOpened)
+        {
+            Debug.LogError("Attempted to register a team after registrations were closed.");
+            return 0;
+        }
+
         foreach (var playerIdentity in playerIdentities)
         {
             RegisterPlayer(playerIdentity, false);
@@ -52,16 +69,31 @@ public class Finish : NetworkBehaviour
     /// <returns>The team number</returns>
     public uint RegisterPlayer(NetworkIdentity playerIdentity, bool countAsTeam = true)
     {
+        if (!registrationsOpened)
+        {
+            Debug.LogError("Attempted to register a player after registrations were closed.");
+            return 0;
+        }
+
         if (playerIdentity)
         {
             playerLapCount[playerIdentity] = 0;
             ResetPlayerCheckpoints(playerIdentity);
-            Debug.Log("Player " + playerIdentity.netId + " registered successfully.");
 
             if (countAsTeam)
             {
                 teamCount++;
             }
+
+            playerRegisteredCount++;
+            if (playerRegisteredCount >= playerExpectedCount)
+            {
+                StartCountdown();
+            }
+
+            if (playerIdentity.isLocalPlayer) localPlayer = playerIdentity.GetComponent<Player>();
+
+            Debug.Log("Player " + playerIdentity.netId + " registered successfully.");
 
             return (uint)teamCount;
         }
@@ -71,11 +103,15 @@ public class Finish : NetworkBehaviour
         return 0;
     }
 
+    [Server]
     public void StartCountdown()
     {
+        registrationsOpened = false;
+        placements = new NetworkIdentity[playerLapCount.Count];
         StartCoroutine(StartRaceAnimation());
     }
 
+    [Server]
     private IEnumerator StartRaceAnimation()
     {
         Debug.Log("Waiting for countdown");
@@ -83,11 +119,15 @@ public class Finish : NetworkBehaviour
         yield return new WaitForSeconds(countdownDelay);
 
         Debug.Log("Countdown started");
-        // TODO: Make a countdown animation (use a separate script for this)
+
+        RpcCountdownStart(countdownDelay);
+
         Debug.Log("Countdown finished");
+
         StartRace();
     }
 
+    [Server]
     private void StartRace()
     {
         foreach (var playerIdentity in playerLapCount.Keys)
@@ -95,8 +135,9 @@ public class Finish : NetworkBehaviour
             Movements playerMovements = playerIdentity.GetComponent<Movements>();
             playerMovements.SetMovementActive(true);
         }
-
         Debug.Log("Race started, moving enabled!");
+
+        RpcRaceStart();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -112,6 +153,25 @@ public class Finish : NetworkBehaviour
 
     #region Race Events
 
+    [ClientRpc]
+    private void RpcCountdownStart(float duration)
+    {
+        onCountdownStart.Invoke(duration);
+    }
+
+    [ClientRpc]
+    private void RpcRaceStart()
+    {
+        onRaceStart.Invoke();
+    }
+
+    [Server]
+    private void OnRaceFinished()
+    {
+        // Communicate the placements to all clients
+        RpcUpdatePlacement(placements);
+    }
+
     [Server]
     private void OnPlayerFinishedRace(NetworkIdentity playerIdentity)
     {
@@ -120,15 +180,22 @@ public class Finish : NetworkBehaviour
         Movements playerMovements = playerIdentity.GetComponent<Movements>();
         playerMovements.SetMovementActive(false);
 
+        placements[finishedPlayerCount] = playerIdentity;
         finishedPlayerCount++;
         RpcPlayerFinishedRace(playerIdentity.netId, finishedPlayerCount);
+
+        if (finishedPlayerCount >= playerLapCount.Count)
+        {
+            // All players have finished
+            OnRaceFinished();
+        }
     }
 
     [ClientRpc]
     private void RpcLapCompletion(uint playerIdentity, int laps)
     {
         // If we're the player that completed the lap, update the UI
-        if (playerIdentity == localPlayer.netId)
+        if (localPlayer && playerIdentity == localPlayer.netId)
         {
             onLapCompleted.Invoke(laps);
         }
@@ -149,7 +216,7 @@ public class Finish : NetworkBehaviour
             playerMovements.SetMovementActive(false);
 
             GameManager.Instance.ShowFinishedUi();
-            onRaceFinished.Invoke(localPlayerPosition);
+            onPlayerFinishedRace.Invoke(confirmedPlacement);
         }
     }
 
@@ -240,6 +307,13 @@ public class Finish : NetworkBehaviour
         return countdownDelay;
     }
     #endregion
+
+    [ClientRpc]
+    public void RpcUpdatePlacement(NetworkIdentity[] newPlacements)
+    {
+        placements = newPlacements;
+        onRaceFinished.Invoke();
+    }
 
     // Preview of the current placementv (it may not be 100% accurate since this is only computed client side)
     [Client]

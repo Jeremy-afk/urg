@@ -18,11 +18,6 @@ public class GameManager : NetworkBehaviour
         Instance = this;
     }
 
-    private void Start()
-    {
-        finishLine.StartCountdown();
-    }
-
     public void ShowFinishedUi()
     {
         finishedUi.SetActive(true);
