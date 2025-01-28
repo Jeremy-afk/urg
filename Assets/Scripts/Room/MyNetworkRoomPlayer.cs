@@ -36,6 +36,13 @@ public class MyNetworkRoomPlayer : NetworkRoomPlayer
     public override void OnClientExitRoom()
     {
         base.OnClientExitRoom();
-        FindObjectOfType<OnlineRoomUI>().UpdateUI();
+        try
+        {
+            FindObjectOfType<OnlineRoomUI>().UpdateUI();
+        }
+        catch (Exception e)
+        {
+            Debug.LogException(e);
+        }
     }
 }
