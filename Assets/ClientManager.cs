@@ -14,8 +14,8 @@ using UnityEngine.UI;
 
 public class ClientManager : MonoBehaviour
 {
-    private string ip = "127.0.0.1";
-    // private string ip = "157.159.195.98";
+    // private string ip = "127.0.0.1";
+    private string ip = "157.159.195.98";
     private string port = "7777";
     public int maxConnectionAttempt = 30;
     // Delay in seconds
