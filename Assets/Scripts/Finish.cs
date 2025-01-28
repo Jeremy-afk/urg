@@ -32,7 +32,7 @@ public class Finish : NetworkBehaviour
 
     private void Start()
     {
-        AudioManager.Instance.PlaySoundEffect(AudioManager.Instance.startSound);
+        AudioManager.Instance.PlaySoundEffect(AudioManager.Instance.startSound, 0.75f);
 
         if (isServer)
         {
