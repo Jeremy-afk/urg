@@ -130,6 +130,7 @@ public class Player : NetworkBehaviour, IDamageable
 
     public void Stun(float duration)
     {
+        print("stun!");
         isStunned = true;
         stunTimer = duration;
         moves.SetMovementActive(false);

@@ -4964,7 +4964,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1771055548724822218}
+  - {fileID: 5624449027789286778}
   - {fileID: 3804682653298894294}
   - {fileID: 3378587095291577671}
   - {fileID: 4959078383065850531}
@@ -5205,13 +5205,40 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   collisionForce: 5
-  initialCamPos: {fileID: 3378587095291577671}
   rigidBody: {fileID: 8901222850518343056}
   repulsiveForce: 5
+  initialCamPos: {fileID: 3378587095291577671}
   minFOV: 60
   maxFOV: 120
   cameraLerpSpeedRotation: 5
   cameraLerpSpeedPosition: 50
+  onStun:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6301178959273334607}
+        m_TargetAssemblyTypeName: RotationAnimation, Assembly-CSharp
+        m_MethodName: SetDuration
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 6301178959273334607}
+        m_TargetAssemblyTypeName: RotationAnimation, Assembly-CSharp
+        m_MethodName: Rotate
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &708143933604979002
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10235,6 +10262,56 @@ MonoBehaviour:
   engineBaseSource: {fileID: 7496054244710956332}
   engineRpmSource: {fileID: 3980122730642646200}
   audioMixer: {fileID: 24100000, guid: 4eb7b914e53813b4e849a899282db139, type: 2}
+--- !u!1 &4215702104757939757
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5624449027789286778}
+  - component: {fileID: 6301178959273334607}
+  m_Layer: 0
+  m_Name: SkinMesh
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5624449027789286778
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4215702104757939757}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1771055548724822218}
+  m_Father: {fileID: 2772221897071357495}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6301178959273334607
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4215702104757939757}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87b5387b9ddcd0a4b96a38746567c4af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rotationAxis: {x: 0, y: 1, z: 0}
+  duration: 0
+  loops: 2
+  infinite: 0
+  rotateOnAwake: 0
 --- !u!1 &4416868696556428228
 GameObject:
   m_ObjectHideFlags: 0
@@ -15389,7 +15466,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 2772221897071357495}
+    m_TransformParent: {fileID: 5624449027789286778}
     m_Modifications:
     - target: {fileID: 1684904474771989915, guid: f21a6f59b5af4ec478306ea604c1fc83, type: 3}
       propertyPath: m_LocalPosition.x
@@ -15413,10 +15490,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1684904474771989915, guid: f21a6f59b5af4ec478306ea604c1fc83, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1684904474771989915, guid: f21a6f59b5af4ec478306ea604c1fc83, type: 3}
-      propertyPath: m_LocalRotation.z
       value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 1684904474771989915, guid: f21a6f59b5af4ec478306ea604c1fc83, type: 3}
