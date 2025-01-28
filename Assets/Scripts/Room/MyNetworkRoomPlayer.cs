@@ -1,34 +1,41 @@
 using Mirror;
+using Mirror.Examples.AdditiveScenes;
+using System;
+using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
+using static UnityEngine.Rendering.DebugUI;
 
 public class MyNetworkRoomPlayer : NetworkRoomPlayer
 {
-    public override void OnStartClient()
-    {
-        //Debug.Log($"OnStartClient {gameObject}");
-    }
+    private MyNetworkRoomManager room;
 
-    public override void OnClientEnterRoom()
+    private MyNetworkRoomManager Room
     {
-        //Debug.Log($"OnClientEnterRoom {SceneManager.GetActiveScene().path}");
-    }
-
-    public override void OnClientExitRoom()
-    {
-        //Debug.Log($"OnClientExitRoom {SceneManager.GetActiveScene().path}");
-    }
-
-    public override void IndexChanged(int oldIndex, int newIndex)
-    {
-        //Debug.Log($"IndexChanged {newIndex}");
+        get
+        {
+            if (room != null) { return room; }
+            return room = NetworkManager.singleton as MyNetworkRoomManager;
+        }
     }
 
     public override void ReadyStateChanged(bool oldReadyState, bool newReadyState)
     {
-        //Debug.Log($"ReadyStateChanged {newReadyState}");
+        base.ReadyStateChanged(oldReadyState, newReadyState);
+
+        FindObjectOfType<OnlineRoomUI>().UpdateUI();
     }
 
-    public override void OnGUI()
+    public override void OnClientEnterRoom()
     {
-        base.OnGUI();
+        base.OnClientEnterRoom();
+        FindObjectOfType<OnlineRoomUI>().UpdateUI();
+    }
+
+    public override void OnClientExitRoom()
+    {
+        base.OnClientExitRoom();
+        FindObjectOfType<OnlineRoomUI>().UpdateUI();
     }
 }

@@ -14,8 +14,8 @@ using UnityEngine.UI;
 
 public class ClientManager : MonoBehaviour
 {
-    // private string ip = "127.0.0.1";
-    private string ip = "157.159.195.98";
+    private string ip = "127.0.0.1";
+    // private string ip = "157.159.195.98";
     private string port = "7777";
     public int maxConnectionAttempt = 30;
     // Delay in seconds
@@ -25,11 +25,19 @@ public class ClientManager : MonoBehaviour
 
     [SerializeField] private GameObject sessionCodeHolder;
     [SerializeField] private TMP_InputField sessionCodeInput;
+    [SerializeField] private TextMeshProUGUI connectionStatusText;
+    [SerializeField] private GameObject buttonsUI;
+
+    private void Start()
+    {
+        MyNetworkRoomManager.singleton.networkAddress = ip;
+    }
 
     // requestRoom == true -> utilisateur a cliqué sur create room
     // requestRoom == false -> utilisateur a cliqué sur join room
     IEnumerator GetServerInfoAndConnect(bool requestRoom)
     {
+        yield return null;
         Debug.Log("Connexion au script Python pour récupérer les informations du serveur...");
 
         using (Socket clientSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp))
@@ -59,6 +67,18 @@ public class ClientManager : MonoBehaviour
                 string[] serverInfoParts = serverInfo.Split(' ');
                 Debug.Log($"Informations du serveur reçues : {serverInfo}");
 
+                if (serverInfoParts[0] == "erreur")
+                {
+                    if (serverInfoParts[1] == "roomNotFound")
+                    {
+                        connectionStatusText.color = Color.red;
+                        connectionStatusText.text = "Erreur: code de session associé à aucune room existante.";
+                        buttonsUI.SetActive(true);
+                    }
+
+                    yield break;
+                }
+
                 // Convertir la réponse en entier (port du serveur Mirror)
                 int serverPort = int.Parse(serverInfoParts[0]);
 
@@ -78,20 +98,27 @@ public class ClientManager : MonoBehaviour
             }
             catch (Exception e)
             {
-                Debug.LogError($"Erreur de connexion : {e.Message}");
+                //Debug.LogError($"Erreur de connexion : {e.Message}");
+                connectionStatusText.color = Color.red;
+                connectionStatusText.text = "Erreur lors de la création d'une room.";
+                buttonsUI.SetActive(true);
             }
         }
-
-        return null;
     }
 
     public void CreateRoom()
     {
+        buttonsUI.SetActive(false);
+        connectionStatusText.color = Color.black;
+        connectionStatusText.text = "Creating a room...";
         StartCoroutine(GetServerInfoAndConnect(true));
     }
 
     public void JoinRoom()
     {
+        buttonsUI.SetActive(false);
+        connectionStatusText.color = Color.black;
+        connectionStatusText.text = "Joining a room...";
         StartCoroutine(GetServerInfoAndConnect(false));
     }
 

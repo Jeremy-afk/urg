@@ -4,12 +4,12 @@ import threading
 import random
 import string
 
-# HOST = '127.0.0.1'
-HOST = '157.159.195.98'
+HOST = '127.0.0.1'
+# HOST = '157.159.195.98'
 LISTEN_PORT = 7777 # Port d'écoute où tourne notre script python pour gérer les connexions des joueurs
 SERVER_BASE_PORT = 7778 # Le port de base 
-# SERVER_EXECUTABLE = "C:/Users/STEEVEN/Desktop/ServerBuild/URG.exe"
-SERVER_EXECUTABLE = "/home/jlenoir/server/MedievalRacingServer.exe"
+SERVER_EXECUTABLE = "C:/Users/STEEVEN/Desktop/ServerBuild/URG.exe"
+# SERVER_EXECUTABLE = "/home/jlenoir/server/MedievalRacingServer.exe"
 
 server_instances = []
 
@@ -58,7 +58,7 @@ def handle_client_connection(client_socket, client_address):
                         client_socket.close()
                         return
                 
-                response = f"ERREUR: aucune room associé à ce code de session."
+                response = f"erreur roomNotFound"
                 client_socket.sendall(response.encode())
                 client_socket.close()
         else:
@@ -93,7 +93,13 @@ def instantiate_server():
     print(f"Lancement du serveur sur le port {port}...")
     try:
         process = subprocess.Popen([SERVER_EXECUTABLE, "--args", "-port", str(port)])
-        session_code = ''.join(random.choices(string.ascii_uppercase + string.digits, k=4))
+
+        session_code = ""
+        is_session_code_unique = False
+        while not is_session_code_unique:
+            session_code = ''.join(random.choices(string.ascii_uppercase + string.digits, k=4))
+            is_session_code_unique = all(server.sessionCode != session_code for server in server_instances)
+
         server_instantiated = Server(process=process, port=port, sessionCode=session_code)
         server_instances.append(server_instantiated)
         print(f"Instance de serveur démarrée sur le port {port}")

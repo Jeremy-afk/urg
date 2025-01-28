@@ -120,6 +120,11 @@ public class MyNetworkRoomManager : NetworkRoomManager
         }
     }
 
+    /*public override void OnStopServer()
+    {
+        roomSlots.Clear();
+    }*/
+
     public override void OnGUI()
     {
         // FUNCTION ONLY FOR DEBUGGING
@@ -131,6 +136,19 @@ public class MyNetworkRoomManager : NetworkRoomManager
             showStartButton = false;
 
             ServerChangeScene(GameplayScene); // TODO: FUNCTION TO USE TO CHANGE SCENE
+        }
+    }
+
+    public void UpdateDisplay()
+    {
+        FindObjectOfType<OnlineRoomUI>().UpdateUI();
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            UpdateDisplay();
         }
     }
 }

@@ -25,7 +25,7 @@ public class SessionCodeHolder : MonoBehaviour
 
         if (sceneLoaded.name == "RoomOnline")
         {
-            GameObject.Find("SessionCodeText").GetComponent<TextMeshProUGUI>().text = sessionCode;
+            GameObject.Find("SessionCodeText").GetComponent<TextMeshProUGUI>().text = "Session code : " + sessionCode;
         }
     }
 }
