@@ -30,10 +30,11 @@ public class Movements : NetworkBehaviour
     private float accelerationDirection;
     [SyncVar]
     private bool holdingZS;
-    [field: SyncVar]
-    public float BonusSpeedMult { get; set; } = 1f; // Set to make a boost
-    [field: SyncVar]
-    public float BonusSpeedMultTime { get; set; } = 0f;
+
+    [SyncVar]
+    private float bonusSpeedMult = 1f; // Set to make a boost
+    [SyncVar]
+    private float bonusSpeedMultTime = 0f;
 
     [Header("Turn movements")]
     // Variables for left/right movements
@@ -85,6 +86,14 @@ public class Movements : NetworkBehaviour
 
     }
 
+    [Server]
+    public void ApplySpeedBoost(float bonus, float duration)
+    {
+        bonusSpeedMult = bonus;
+        bonusSpeedMultTime = duration;
+    }
+
+    [Client]
     public void AccelerateDecelerate(InputAction.CallbackContext context)
     {
         // This is called whenever the buttons associated with accelerating/decelerating are pressed (performed) or released (canceled)
@@ -101,6 +110,7 @@ public class Movements : NetworkBehaviour
         }
     }
 
+    [Client]
     public void TurnLeftRight(InputAction.CallbackContext context)
     {
         // Called whenever a change is detected in the input (stick or key)
@@ -116,6 +126,7 @@ public class Movements : NetworkBehaviour
         }
     }
 
+    [Client]
     public void Drift(InputAction.CallbackContext context)
     {
         if (context.performed)
@@ -128,6 +139,7 @@ public class Movements : NetworkBehaviour
         }
     }
 
+    [Client]
     // TODO: Move this to an AUDIO manager script
     public void Klaxon(InputAction.CallbackContext context)
     {
@@ -142,6 +154,14 @@ public class Movements : NetworkBehaviour
         rigidBody = GetComponent<Rigidbody>();
         klaxonSound = GetComponent<AudioSource>();
         activePlayer = GetComponent<Player>();
+    }
+
+    private void Update()
+    {
+        if (bonusSpeedMultTime > 0)
+        {
+            bonusSpeedMultTime -= Time.deltaTime;
+        }
     }
 
     private void FixedUpdate()
@@ -180,10 +200,8 @@ public class Movements : NetworkBehaviour
             // If the player is inputing a movement, we want to accelerate towards its max speed using an acceleration curve
             // by using the DIFFERENCE between the current speed and the max speed
             rigidBody.drag = normalDrag;
-            if (BonusSpeedMultTime > 0)
+            if (bonusSpeedMultTime > 0)
             {
-                print("Applying bonus!");
-                BonusSpeedMultTime -= Time.fixedDeltaTime;
                 activePlayer.SetMaxFOV(150.0f);
             }
             else
@@ -192,7 +210,7 @@ public class Movements : NetworkBehaviour
             }
 
             float currentSpeed = Vector3.Dot(rigidBody.velocity, transform.forward);
-            float targetSpeed = accelerationDirection * maxSpeed * (BonusSpeedMultTime > 0 ? BonusSpeedMult : 1);
+            float targetSpeed = accelerationDirection * maxSpeed * (bonusSpeedMultTime > 0 ? bonusSpeedMult : 1);
 
             float acceleration;
             if (targetSpeed == 0)
@@ -208,7 +226,7 @@ public class Movements : NetworkBehaviour
                 // From [-1 to 0]: when the player changes direction (high values = high response = high braking)
                 // From [0 to 1]: when the player accelerates (high values = high response = high acceleration)
                 // From [1 to 2]: when the player reaches its max speed (high values = agressive clamping to max speed)
-                acceleration = accelerationCurve.Evaluate(currentSpeed / targetSpeed) * movementsSpeed * accelerationDirection * (BonusSpeedMultTime > 0 ? BonusSpeedMult : 1);
+                acceleration = accelerationCurve.Evaluate(currentSpeed / targetSpeed) * movementsSpeed * accelerationDirection * (bonusSpeedMultTime > 0 ? bonusSpeedMult : 1);
             }
             rigidBody.AddForce(acceleration * transform.forward, ForceMode.Acceleration);
             var emitParams = new ParticleSystem.EmitParams();

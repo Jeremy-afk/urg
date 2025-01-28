@@ -107,8 +107,7 @@ public class ItemManager : NetworkBehaviour
                     break;
                 case ItemType.POTION:
                     print("Glou glou!");
-                    movementsScript.BonusSpeedMult = forceSpeedBoost;
-                    movementsScript.BonusSpeedMultTime = speedBoostDuration;
+                    movementsScript.ApplySpeedBoost(forceSpeedBoost, speedBoostDuration);
                     break;
                 case ItemType.SWORD:
                     print("Chling!");

@@ -12,7 +12,7 @@ on:
         required: true
         default: "/home/jlenoir/"
       rebuildServer:
-        description: "Rebuild server"
+        description: "Rebuild server (~ 10 min)"
         required: true
         type: boolean
       runServerManager:
