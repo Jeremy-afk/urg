@@ -128,12 +128,19 @@ public class Player : NetworkBehaviour, IDamageable
         }
     }
 
+    [Server]
     public void Stun(float duration)
     {
         print("stun!");
         isStunned = true;
         stunTimer = duration;
         moves.SetMovementActive(false);
+        RpcStunFeedback(duration);
+    }
+
+    [ClientRpc]
+    private void RpcStunFeedback(float duration)
+    {
         onStun.Invoke(duration);
     }
 
