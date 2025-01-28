@@ -108,6 +108,7 @@ public class ItemManager : NetworkBehaviour
                     break;
                 case ItemType.POTION:
                     print("Glou glou!");
+                    AudioManager.Instance.PlaySoundEffect(AudioManager.Instance.itemPotionUseSound);
                     movementsScript.ApplySpeedBoost(forceSpeedBoost, speedBoostDuration);
                     break;
                 case ItemType.SWORD:
@@ -116,6 +117,7 @@ public class ItemManager : NetworkBehaviour
                 case ItemType.TRAP:
                     Trap trap = Instantiate(trapPrefab, trapSpawnPosition.position, Quaternion.identity);
                     trap.SetTeam(playerTeam);
+                    AudioManager.Instance.PlaySoundEffect(AudioManager.Instance.itemTrapUseSound);
                     NetworkServer.Spawn(trap.gameObject);
                     print("Trapped loser!");
                     break;

@@ -32,7 +32,7 @@ public class Finish : NetworkBehaviour
 
     private void Start()
     {
-        AudioManager.Instance.PlayMusic(AudioManager.Instance.startSound);
+        AudioManager.Instance.PlaySoundEffect(AudioManager.Instance.startSound);
 
         if (isServer)
         {
@@ -201,6 +201,7 @@ public class Finish : NetworkBehaviour
         // If we're the player that completed the lap, update the UI
         if (localPlayer && playerIdentity == localPlayer.netId)
         {
+            AudioManager.Instance.PlaySoundEffect(AudioManager.Instance.newLap);
             onLapCompleted.Invoke(laps);
         }
     }
