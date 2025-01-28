@@ -98,8 +98,9 @@ def instantiate_server():
     try:
         session_code = ''.join(random.choices(string.ascii_uppercase + string.digits, k=ROOM_CODE_LENGTH))
         with open(SERVER_PATTERN_LOGS.format(room_code=session_code), 'a') as log_file:
-            log_file.write("Démarrage du serveur...")
+            log_file.write("Démarrage de la room " + session_code + "...\n")
             process = subprocess.Popen([SERVER_EXECUTABLE, "--args", "-port", str(port)], stdout=log_file, stderr=log_file)
+            print(f"Room {session_code} instanciée")
         server_instantiated = Server(process=process, port=port, sessionCode=session_code)
         server_instances.append(server_instantiated)
         print(f"Instance de serveur démarrée sur le port {port}")
