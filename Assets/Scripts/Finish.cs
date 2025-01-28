@@ -32,6 +32,8 @@ public class Finish : NetworkBehaviour
 
     private void Start()
     {
+        AudioManager.Instance.PlayMusic(AudioManager.Instance.startSound);
+
         if (isServer)
         {
             NetworkManager nm = FindObjectOfType<NetworkManager>();

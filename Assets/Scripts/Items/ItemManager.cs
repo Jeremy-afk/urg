@@ -94,6 +94,7 @@ public class ItemManager : NetworkBehaviour
             {
                 case ItemType.BOW:
                     print("Headshot!");
+                    AudioManager.Instance.PlaySoundEffect(AudioManager.Instance.itemBowSound);
                     Vector3 spawnPosition = arrowSpawnPosition.position;
                     Arrow newArrow = Instantiate(arrowPrefab, spawnPosition, Quaternion.identity);
                     Vector3 shootDirection = transform.forward;

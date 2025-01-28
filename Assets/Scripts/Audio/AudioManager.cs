@@ -10,8 +10,16 @@ public class AudioManager : MonoBehaviour
 
     [Header("Musics")]
     public AudioClip mainMenuMusic;
+    public AudioClip raceTheme;
+
     [Header("Sounds")]
+    public AudioClip startSound;
     public AudioClip[] collisionSounds;
+    public AudioClip itemBowSound;
+    public AudioClip itemTrapUseSound;
+    public AudioClip itemTrapActivatedSound;
+    public AudioClip itemPotionUseSound;
+    public AudioClip newLap;
 
     private void Awake()
     {
