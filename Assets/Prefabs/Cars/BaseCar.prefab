@@ -4966,7 +4966,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 2029801381855260219}
   - {fileID: 5624449027789286778}
   - {fileID: 3804682653298894294}
   - {fileID: 3378587095291577671}
@@ -10314,7 +10313,7 @@ GameObject:
   - component: {fileID: 5624449027789286778}
   - component: {fileID: 6301178959273334607}
   m_Layer: 0
-  m_Name: SkinMesh
+  m_Name: SkinMeshParent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10332,7 +10331,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 2029801381855260219}
   m_Father: {fileID: 2772221897071357495}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6301178959273334607
@@ -15507,7 +15507,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 2772221897071357495}
+    m_TransformParent: {fileID: 5624449027789286778}
     m_Modifications:
     - target: {fileID: 4233790516424271501, guid: 064db5cd3a83dbe44a3dfd9fbfc40e64, type: 3}
       propertyPath: m_LocalPosition.x
