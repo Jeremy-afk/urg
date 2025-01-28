@@ -12,11 +12,11 @@ on:
         required: true
         default: "/home/jlenoir/"
       rebuildServer:
-        description: "Rebuild server."
+        description: "Rebuild server"
         required: true
         type: boolean
       runServerManager:
-        description: "Trigger the new version available script."
+        description: "Restart server (trigger the new version available script)"
         required: true
         type: boolean
 
@@ -38,7 +38,7 @@ jobs:
           Library-${{ runner.os }}-
 
     - name: Building Server
-      if: ${{ github.event.inputs.rebuildServer == true }}
+      if: ${{ github.event.inputs.rebuildServer }}
       uses: game-ci/unity-builder@v4.3.0
       env:
         UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
@@ -53,7 +53,7 @@ jobs:
     - run: ls -la Library
 
     - name: Saving Server Build
-      if: ${{ github.event.inputs.rebuildServer == true }}
+      if: ${{ github.event.inputs.rebuildServer }}
       uses: actions/upload-artifact@v4
       with:
         name: MedievalRacingServer
@@ -77,13 +77,13 @@ jobs:
         fi
 
     - name: Deploy Build to VM
-      if: ${{ github.event.inputs.rebuildServer == true }}
+      if: ${{ github.event.inputs.rebuildServer }}
       run: |
         ssh -o StrictHostKeyChecking=no jlenoir@157.159.195.98 "mkdir -p /home/jlenoir/server && rm -rf /home/jlenoir/server_lastest_version/*"
         scp -r ./Builds/Server/* jlenoir@157.159.195.98:/home/jlenoir/server_lastest_version
         
     - name: Run Server Manager
-      if: ${{ github.event.inputs.runServerManager == true }}
+      if: ${{ github.event.inputs.runServerManager }}
       run: |
         echo "Launching server..."
         ssh -o StrictHostKeyChecking=no jlenoir@157.159.195.98 "/home/jlenoir/scripts/hooks/new_version_available.sh"
