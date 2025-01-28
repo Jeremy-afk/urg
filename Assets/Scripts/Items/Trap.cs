@@ -20,6 +20,7 @@ public class Trap : ThrowableItem
 
         if (damageable.TryGetComponent(out Player player))
         {
+            AudioManager.Instance.PlaySoundEffect(AudioManager.Instance.itemTrapActivatedSound);
             player.Stun(stunDuration);
             Destroy(gameObject);
         }

@@ -61,11 +61,11 @@ public class Player : NetworkBehaviour, IDamageable
         // TODO: Play a sound when colliding with something
 
         var speed = rigidBody.velocity.magnitude;
-        AudioManager.Instance.PlaySoundEffect(AudioManager.Instance.collisionSounds, speed / 10);
 
         if (other.gameObject.TryGetComponent(out Rigidbody rb))
         {
             rb.AddForce(collisionForce * speed * (rb.position - transform.position).normalized, ForceMode.Impulse);
+            AudioManager.Instance.PlaySoundEffect(AudioManager.Instance.collisionSounds, speed / 10);
         }
     }
 
