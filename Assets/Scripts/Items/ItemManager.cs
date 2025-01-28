@@ -18,6 +18,7 @@ public class ItemManager : NetworkBehaviour
     [field: SyncVar]
     public bool CanUseItem { get; set; } = true;
 
+
     public static event Action<ItemType> OnItemChanged;
 
     [Header("Potion")]
@@ -27,22 +28,25 @@ public class ItemManager : NetworkBehaviour
     [Header("Arrow")]
     [SerializeField] private Arrow arrowPrefab;
     [SerializeField] private float arrowSpeed = 1f;
-    public Transform arrowSpawnPosition;
+    [SerializeField] private Transform arrowSpawnPosition;
 
     [Header("Trap")]
     [SerializeField] private Trap trapPrefab;
-    public Transform trapSpawnPosition;
+    [SerializeField] private Transform trapSpawnPosition;
 
     private Movements movementsScript;
+    private uint playerTeam;
 
     [SyncVar(hook = nameof(OnItemInHandChanged))]
     private ItemType itemInHand = ItemType.NOTHING;
 
     private void Start()
     {
+        playerTeam = GetComponent<Player>().GetTeam();
         movementsScript = GetComponent<Movements>();
     }
 
+    [Client]
     private void OnItemInHandChanged(ItemType oldValue, ItemType newValue)
     {
         if (isLocalPlayer)
@@ -62,6 +66,7 @@ public class ItemManager : NetworkBehaviour
         return itemInHand;
     }
 
+    [Client]
     public void RequestItemUse(InputAction.CallbackContext context)
     {
         if (context.performed && CanUseItem && isLocalPlayer)
@@ -89,11 +94,13 @@ public class ItemManager : NetworkBehaviour
             {
                 case ItemType.BOW:
                     print("Headshot!");
+                    AudioManager.Instance.PlaySoundEffect(AudioManager.Instance.itemBowSound);
                     Vector3 spawnPosition = arrowSpawnPosition.position;
                     Arrow newArrow = Instantiate(arrowPrefab, spawnPosition, Quaternion.identity);
                     Vector3 shootDirection = transform.forward;
                     newArrow.SetDirection(shootDirection * arrowSpeed);
                     newArrow.SetOrientation(shootDirection);
+                    newArrow.SetTeam(playerTeam);
                     NetworkServer.Spawn(newArrow.gameObject);
                     break;
                 case ItemType.FEATHER:
@@ -101,14 +108,16 @@ public class ItemManager : NetworkBehaviour
                     break;
                 case ItemType.POTION:
                     print("Glou glou!");
-                    movementsScript.BonusSpeedMult = forceSpeedBoost;
-                    movementsScript.BonusSpeedMultTime = speedBoostDuration;
+                    AudioManager.Instance.PlaySoundEffect(AudioManager.Instance.itemPotionUseSound);
+                    movementsScript.ApplySpeedBoost(forceSpeedBoost, speedBoostDuration);
                     break;
                 case ItemType.SWORD:
                     print("Chling!");
                     break;
                 case ItemType.TRAP:
                     Trap trap = Instantiate(trapPrefab, trapSpawnPosition.position, Quaternion.identity);
+                    trap.SetTeam(playerTeam);
+                    AudioManager.Instance.PlaySoundEffect(AudioManager.Instance.itemTrapUseSound);
                     NetworkServer.Spawn(trap.gameObject);
                     print("Trapped loser!");
                     break;

@@ -2,10 +2,27 @@ name: Build and Deploy Unity Server
 
 on:
   workflow_dispatch:
+    inputs:
+      serverManagerSourcePath:
+        description: "Local path to the server manager in this repository (relative to the repository root)"
+        required: true
+        default: "server_manager.py"
+      serverManagerDestinationPath:
+        description: "Path of where the server manager will be located in the VM"
+        required: true
+        default: "/home/jlenoir/"
+      rebuildServer:
+        description: "Rebuild server (~ 10 min)"
+        required: true
+        type: boolean
+      runServerManager:
+        description: "Restart server (trigger the new version available script)"
+        required: true
+        type: boolean
 
 jobs:
   build:
-    runs-on: ubuntu-latest  # You can use other OSes as well
+    runs-on: ubuntu-latest
 
     steps:
 
@@ -13,6 +30,7 @@ jobs:
       uses: actions/checkout@v3
       
     - name: Restore Library Cache
+      if: ${{ github.event.inputs.rebuildServer == 'true' }}
       uses: actions/cache@v4
       with:
         path: Library
@@ -21,6 +39,7 @@ jobs:
           Library-${{ runner.os }}-
 
     - name: Building Server
+      if: ${{ github.event.inputs.rebuildServer == 'true' }}
       uses: game-ci/unity-builder@v4.3.0
       env:
         UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
@@ -31,10 +50,9 @@ jobs:
         targetPlatform: StandaloneLinux64
         unityVersion: '2022.3.47f1'
         customParameters: -standaloneBuildSubtarget Server
-    
-    - run: ls -la Library
 
     - name: Saving Server Build
+      if: ${{ github.event.inputs.rebuildServer == 'true' }}
       uses: actions/upload-artifact@v4
       with:
         name: MedievalRacingServer
@@ -46,8 +64,25 @@ jobs:
       with:
         ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-    - name: Deploy to VM
+    - name: Deploy Server Script
+      run: |
+        if [ -f "${{ github.event.inputs.serverManagerSourcePath }}" ]; then
+          scp -o StrictHostKeyChecking=no ${{ github.event.inputs.serverManagerSourcePath }} jlenoir@157.159.195.98:${{ github.event.inputs.serverManagerDestinationPath }}
+          echo "Uploaded server manager to VM (at ${{ github.event.inputs.serverManagerDestinationPath }})."
+        else
+          echo "Error: File ${{ github.event.inputs.serverManagerSourcePath }} does not exist!"
+          echo "Warning: Server manager was not updated!"
+          exit 1
+        fi
+
+    - name: Deploy Build to VM
+      if: ${{ github.event.inputs.rebuildServer == 'true' }}
       run: |
         ssh -o StrictHostKeyChecking=no jlenoir@157.159.195.98 "mkdir -p /home/jlenoir/server && rm -rf /home/jlenoir/server_lastest_version/*"
         scp -r ./Builds/Server/* jlenoir@157.159.195.98:/home/jlenoir/server_lastest_version
+        
+    - name: Run Server Manager
+      if: ${{ github.event.inputs.runServerManager == 'true' }}
+      run: |
+        echo "Launching server..."
         ssh -o StrictHostKeyChecking=no jlenoir@157.159.195.98 "/home/jlenoir/scripts/hooks/new_version_available.sh"

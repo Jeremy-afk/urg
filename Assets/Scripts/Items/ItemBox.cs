@@ -11,7 +11,7 @@ public class ItemBox : NetworkBehaviour
     [SerializeField] ItemType item;
     private ItemManager itemManager;
 
-    private Renderer rend;
+    public Renderer rend;
     private float timer = 0.0f;
     [SyncVar(hook = nameof(OnBoxActiveChanged))]
     private bool isBoxActive = true;
@@ -58,7 +58,7 @@ public class ItemBox : NetworkBehaviour
 
     private void Awake()
     {
-        rend = GetComponent<Renderer>();
+        //rend = GetComponent<Renderer>();
     }
 
     private void Update()

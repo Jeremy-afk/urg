@@ -8,8 +8,12 @@ HOST = '127.0.0.1'
 # HOST = '157.159.195.98'
 LISTEN_PORT = 7777 # Port d'écoute où tourne notre script python pour gérer les connexions des joueurs
 SERVER_BASE_PORT = 7778 # Le port de base 
-SERVER_EXECUTABLE = "C:/Users/STEEVEN/Desktop/ServerBuild/URG.exe"
-# SERVER_EXECUTABLE = "/home/jlenoir/server/MedievalRacingServer.exe"
+# SERVER_EXECUTABLE = "C:/Users/STEEVEN/Desktop/ServerBuild/URG.exe"
+SERVER_EXECUTABLE = "/home/jlenoir/server/MedievalRacingServer.exe"
+SERVER_CORE_LOGS = "/home/jlenoir/server/logs/server_core.txt"
+SERVER_PATTERN_LOGS = "/home/jlenoir/logs/server_rooms/room_{room_code}.txt"
+
+ROOM_CODE_LENGTH = 5
 
 server_instances = []
 
@@ -92,14 +96,19 @@ def instantiate_server():
     port = SERVER_BASE_PORT + len(server_instances)
     print(f"Lancement du serveur sur le port {port}...")
     try:
-        process = subprocess.Popen([SERVER_EXECUTABLE, "--args", "-port", str(port)])
+        
 
         session_code = ""
         is_session_code_unique = False
         while not is_session_code_unique:
-            session_code = ''.join(random.choices(string.ascii_uppercase + string.digits, k=4))
+            session_code = ''.join(random.choices(string.ascii_uppercase + string.digits, k=ROOM_CODE_LENGTH))
             is_session_code_unique = all(server.sessionCode != session_code for server in server_instances)
 
+
+        print(f"Room {session_code} instanciée")
+        with open(SERVER_PATTERN_LOGS.format(room_code=session_code), 'a') as log_file:
+            log_file.write("Démarrage de la room " + session_code + "...\n")
+            process = subprocess.Popen([SERVER_EXECUTABLE, "--args", "-port", str(port)], stdout=log_file, stderr=log_file)
         server_instantiated = Server(process=process, port=port, sessionCode=session_code)
         server_instances.append(server_instantiated)
         print(f"Instance de serveur démarrée sur le port {port}")

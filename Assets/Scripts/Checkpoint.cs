@@ -43,9 +43,6 @@ public class Checkpoint : NetworkBehaviour
     public bool HasPlayerCrossed(NetworkIdentity playerIdentity)
     {
         bool playerCrossed = playerCrossedStatus.ContainsKey(playerIdentity) && playerCrossedStatus[playerIdentity];
-        // Return true if the player has crossed this checkpoint, otherwise false
-        print($"{(playerCrossed ? "Passed" : "Failed")} verification for checkpoint \"{gameObject.name}\"");
-
         return playerCrossed;
     }
 

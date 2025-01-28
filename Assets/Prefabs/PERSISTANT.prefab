@@ -178,8 +178,18 @@ MonoBehaviour:
   musicSource: {fileID: 8332273904150627504}
   ambianceSource: {fileID: 5722077459604675116}
   soundEffectSources: {fileID: 1740914336966875587}
-  mainMenuMusic: {fileID: 0}
-  collisionSounds: []
+  mainMenuMusic: {fileID: 8300000, guid: 2872e4f3e9b398c4e90ab71639919b1d, type: 3}
+  raceTheme: {fileID: 8300000, guid: 73964751ca69e7b4da14e025e37ce676, type: 3}
+  startSound: {fileID: 8300000, guid: 866462d9e4b6eec45a3550a85430b391, type: 3}
+  collisionSounds:
+  - {fileID: 8300000, guid: 635e47ab8bf53fa478147bd33ef50dcc, type: 3}
+  - {fileID: 8300000, guid: 4b4845fe4c6d74b4baf68a5e2afae12d, type: 3}
+  - {fileID: 8300000, guid: 03cd5748244245246942fa51f626d3a9, type: 3}
+  itemBowSound: {fileID: 8300000, guid: a2671c798779d5142b7be87fc988cf0a, type: 3}
+  itemTrapUseSound: {fileID: 8300000, guid: c1208ce76fac6e242a88b335e38917d7, type: 3}
+  itemTrapActivatedSound: {fileID: 8300000, guid: fadb783e5c51641438b1154ceae8b489, type: 3}
+  itemPotionUseSound: {fileID: 8300000, guid: 8a7697b6a69133e43940009120d829b2, type: 3}
+  newLap: {fileID: 8300000, guid: 0fc353ab4e2fb1e4c82d435a5d128e67, type: 3}
 --- !u!1 &3497128512214984330
 GameObject:
   m_ObjectHideFlags: 0

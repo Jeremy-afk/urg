@@ -1,13 +1,27 @@
 using kcp2k;
 using Mirror;
-using System;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-
 
 public class MyNetworkRoomManager : NetworkRoomManager
 {
+    // Check that whenever the last player disconnects completely, the server shuts down
+    public override void OnRoomServerDisconnect(NetworkConnectionToClient conn)
+    {
+        base.OnRoomServerDisconnect(conn);
+        Debug.Log($"Player {conn.identity} left the game.");
+        if (numPlayers == 0)
+        {
+            Debug.Log("All players disconnected. Shutting down the server...");
+            StopServer();
+            Application.Quit();
+        }
+        else
+        {
+            Debug.Log($"{numPlayers} players remaining");
+        }
+    }
+
     public override void Start()
     {
         string portString = GetArg("-port");
