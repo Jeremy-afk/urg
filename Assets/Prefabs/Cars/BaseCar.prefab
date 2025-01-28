@@ -4944,7 +4944,6 @@ GameObject:
   - component: {fileID: 9087782695256684940}
   - component: {fileID: 708143933604979002}
   - component: {fileID: 710335740132020894}
-  - component: {fileID: 5003839294600833747}
   - component: {fileID: 2012596392740014324}
   - component: {fileID: 4978499843022897465}
   m_Layer: 0
@@ -5326,7 +5325,6 @@ MonoBehaviour:
   initialCamPos: {fileID: 3378587095291577671}
   rigidBody: {fileID: 8901222850518343056}
   repulsiveForce: 5
-  stunDuration: 2
   minFOV: 60
   maxFOV: 120
   cameraLerpSpeedRotation: 5
@@ -5367,18 +5365,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movements: {fileID: 328080516358278813}
   itemManager: {fileID: 708143933604979002}
---- !u!114 &5003839294600833747
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1136528745501484157}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 08175923f6222274181ff0f29083759c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!198 &2012596392740014324
 ParticleSystem:
   m_ObjectHideFlags: 0

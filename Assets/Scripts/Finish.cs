@@ -168,6 +168,8 @@ public class Finish : NetworkBehaviour
     [Server]
     private void OnRaceFinished()
     {
+        Debug.Log("Race is finished !!!");
+
         // Communicate the placements to all clients
         RpcUpdatePlacement(placements);
     }
