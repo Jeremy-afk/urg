@@ -60,6 +60,16 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
+  preventFriendlyFire: 1
+  teamInvincibilityTime: 0.1
+  alsoRequireTag: 0
+  collidingTag: 
+  boucingLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  enableBouncing: 0
+  maxBounces: 0
+  destroyOnLastBounce: 1
   speed: 75
 --- !u!65 &1996381022801093234
 BoxCollider:

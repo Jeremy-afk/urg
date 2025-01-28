@@ -43,7 +43,7 @@ public class MedievalRacingBuildPipeline
     [MenuItem("File/Custom Build/Server Build")]
     public static void BuildServerForLinux()
     {
-        var path = EditorUtility.SaveFolderPanel("Choose Server Build Location", DEFAULT_BUILD_REPO, "New Server Build");
+        var path = EditorUtility.SaveFolderPanel("Choose Server Build Location", DEFAULT_BUILD_REPO, "");
         Directory.CreateDirectory(path + "/Server");
 
         var buildPlayerOptions = new BuildPlayerOptions
@@ -56,6 +56,40 @@ public class MedievalRacingBuildPipeline
         };
 
         ReportBuild(BuildPipeline.BuildPlayer(buildPlayerOptions));
+    }
+
+    [MenuItem("File/Custom Build/Build All")]
+    public static void BuildAll()
+    {
+        // Building the client
+        Debug.Log("Building the client");
+        Directory.CreateDirectory(DEFAULT_BUILD_REPO + "/Client");
+
+        var buildPlayerOptionsClient = new BuildPlayerOptions
+        {
+            scenes = SCENES_CLIENT,
+            locationPathName = DEFAULT_BUILD_REPO + "/Client/MedievalRacingClient.exe",
+            target = BuildTarget.StandaloneWindows64,
+            options = BuildOptions.None,
+        };
+
+        ReportBuild(BuildPipeline.BuildPlayer(buildPlayerOptionsClient));
+
+
+        // Building the server
+        Debug.Log("Building the server");
+        Directory.CreateDirectory(DEFAULT_BUILD_REPO + "/Server");
+
+        var buildPlayerOptionsServer = new BuildPlayerOptions
+        {
+            scenes = SCENES_SERVER,
+            locationPathName = DEFAULT_BUILD_REPO + "/Server/MedievalRacingServer.exe",
+            target = BuildTarget.StandaloneLinux64,
+            options = BuildOptions.None,
+            subtarget = (int)StandaloneBuildSubtarget.Server
+        };
+
+        ReportBuild(BuildPipeline.BuildPlayer(buildPlayerOptionsServer));
     }
 
     public static void HeadlessBuildServerForLinux()

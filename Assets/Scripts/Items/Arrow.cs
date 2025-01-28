@@ -1,16 +1,15 @@
-using Mirror;
 using UnityEngine;
 
-public class Arrow : NetworkBehaviour
+public class Arrow : ThrowableItem
 {
+    [Header("Arrow")]
+    [SerializeField] private float stunDuration = 1.5f;
     [SerializeField] private float speed;
 
     private Vector3 direction;
 
-    private Player player;
-
     public void SetDirection(Vector3 newDirection)
-    { 
+    {
         direction = newDirection.normalized;
     }
 
@@ -19,35 +18,17 @@ public class Arrow : NetworkBehaviour
         transform.rotation = Quaternion.LookRotation(shootDirection, Vector3.up);
     }
 
-
-    public void OnTriggerEnter(Collider collided)
+    protected override void OnHit(Collider collision)
     {
-        if (collided.TryGetComponent(out NetworkIdentity id))
+        if (collision.TryGetComponent(out Player player))
         {
-            if (collided.CompareTag("Player"))
-            {
-                Debug.Log("You have been hit!");
-                player = collided.GetComponent<Player>();
-                player.GetMoves().SetMovementActive(false);
-                player.SetIsHitByArrow(true);
-                //Destroy the arrow
-                Destroy(gameObject);
-            }
-        }
-        else if (collided.CompareTag("Ground"))
-        {
-            // Bounce in the future?
-            Destroy(this.gameObject);
+            player.Stun(stunDuration);
+            Destroy(gameObject);
         }
     }
 
     private void FixedUpdate()
     {
-        transform.position += direction * speed * Time.deltaTime;
-    }
-
-    private void Update()
-    {
-
+        transform.position += speed * Time.deltaTime * direction;
     }
 }

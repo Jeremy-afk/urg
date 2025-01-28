@@ -68,12 +68,27 @@ public class Movements : NetworkBehaviour
     public void SetMovementActive(bool active)
     {
         canMove = active;
+
+        if (!active)
+        {
+            rightWheelPart.Stop();
+            leftWheelPart.Stop();
+        }
+        else
+        {
+            if (holdingDrift)
+            {
+                rightWheelPart.Play();
+                leftWheelPart.Play();
+            }
+        }
+
     }
 
     public void AccelerateDecelerate(InputAction.CallbackContext context)
     {
         // This is called whenever the buttons associated with accelerating/decelerating are pressed (performed) or released (canceled)
-        if (context.performed && canMove)
+        if (context.performed)
         {
             holdingZS = true;
             float direction = context.ReadValue<float>();
@@ -89,7 +104,7 @@ public class Movements : NetworkBehaviour
     public void TurnLeftRight(InputAction.CallbackContext context)
     {
         // Called whenever a change is detected in the input (stick or key)
-        if (context.performed && canMove)
+        if (context.performed)
         {
             holdingQD = true;
             rotations = rotationSpeed * Time.fixedDeltaTime * context.ReadValue<float>() * transform.up;
@@ -103,7 +118,7 @@ public class Movements : NetworkBehaviour
 
     public void Drift(InputAction.CallbackContext context)
     {
-        if (context.performed && canMove)
+        if (context.performed)
         {
             holdingDrift = true;
         }
@@ -140,10 +155,9 @@ public class Movements : NetworkBehaviour
 
     private void HandleVerticality()
     {
-        RaycastHit hit;
-        if (Physics.Raycast(groundRayPoint.position, -transform.up, out hit, groundRayLength, raycastTarget))
+        if (Physics.Raycast(groundRayPoint.position, -transform.up, out RaycastHit hit, groundRayLength, raycastTarget))
         {
-            Quaternion targetRotation = Quaternion.FromToRotation(transform.up, hit.normal) * transform.rotation; 
+            Quaternion targetRotation = Quaternion.FromToRotation(transform.up, hit.normal) * transform.rotation;
             Vector3 currentEulerAngles = transform.eulerAngles;
             Vector3 targetEulerAngles = targetRotation.eulerAngles;
 
@@ -156,8 +170,7 @@ public class Movements : NetworkBehaviour
 
     private void HandleMovement()
     {
-        RaycastHit hit;
-        if (Physics.Raycast(groundRayPoint.position, -transform.up, out hit, groundRayLength, raycastTarget))
+        if (Physics.Raycast(groundRayPoint.position, -transform.up, out RaycastHit hit, groundRayLength, raycastTarget))
         {
             // Ajuste la direction de déplacement en fonction de la normale du sol
             Vector3 forward = Vector3.ProjectOnPlane(transform.forward, hit.normal).normalized; // ???
@@ -226,7 +239,7 @@ public class Movements : NetworkBehaviour
         {
             maxSpeed = maxSpeedDrifting;
             // Reduce forward speed while drifting for a looser control feel
-            rigidBody.velocity = Vector3.Lerp(rigidBody.velocity, transform.forward * rigidBody.velocity.magnitude * 0.7f, driftFactor * Time.deltaTime);
+            rigidBody.velocity = Vector3.Lerp(rigidBody.velocity, 0.7f * rigidBody.velocity.magnitude * transform.forward, driftFactor * Time.deltaTime);
 
             // Apply a slight sideways force opposite to the turn direction to enhance sliding
             Vector3 driftForce = driftFactor * rotations.y * -transform.right;
@@ -236,18 +249,18 @@ public class Movements : NetworkBehaviour
             float driftTurnAmount = rotations.y * rotationSpeed * Time.deltaTime;
             Quaternion driftTurnRotation = Quaternion.Euler(0f, driftTurnAmount, 0f);
             rigidBody.MoveRotation(rigidBody.rotation * driftTurnRotation);
-            rightWheelPart.Play();
-            leftWheelPart.Play();
+
+            if (canMove)
+            {
+                rightWheelPart.Play();
+                leftWheelPart.Play();
+            }
         }
-        if (!holdingDrift)
+        else
         {
             rightWheelPart.Stop();
             leftWheelPart.Stop();
             maxSpeed = maxSpeedNoDrifting;
-        }
-        else
-        {
-            // TODO: Apply traction to the car's wheels by converting part of the car's speed vector towards the car's forward vector
         }
     }
 

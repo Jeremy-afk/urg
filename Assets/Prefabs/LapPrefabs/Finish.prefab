@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 5069377856465957097}
   - component: {fileID: 6226248794347115325}
   - component: {fileID: 4642584341403504640}
-  - component: {fileID: 8933192957560470931}
   - component: {fileID: 2235154613686823735}
+  - component: {fileID: 8933192957560470931}
   - component: {fileID: 5995735618322776907}
   m_Layer: 0
   m_Name: Finish
@@ -86,6 +86,43 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &2235154613686823735
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 246978893970097692}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b7ab6e7721d604498a4c99d25172405, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  countdownDelay: 2
+  requiredLaps: 2
+  checkpoints:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  onCountdownStart:
+    m_PersistentCalls:
+      m_Calls: []
+  onRaceStart:
+    m_PersistentCalls:
+      m_Calls: []
+  onLapCompleted:
+    m_PersistentCalls:
+      m_Calls: []
+  onPlayerFinishedRace:
+    m_PersistentCalls:
+      m_Calls: []
+  onRaceFinished:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!65 &8933192957560470931
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -107,27 +144,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &2235154613686823735
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 246978893970097692}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5b7ab6e7721d604498a4c99d25172405, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
-  countdownDelay: 2
-  requiredLaps: 3
-  checkpoints:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
 --- !u!114 &5995735618322776907
 MonoBehaviour:
   m_ObjectHideFlags: 0

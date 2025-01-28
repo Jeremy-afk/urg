@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 6618742078276157934}
   - component: {fileID: 7168437212660426623}
-  - component: {fileID: 7094335498116615330}
   - component: {fileID: 5645339636779247912}
+  - component: {fileID: 7094335498116615330}
   - component: {fileID: 2515295185089738277}
   - component: {fileID: 5096347524326757738}
   m_Layer: 0
@@ -46,6 +46,37 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3062828005192739801}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &5645339636779247912
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3062828005192739801}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae23651300ff5bf4fbe0b39e8a3faed6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  allowFriendlyFire: 1
+  teamInvincibilityTime: 0.4
+  alsoRequireTag: 0
+  collidingTag: 
+  boucingLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  enableBouncing: 0
+  maxBounces: 0
+  destroyOnLastBounce: 1
+  stunDuration: 1.5
+  groundRayPoint: {fileID: 1964645955528873895}
+  groundRayLength: 1.5
+  raycastTarget:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!65 &7094335498116615330
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -67,26 +98,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &5645339636779247912
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3062828005192739801}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ae23651300ff5bf4fbe0b39e8a3faed6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
-  groundRayPoint: {fileID: 1964645955528873895}
-  groundRayLength: 1.5
-  raycastTarget:
-    serializedVersion: 2
-    m_Bits: 64
 --- !u!114 &2515295185089738277
 MonoBehaviour:
   m_ObjectHideFlags: 0

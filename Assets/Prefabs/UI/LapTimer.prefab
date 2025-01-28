@@ -65,7 +65,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 01:24.21
+  m_text: 00:00.00
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c95faa6ec3d690e4c99593afc25af93e, type: 2}
   m_sharedMaterial: {fileID: 3445915794683702334, guid: c95faa6ec3d690e4c99593afc25af93e, type: 2}
@@ -277,6 +277,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1178871385291503969}
+  - component: {fileID: 4513048128446701111}
   - component: {fileID: 1498885477173078558}
   m_Layer: 5
   m_Name: LapTimer
@@ -306,6 +307,20 @@ RectTransform:
   m_AnchoredPosition: {x: -75, y: -75}
   m_SizeDelta: {x: 525, y: 200}
   m_Pivot: {x: 1, y: 1}
+--- !u!114 &4513048128446701111
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6725186731883165841}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ddc8088ede1a06649beb1f8658d35807, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeText: {fileID: 5384603593341978073}
+  startOnAwake: 0
 --- !u!114 &1498885477173078558
 MonoBehaviour:
   m_ObjectHideFlags: 0
