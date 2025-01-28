@@ -309,6 +309,38 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3147300196060537441, guid: 5755f3de902410447922167efc991d3c, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: bc881b5d82e68544fa9238173531b80b, type: 2}
+    - target: {fileID: 3147300196060537441, guid: 5755f3de902410447922167efc991d3c, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 3445915794683702334, guid: bc881b5d82e68544fa9238173531b80b, type: 2}
+    - target: {fileID: 3147300196060537441, guid: 5755f3de902410447922167efc991d3c, type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5384603593341978073, guid: 5755f3de902410447922167efc991d3c, type: 3}
+      propertyPath: m_fontSize
+      value: 108.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5384603593341978073, guid: 5755f3de902410447922167efc991d3c, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: bc881b5d82e68544fa9238173531b80b, type: 2}
+    - target: {fileID: 5384603593341978073, guid: 5755f3de902410447922167efc991d3c, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 3445915794683702334, guid: bc881b5d82e68544fa9238173531b80b, type: 2}
+    - target: {fileID: 5384603593341978073, guid: 5755f3de902410447922167efc991d3c, type: 3}
+      propertyPath: m_characterSpacing
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5384603593341978073, guid: 5755f3de902410447922167efc991d3c, type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6725186731883165841, guid: 5755f3de902410447922167efc991d3c, type: 3}
       propertyPath: m_Name
       value: LapTimer
