@@ -50,8 +50,6 @@ jobs:
         targetPlatform: StandaloneLinux64
         unityVersion: '2022.3.47f1'
         customParameters: -standaloneBuildSubtarget Server
-    
-    - run: ls -la Library
 
     - name: Saving Server Build
       if: ${{ github.event.inputs.rebuildServer == 'true' }}
