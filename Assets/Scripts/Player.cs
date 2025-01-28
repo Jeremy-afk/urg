@@ -1,39 +1,33 @@
 using Mirror;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Player : NetworkBehaviour, IDamageable
 {
-    [SerializeField]
-    private float collisionForce = 5.0f;
-    [SerializeField]
-    private Transform initialCamPos; // Position initiale de la caméra
-    [SerializeField]
-    private Rigidbody rigidBody;
-    [SerializeField]
-    private float repulsiveForce = 5.0f;
+    [Header("Collisions")]
+    [SerializeField] private float collisionForce = 5.0f;
+    [SerializeField] private Rigidbody rigidBody;
+    [SerializeField] private float repulsiveForce = 5.0f;
     private float repulsionTimer = 0.0f;
     private float repulsiveDuration = 0.5f;
-
     private bool collideWithPlayer = false;
-    private bool isStunned = false;
-    private float stunTimer = 0.0f;
 
-    private Movements moves;
-
+    [Header("Camera")]
+    [SerializeField] private Transform initialCamPos; // Position initiale de la caméra
+    [SerializeField] private float minFOV = 60.0f;
+    [SerializeField] private float maxFOV = 120.0f;
+    [SerializeField] private float cameraLerpSpeedRotation = 5f; // Vitesse de transition de la caméra
+    [SerializeField] private float cameraLerpSpeedPosition = 50f; // Vitesse de transition de la caméra
     private Camera mainCamera;
-    [SerializeField]
-    private float minFOV = 60.0f;
-    [SerializeField]
-    private float maxFOV = 120.0f;
-
     private Quaternion targetCameraRotation; // Rotation cible de la caméra
     private Vector3 targetCameraPosition;   // Position cible de la caméra
 
-    [SerializeField]
-    private float cameraLerpSpeedRotation = 5f; // Vitesse de transition de la caméra
-    [SerializeField]
-    private float cameraLerpSpeedPosition = 50f; // Vitesse de transition de la caméra
+    [Header("Stun")]
+    [SerializeField] private UnityEvent<float> onStun;
+    private float stunTimer = 0.0f;
+    private bool isStunned = false;
 
+    private Movements moves;
     private uint team;
 
     public void SetMaxFOV(float newMaxFOV)
@@ -139,6 +133,7 @@ public class Player : NetworkBehaviour, IDamageable
         isStunned = true;
         stunTimer = duration;
         moves.SetMovementActive(false);
+        onStun.Invoke(duration);
     }
 
     public uint GetTeam()
