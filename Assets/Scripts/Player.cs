@@ -4,6 +4,8 @@ using UnityEngine;
 public class Player : NetworkBehaviour, IDamageable
 {
     [SerializeField]
+    private float collisionForce = 5.0f;
+    [SerializeField]
     private Transform initialCamPos; // Position initiale de la caméra
     [SerializeField]
     private Rigidbody rigidBody;
@@ -62,16 +64,12 @@ public class Player : NetworkBehaviour, IDamageable
 
     private void OnCollisionEnter(Collision other)
     {
-        if (other.gameObject.TryGetComponent(out NetworkIdentity id))
+        // TODO: Play a sound when colliding with something
+        var speed = rigidBody.velocity.magnitude;
+
+        if (other.gameObject.TryGetComponent(out Rigidbody rb))
         {
-            if (id.isLocalPlayer)
-            {
-                if (other.gameObject.CompareTag("Player"))
-                {
-                    collideWithPlayer = true;
-                    Debug.Log("Collide with another player");
-                }
-            }
+            rb.AddForce(collisionForce * speed * (rb.position - transform.position).normalized, ForceMode.Impulse);
         }
     }
 

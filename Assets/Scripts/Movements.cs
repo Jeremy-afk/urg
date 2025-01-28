@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 
 public class Movements : NetworkBehaviour
 {
+    [SerializeField] private float naturalBreak = 0.5f;
     private Rigidbody rigidBody;
 
     [Header("Verticality")]
@@ -216,7 +217,7 @@ public class Movements : NetworkBehaviour
             if (targetSpeed == 0)
             {
                 // If the player is not inputing any movement, we want to decelerate to a stop
-                acceleration = -currentSpeed;
+                acceleration = -currentSpeed * naturalBreak;
             }
             else
             {
