@@ -4945,6 +4945,7 @@ GameObject:
   - component: {fileID: 710335740132020894}
   - component: {fileID: 2012596392740014324}
   - component: {fileID: 4978499843022897465}
+  - component: {fileID: 5584731000495448452}
   m_Layer: 0
   m_Name: BaseCar
   m_TagString: Player
@@ -5065,7 +5066,7 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1136528745501484157}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 296525d319c680a4b96aa744335ca33c, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -5142,7 +5143,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneId: 0
-  _assetId: 3479064551
+  _assetId: 52211718
   serverOnly: 0
   visibility: 0
   hasSpawned: 0
@@ -10095,6 +10096,23 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!114 &5584731000495448452
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1136528745501484157}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c709489168fec9348b7f8290ee2e8466, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  force: 12
+  rigidbody3D: {fileID: 8901222850518343056}
 --- !u!1 &3015385352075756943
 GameObject:
   m_ObjectHideFlags: 0
