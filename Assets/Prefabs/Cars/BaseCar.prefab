@@ -10312,6 +10312,7 @@ MonoBehaviour:
   loops: 2
   infinite: 0
   rotateOnAwake: 0
+  restorePosition: 1
 --- !u!1 &4416868696556428228
 GameObject:
   m_ObjectHideFlags: 0

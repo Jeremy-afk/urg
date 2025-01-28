@@ -8,8 +8,10 @@ public class RotationAnimation : MonoBehaviour
     [SerializeField] private uint loops = 0;
     [SerializeField] private bool infinite = false;
     [SerializeField] private bool rotateOnAwake = false;
+    [SerializeField] private bool restorePosition = false;
 
     private bool isRotating = false;
+    private Quaternion initialRotation;
 
     private void Start()
     {
@@ -23,6 +25,7 @@ public class RotationAnimation : MonoBehaviour
 
     public void Rotate()
     {
+        initialRotation = transform.rotation;
         StopAllCoroutines();
         isRotating = true;
         StartCoroutine(RotateCoroutine());
@@ -43,6 +46,11 @@ public class RotationAnimation : MonoBehaviour
             transform.Rotate(rotationAxis, speed * Time.deltaTime);
             elapsedTime += Time.deltaTime;
             yield return null;
+        }
+
+        if (restorePosition)
+        {
+            transform.rotation = initialRotation;
         }
     }
 }
