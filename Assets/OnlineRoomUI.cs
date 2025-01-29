@@ -9,8 +9,14 @@ public class OnlineRoomUI : MonoBehaviour
 {
     [Header("UI")]
     [SerializeField] private List<PlayerListItemUI> playerListItemUIList = new List<PlayerListItemUI>();
-    [SerializeField] private Button startGameButton;
+    [SerializeField] private Button readyGameButton;
     [SerializeField] private Button leaveGameButton;
+    [SerializeField] private Button carSelectionLeftButton;
+    [SerializeField] private Button carSelectionRightButton;
+    [SerializeField] private TextMeshProUGUI carSelectedText;
+    [SerializeField] private List<GameObject> carPrefabs;
+
+    private int carPrefabChosenIndex = 0;
 
 
     private MyNetworkRoomManager room;
@@ -25,7 +31,10 @@ public class OnlineRoomUI : MonoBehaviour
 
     private void Start()
     {
-        startGameButton.onClick.AddListener(() =>
+        Room.playerPrefab = carPrefabs[carPrefabChosenIndex];
+        carSelectedText.text = carPrefabs[carPrefabChosenIndex].name;
+
+        readyGameButton.onClick.AddListener(() =>
         {
             MyNetworkRoomPlayer player = NetworkClient.localPlayer.GetComponent<MyNetworkRoomPlayer>();
             player.CmdChangeReadyState(!player.readyToBegin);
@@ -34,6 +43,29 @@ public class OnlineRoomUI : MonoBehaviour
         leaveGameButton.onClick.AddListener(() =>
         {
             MyNetworkRoomManager.singleton.StopClient();
+        });
+        carSelectionLeftButton.onClick.AddListener(() =>
+        {
+            --carPrefabChosenIndex;
+            if (carPrefabChosenIndex < 0)
+            {
+                carPrefabChosenIndex = carPrefabs.Count - 1;
+            }
+
+            carSelectedText.text = carPrefabs[carPrefabChosenIndex].name;
+
+            //NetworkClient.localPlayer.GetComponent<MyNetworkRoomPlayer>().SetCarSelectionIndex(carPrefabChosenIndex);
+        });
+        carSelectionRightButton.onClick.AddListener(() =>
+        {
+            ++carPrefabChosenIndex;
+            if (carPrefabChosenIndex >= carPrefabs.Count)
+            {
+                carPrefabChosenIndex = 0;
+            }
+
+            carSelectedText.text = carPrefabs[carPrefabChosenIndex].name;
+            //NetworkClient.localPlayer.GetComponent<MyNetworkRoomPlayer>().SetCarSelectionIndex(carPrefabChosenIndex);
         });
     }
 
@@ -56,4 +88,5 @@ public class OnlineRoomUI : MonoBehaviour
             ++j;
         }
     }
+
 }

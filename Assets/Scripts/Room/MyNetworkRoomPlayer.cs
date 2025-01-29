@@ -9,6 +9,9 @@ using static UnityEngine.Rendering.DebugUI;
 
 public class MyNetworkRoomPlayer : NetworkRoomPlayer
 {
+    [SyncVar]
+    private int carSelectionIndex = 0;
+
     private MyNetworkRoomManager room;
 
     private MyNetworkRoomManager Room

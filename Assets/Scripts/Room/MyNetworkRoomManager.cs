@@ -1,10 +1,14 @@
 using kcp2k;
 using Mirror;
+using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using TMPro;
 using UnityEngine;
 
 public class MyNetworkRoomManager : NetworkRoomManager
 {
+    public GameObject[] playerPrefabs;
+
     // Check that whenever the last player disconnects completely, the server shuts down
     public override void OnRoomServerDisconnect(NetworkConnectionToClient conn)
     {
@@ -158,11 +162,13 @@ public class MyNetworkRoomManager : NetworkRoomManager
         FindObjectOfType<OnlineRoomUI>().UpdateUI();
     }
 
-    private void Update()
+    /*public override void OnServerAddPlayer(NetworkConnectionToClient conn)
     {
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            UpdateDisplay();
-        }
-    }
+        int randomIndex = Random.Range(0, playerPrefabs.Length);
+        GameObject playerPrefab = playerPrefabs[randomIndex];
+
+        GameObject player = Instantiate(playerPrefab);
+        NetworkServer.AddPlayerForConnection(conn, player);
+    }*/
+
 }
