@@ -7,11 +7,17 @@ public class MyNetworkRoomManager : NetworkRoomManager
 {
     [Header("OPTIONS")]
     [Tooltip("Delay after ready")]
-    [SerializeField] private bool beginDelay;
+    [SerializeField] private bool raceStartDelay;
 
     public void StartSelfHost()
     {
         StartServer();
+    }
+
+    public void StartSelfClient()
+    {
+        networkAddress = "localhost";
+        StartClient();
     }
 
     // Check that whenever the last player disconnects completely, the server shuts down
@@ -135,7 +141,6 @@ public class MyNetworkRoomManager : NetworkRoomManager
         is set as DontDestroyOnLoad = true.
     */
 
-    bool showStartButton;
 
     public override void OnRoomServerPlayersReady()
     {
@@ -146,12 +151,6 @@ public class MyNetworkRoomManager : NetworkRoomManager
         }
         else
         {
-            // TODO: Launch coroutine that begins the race in 3 seconds like fall guys
-            // OR just enable a button for the leader to start the game
-
-            showStartButton = true;
-            // SceneManager.LoadScene(GameplayScene); // DO NOT USE THIS FUNCTION TO CHANGE SCENE
-
             base.OnRoomServerPlayersReady();
         }
     }
@@ -160,6 +159,8 @@ public class MyNetworkRoomManager : NetworkRoomManager
     {
         roomSlots.Clear();
     }*/
+
+    bool showStartButton = false;
 
     public override void OnGUI()
     {
@@ -171,7 +172,7 @@ public class MyNetworkRoomManager : NetworkRoomManager
             // set to false to hide it in the game scene
             showStartButton = false;
 
-            ServerChangeScene(GameplayScene); // TODO: FUNCTION TO USE TO CHANGE SCENE
+            ServerChangeScene(GameplayScene);
         }
     }
 
@@ -179,14 +180,4 @@ public class MyNetworkRoomManager : NetworkRoomManager
     {
         FindObjectOfType<OnlineRoomUI>().UpdateUI();
     }
-
-    /*public override void OnServerAddPlayer(NetworkConnectionToClient conn)
-    {
-        int randomIndex = Random.Range(0, playerPrefabs.Length);
-        GameObject playerPrefab = playerPrefabs[randomIndex];
-
-        GameObject player = Instantiate(playerPrefab);
-        NetworkServer.AddPlayerForConnection(conn, player);
-    }*/
-
 }
