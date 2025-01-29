@@ -1,13 +1,18 @@
 using kcp2k;
 using Mirror;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using TMPro;
 using UnityEngine;
 
 public class MyNetworkRoomManager : NetworkRoomManager
 {
-    public GameObject[] playerPrefabs;
+    [Header("OPTIONS")]
+    [Tooltip("Delay after ready")]
+    [SerializeField] private bool beginDelay;
+
+    public void StartSelfHost()
+    {
+        StartServer();
+    }
 
     // Check that whenever the last player disconnects completely, the server shuts down
     public override void OnRoomServerDisconnect(NetworkConnectionToClient conn)
@@ -28,22 +33,33 @@ public class MyNetworkRoomManager : NetworkRoomManager
 
     public override void Start()
     {
-        string portString = GetArg("-port");
-        if (portString == "ERROR")
-        {
-            Debug.LogError("Error when setting port");
-        }
+        Debug.Log("Starting server...");
 
         KcpTransport transport = MyNetworkRoomManager.singleton.GetComponent<KcpTransport>();
-        ushort port;
-        if (ushort.TryParse(portString, out port))
+        if (transport.port == 7777)
         {
-            Debug.Log($"Conversion réussie : {port}");
-            transport.port = port;
+            // 7777 is the default port, that means it's the first time the server is launched
+            // We need to set the port to the one given in the command line
+            string portString = GetArg("-port");
+            if (portString == "ERROR")
+            {
+                Debug.LogError("Error when setting port");
+            }
+
+            if (ushort.TryParse(portString, out ushort port))
+            {
+                Debug.Log($"Conversion réussie : {port}");
+                transport.port = port;
+            }
+            else
+            {
+                Debug.LogError("Échec de la conversion : la chaîne n'est pas un nombre valide ou est hors plage.");
+            }
         }
         else
         {
-            Debug.LogError("Échec de la conversion : la chaîne n'est pas un nombre valide ou est hors plage.");
+            Debug.Log($"Port already set to {transport.port} - the server is being reused.");
+
         }
 
         base.Start();
@@ -135,6 +151,8 @@ public class MyNetworkRoomManager : NetworkRoomManager
 
             showStartButton = true;
             // SceneManager.LoadScene(GameplayScene); // DO NOT USE THIS FUNCTION TO CHANGE SCENE
+
+            base.OnRoomServerPlayersReady();
         }
     }
 
