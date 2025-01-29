@@ -10,7 +10,6 @@ LISTEN_PORT = 7777 # Port d'écoute où tourne notre script python pour gérer l
 SERVER_BASE_PORT = 7778 # Le port de base 
 # SERVER_EXECUTABLE = "C:/Users/STEEVEN/Desktop/ServerBuild/URG.exe"
 SERVER_EXECUTABLE = "/home/jlenoir/server/MedievalRacingServer.exe"
-SERVER_CORE_LOGS = "/home/jlenoir/logs/server_core_logs.txt"
 SERVER_PATTERN_LOGS = "/home/jlenoir/logs/server_rooms/room_{room_code}.txt"
 
 ROOM_CODE_LENGTH = 5
