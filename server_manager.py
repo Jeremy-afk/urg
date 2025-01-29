@@ -10,7 +10,7 @@ LISTEN_PORT = 7777 # Port d'écoute où tourne notre script python pour gérer l
 SERVER_BASE_PORT = 7778 # Le port de base 
 # SERVER_EXECUTABLE = "C:/Users/STEEVEN/Desktop/ServerBuild/URG.exe"
 SERVER_EXECUTABLE = "/home/jlenoir/server/MedievalRacingServer.exe"
-SERVER_CORE_LOGS = "/home/jlenoir/server/logs/server_core.txt"
+SERVER_CORE_LOGS = "/home/jlenoir/logs/server_core_logs.txt"
 SERVER_PATTERN_LOGS = "/home/jlenoir/logs/server_rooms/room_{room_code}.txt"
 
 ROOM_CODE_LENGTH = 5
@@ -96,14 +96,11 @@ def instantiate_server():
     port = SERVER_BASE_PORT + len(server_instances)
     print(f"Lancement du serveur sur le port {port}...")
     try:
-        
-
         session_code = ""
         is_session_code_unique = False
         while not is_session_code_unique:
             session_code = ''.join(random.choices(string.ascii_uppercase + string.digits, k=ROOM_CODE_LENGTH))
             is_session_code_unique = all(server.sessionCode != session_code for server in server_instances)
-
 
         print(f"Room {session_code} instanciée")
         with open(SERVER_PATTERN_LOGS.format(room_code=session_code), 'a') as log_file:
