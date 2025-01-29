@@ -16,6 +16,7 @@ public class Finish : NetworkBehaviour
     [SerializeField] private UnityEvent<int> onLapCompleted; // int is the number of laps completed
     [SerializeField] private UnityEvent<int> onPlayerFinishedRace;
     [SerializeField] private UnityEvent onRaceFinished;
+    [SerializeField] private UnityEvent<ContestantData[]> onPlacementPublished;
 
     private Dictionary<NetworkIdentity, int> playerLapCount = new();
 
@@ -87,11 +88,7 @@ public class Finish : NetworkBehaviour
                 teamCount++;
             }
 
-            playerRegisteredCount++;
-            if (playerRegisteredCount >= playerExpectedCount)
-            {
-                StartCountdown();
-            }
+            CheckStart();
 
             if (playerIdentity.isLocalPlayer) localPlayer = playerIdentity.GetComponent<Player>();
 
@@ -103,6 +100,16 @@ public class Finish : NetworkBehaviour
         Debug.LogError("Attempted to register a null or invalid player.");
 
         return 0;
+    }
+
+    [Server]
+    private void CheckStart()
+    {
+        playerRegisteredCount++;
+        if (playerRegisteredCount >= playerExpectedCount)
+        {
+            StartCountdown();
+        }
     }
 
     [Server]
@@ -318,6 +325,16 @@ public class Finish : NetworkBehaviour
     {
         placements = newPlacements;
         onRaceFinished.Invoke();
+
+        // Make the placements table
+        ContestantData[] placementData = new ContestantData[placements.Length];
+        for (int i = 0; i < placements.Length; i++)
+        {
+            // TODO: Retrieve the name of the player, for now let's use its netId
+            placementData[i] = new ContestantData(placements[i].netId.ToString(), i + 1, placements[i].isLocalPlayer);
+        }
+
+        onPlacementPublished.Invoke(placementData);
     }
 
     // Preview of the current placementv (it may not be 100% accurate since this is only computed client side)
