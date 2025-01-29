@@ -60,7 +60,7 @@ public class Movements : NetworkBehaviour
 
     [Header("Animations")]
     [SerializeField]
-    private ParticleSystem smoke;
+    public ParticleSystem smoke;
 
     private AudioSource klaxonSound;
     private Player activePlayer;
@@ -78,7 +78,7 @@ public class Movements : NetworkBehaviour
         }
         else
         {
-            if (holdingDrift)
+            if (holdingDrift && holdingQD)
             {
                 rightWheelPart.Play();
                 leftWheelPart.Play();
