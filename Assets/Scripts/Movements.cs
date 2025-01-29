@@ -60,7 +60,7 @@ public class Movements : NetworkBehaviour
 
     [Header("Animations")]
     [SerializeField]
-    public ParticleSystem smoke;
+    public GameObject smokeObject;
 
     private AudioSource klaxonSound;
     private Player activePlayer;
@@ -76,15 +76,6 @@ public class Movements : NetworkBehaviour
             rightWheelPart.Stop();
             leftWheelPart.Stop();
         }
-        else
-        {
-            if (holdingDrift && holdingQD)
-            {
-                rightWheelPart.Play();
-                leftWheelPart.Play();
-            }
-        }
-
     }
 
     [Server]
@@ -231,14 +222,13 @@ public class Movements : NetworkBehaviour
                 acceleration = accelerationCurve.Evaluate(currentSpeed / targetSpeed) * movementsSpeed * accelerationDirection * (bonusSpeedMultTime > 0 ? bonusSpeedMult : 1);
             }
             rigidBody.AddForce(acceleration * transform.forward, ForceMode.Acceleration);
-            var emitParams = new ParticleSystem.EmitParams();
-            smoke.Emit(emitParams, Mathf.RoundToInt(rigidBody.velocity.magnitude / maxSpeed * 1.5f));
+            smokeObject.SetActive(true);
 
             //print("acceleration at " + acceleration + " m/s");
         }
         else
         {
-            smoke.Clear();
+            smokeObject.SetActive(false);
         }
 
         if (holdingQD)
@@ -270,7 +260,7 @@ public class Movements : NetworkBehaviour
             Quaternion driftTurnRotation = Quaternion.Euler(0f, driftTurnAmount, 0f);
             rigidBody.MoveRotation(rigidBody.rotation * driftTurnRotation);
 
-            if (canMove)
+            if (canMove && holdingQD)
             {
                 rightWheelPart.Play();
                 leftWheelPart.Play();

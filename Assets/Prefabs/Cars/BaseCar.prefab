@@ -5055,7 +5055,7 @@ MonoBehaviour:
   driftFactor: 0.1
   rightWheelPart: {fileID: 7286259054758662922}
   leftWheelPart: {fileID: 6556346090718444199}
-  smoke: {fileID: 5457267626950464345}
+  smokeObject: {fileID: 7543529984314232959}
 --- !u!65 &4489706650077024238
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -10568,13 +10568,14 @@ GameObject:
   - component: {fileID: 8490142259209279522}
   - component: {fileID: 5457267626950464345}
   - component: {fileID: 3827396850783550817}
+  - component: {fileID: 336265710910972277}
   m_Layer: 0
   m_Name: Smoke
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8490142259209279522
 Transform:
   m_ObjectHideFlags: 0
@@ -15387,6 +15388,21 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!114 &336265710910972277
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7543529984314232959}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7de2c09087809940b81d894e6c0be45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rigidBody: {fileID: 8901222850518343056}
+  moves: {fileID: 328080516358278813}
+  smoke: {fileID: 5457267626950464345}
 --- !u!1 &7612337416698332458
 GameObject:
   m_ObjectHideFlags: 0
