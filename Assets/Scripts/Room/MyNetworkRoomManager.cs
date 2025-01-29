@@ -7,7 +7,8 @@ public class MyNetworkRoomManager : NetworkRoomManager
 {
     [Header("OPTIONS")]
     [Tooltip("Delay after ready")]
-    [SerializeField] private bool raceStartDelay;
+    [SerializeField] private int raceStartDelay;
+    private NetworkEvent networkEvent;
 
     public void StartSelfHost()
     {
@@ -144,15 +145,21 @@ public class MyNetworkRoomManager : NetworkRoomManager
 
     public override void OnRoomServerPlayersReady()
     {
-        // calling the base method calls ServerChangeScene as soon as all players are in Ready state.
-        if (Mirror.Utils.IsHeadless())
+        Countdown countdown = FindObjectOfType<Countdown>();
+
+        if (countdown == null)
         {
-            base.OnRoomServerPlayersReady();
+            Debug.LogError("Countdown not found !!");
+            return;
         }
-        else
-        {
-            base.OnRoomServerPlayersReady();
-        }
+
+        networkEvent = FindObjectOfType<NetworkEvent>();
+        networkEvent.RpcStartReadyCountdown(raceStartDelay);
+
+        countdown.SetDuration(raceStartDelay);
+        countdown.StartCountdown(() => {
+            ServerChangeScene(GameplayScene);
+        });
     }
 
     /*public override void OnStopServer()

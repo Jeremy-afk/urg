@@ -1,5 +1,4 @@
 using Mirror;
-using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -34,34 +33,32 @@ public class OnlineRoomUI : MonoBehaviour
         Room.playerPrefab = carPrefabs[carPrefabChosenIndex];
         carSelectedText.text = carPrefabs[carPrefabChosenIndex].name;
 
-        readyGameButton.onClick.AddListener(() =>
-        {
+        readyGameButton.onClick.AddListener(() => {
             MyNetworkRoomPlayer player = NetworkClient.localPlayer.GetComponent<MyNetworkRoomPlayer>();
             player.CmdChangeReadyState(!player.readyToBegin);
             UpdateUI();
         });
-        leaveGameButton.onClick.AddListener(() =>
-        {
+        leaveGameButton.onClick.AddListener(() => {
             MyNetworkRoomManager.singleton.StopClient();
         });
-        carSelectionLeftButton.onClick.AddListener(() =>
-        {
+        carSelectionLeftButton.onClick.AddListener(() => {
             --carPrefabChosenIndex;
             if (carPrefabChosenIndex < 0)
             {
                 carPrefabChosenIndex = carPrefabs.Count - 1;
+                //Room.playerPrefab = carPrefabs[carPrefabChosenIndex];
             }
 
             carSelectedText.text = carPrefabs[carPrefabChosenIndex].name;
 
             //NetworkClient.localPlayer.GetComponent<MyNetworkRoomPlayer>().SetCarSelectionIndex(carPrefabChosenIndex);
         });
-        carSelectionRightButton.onClick.AddListener(() =>
-        {
+        carSelectionRightButton.onClick.AddListener(() => {
             ++carPrefabChosenIndex;
             if (carPrefabChosenIndex >= carPrefabs.Count)
             {
                 carPrefabChosenIndex = 0;
+                //Room.playerPrefab = carPrefabs[carPrefabChosenIndex];
             }
 
             carSelectedText.text = carPrefabs[carPrefabChosenIndex].name;

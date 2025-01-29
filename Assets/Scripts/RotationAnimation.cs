@@ -5,7 +5,7 @@ public class RotationAnimation : MonoBehaviour
 {
     [SerializeField] private Vector3 rotationAxis = Vector3.up;
     [SerializeField] private float duration = 1f;
-    [SerializeField] private uint loops = 0;
+    [SerializeField] private uint spins = 2;
     [SerializeField] private bool infinite = false;
     [SerializeField] private bool rotateOnAwake = false;
     [SerializeField] private bool restorePosition = false;
@@ -39,7 +39,7 @@ public class RotationAnimation : MonoBehaviour
     private IEnumerator RotateCoroutine()
     {
         float elapsedTime = 0;
-        float speed = loops * 360 / duration;
+        float speed = spins * 360 / duration;
 
         while (isRotating && (infinite || elapsedTime < duration))
         {
