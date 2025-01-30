@@ -35,6 +35,18 @@ public class GameManager : NetworkBehaviour
 
     public void ReturnToLobby(bool isConfirmed)
     {
-
+        if (!isConfirmed)
+        {
+            Popup.Instance.MakePopup(
+                "Return to lobby",
+                "Are you sure you want to return to the lobby?",
+                "No, stay", "Yes, back to lobby",
+                redActionListener: () => ReturnToLobby(true));
+        }
+        else
+        {
+            // Leave the server and return to lobby
+            MyNetworkRoomManager.singleton.StopClient();
+        }
     }
 }

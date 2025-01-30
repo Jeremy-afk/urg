@@ -5102,7 +5102,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 1
   m_Constraints: 112
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!114 &6952998789078221494
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5509,7 +5509,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rotationAxis: {x: 0, y: 1, z: 0}
   duration: 0
-  loops: 2
+  spins: 2
   infinite: 0
   rotateOnAwake: 0
   restorePosition: 1
