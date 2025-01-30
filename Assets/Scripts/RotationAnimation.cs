@@ -13,7 +13,7 @@ public class RotationAnimation : MonoBehaviour
     private bool isRotating = false;
     private Quaternion initialRotation;
 
-    private void Start()
+    private void Awake()
     {
         isRotating = rotateOnAwake;
     }
@@ -25,6 +25,7 @@ public class RotationAnimation : MonoBehaviour
 
     public void Rotate()
     {
+        print("asked");
         initialRotation = transform.rotation;
         StopAllCoroutines();
         isRotating = true;
@@ -39,7 +40,7 @@ public class RotationAnimation : MonoBehaviour
     private IEnumerator RotateCoroutine()
     {
         float elapsedTime = 0;
-        float speed = spins * 360 / duration;
+        float speed = spins * 360f / duration;
 
         while (isRotating && (infinite || elapsedTime < duration))
         {

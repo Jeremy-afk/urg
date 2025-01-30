@@ -6,12 +6,13 @@ using UnityEngine.Events;
 
 public class Finish : NetworkBehaviour
 {
-    [SerializeField] private int countdownDelay = 2;
+    [SerializeField] private int countdownPredelay = 2;
+    [SerializeField] private int countdownDelay = 3;
     [SerializeField] private int requiredLaps = 3;
     [SerializeField] private Checkpoint[] checkpoints;
 
     [Header("Client Events")]
-    [SerializeField] private UnityEvent<float> onCountdownStart; // Countdown time in seconds
+    [SerializeField] private UnityEvent<int> onCountdownStart; // Countdown time in seconds
     [SerializeField] private UnityEvent onRaceStart;
     [SerializeField] private UnityEvent<int> onLapCompleted; // int is the number of laps completed
     [SerializeField] private UnityEvent<int> onPlayerFinishedRace;
@@ -125,11 +126,13 @@ public class Finish : NetworkBehaviour
     {
         Debug.Log("Waiting for countdown");
 
-        yield return new WaitForSeconds(countdownDelay);
+        yield return new WaitForSeconds(countdownPredelay);
 
         Debug.Log("Countdown started");
 
         RpcCountdownStart(countdownDelay);
+
+        yield return new WaitForSeconds(countdownDelay);
 
         Debug.Log("Countdown finished");
 
@@ -164,7 +167,7 @@ public class Finish : NetworkBehaviour
     #region Race Events
 
     [ClientRpc]
-    private void RpcCountdownStart(float duration)
+    private void RpcCountdownStart(int duration)
     {
         onCountdownStart.Invoke(duration);
     }

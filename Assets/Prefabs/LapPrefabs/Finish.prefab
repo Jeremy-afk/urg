@@ -101,7 +101,8 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  countdownDelay: 2
+  countdownPredelay: 2
+  countdownDelay: 3
   requiredLaps: 2
   checkpoints:
   - {fileID: 0}
@@ -121,6 +122,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   onRaceFinished:
+    m_PersistentCalls:
+      m_Calls: []
+  onPlacementPublished:
     m_PersistentCalls:
       m_Calls: []
 --- !u!65 &8933192957560470931

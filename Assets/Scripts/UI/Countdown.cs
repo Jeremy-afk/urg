@@ -38,6 +38,7 @@ public class Countdown : MonoBehaviour
     [SerializeField] private AnimationCurve digitAlpha = AnimationCurve.Constant(0, 1, 1);
     [SerializeField] private AnimationCurve digitScale = AnimationCurve.Constant(0, 1, 1);
     [SerializeField] private float scaleMultiplier = 3f;
+    [SerializeField] private bool showImage = true;
 
     [Header("References")]
     [SerializeField] private Image image;
@@ -70,7 +71,19 @@ public class Countdown : MonoBehaviour
         countdownDuration = duration;
     }
 
-    public void StartCountdown(Action callback = null)
+    public void StartCountdown()
+    {
+        if (isCountingDown)
+        {
+            Debug.LogWarning("Countdown already in progress.");
+            return;
+        }
+        isCountingDown = true;
+        PopulateNecessaryTexts();
+        StartCoroutine(CountdownCoroutine(null));
+    }
+
+    public void StartCountdown(Action callback)
     {
         if (isCountingDown)
         {
@@ -85,7 +98,7 @@ public class Countdown : MonoBehaviour
     private IEnumerator CountdownCoroutine(Action callback)
     {
         textIndex = 0;
-        image.gameObject.SetActive(true);
+        image.gameObject.SetActive(showImage);
         onCountdownBegin.Invoke();
 
         // Typically, begins at 3.
