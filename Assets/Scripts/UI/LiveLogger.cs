@@ -9,19 +9,25 @@ public class LiveLogger : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance == null)
+        if (Instance != null)
         {
-            Instance = this;
+            Debug.LogWarning("Multiple LiveLogger instances detected in the scene. Only one LiveLogger is allowed.");
+            Destroy(gameObject);
         }
         else
         {
-            Destroy(gameObject);
+            Instance = this;
         }
     }
 
     static public void Log(string message, LogType logType = LogType.Log)
     {
-        if (Instance == null) return;
+
+        if (Instance == null)
+        {
+            Debug.LogWarning("LiveLogger instance not found. Log will not be displayed.");
+            return;
+        }
 
         Instance.HandleLog(message, logType);
     }

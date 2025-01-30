@@ -32,6 +32,7 @@ public class OnlineRoomUI : MonoBehaviour
     {
         Room.playerPrefab = carPrefabs[carPrefabChosenIndex];
         carSelectedText.text = carPrefabs[carPrefabChosenIndex].name;
+        LiveLogger.Log("OnlineRoom start");
 
         readyGameButton.onClick.AddListener(() => {
             MyNetworkRoomPlayer player = NetworkClient.localPlayer.GetComponent<MyNetworkRoomPlayer>();
@@ -46,9 +47,9 @@ public class OnlineRoomUI : MonoBehaviour
             if (carPrefabChosenIndex < 0)
             {
                 carPrefabChosenIndex = carPrefabs.Count - 1;
-                //Room.playerPrefab = carPrefabs[carPrefabChosenIndex];
             }
-
+            Room.playerPrefab = carPrefabs[carPrefabChosenIndex];
+            LiveLogger.Log("Car prefab chosen index: " + carPrefabChosenIndex);
             carSelectedText.text = carPrefabs[carPrefabChosenIndex].name;
 
             //NetworkClient.localPlayer.GetComponent<MyNetworkRoomPlayer>().SetCarSelectionIndex(carPrefabChosenIndex);
@@ -58,9 +59,9 @@ public class OnlineRoomUI : MonoBehaviour
             if (carPrefabChosenIndex >= carPrefabs.Count)
             {
                 carPrefabChosenIndex = 0;
-                //Room.playerPrefab = carPrefabs[carPrefabChosenIndex];
             }
-
+            Room.playerPrefab = carPrefabs[carPrefabChosenIndex];
+            LiveLogger.Log("Car prefab chosen index: " + carPrefabChosenIndex);
             carSelectedText.text = carPrefabs[carPrefabChosenIndex].name;
             //NetworkClient.localPlayer.GetComponent<MyNetworkRoomPlayer>().SetCarSelectionIndex(carPrefabChosenIndex);
         });

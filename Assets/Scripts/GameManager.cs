@@ -32,4 +32,9 @@ public class GameManager : NetworkBehaviour
     {
         return finishLine.RegisterPlayer(player);
     }
+
+    public void ReturnToLobby(bool isConfirmed)
+    {
+
+    }
 }
