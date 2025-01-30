@@ -143,6 +143,7 @@ public class Finish : NetworkBehaviour
         {
             Movements playerMovements = playerIdentity.GetComponent<Movements>();
             playerMovements.SetMovementActive(true);
+            LiveLogger.Log("Set movement active for player " + playerIdentity.netId);
         }
         Debug.Log("Race started, moving enabled!");
 
