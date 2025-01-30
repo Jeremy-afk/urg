@@ -11,7 +11,7 @@ public class Countdown : MonoBehaviour
     [SerializeField] private bool activateOnAwake = false;
 
     [Header("General parameters")]
-    [Range(1, 10)]
+    [Range(1, 30)]
     [SerializeField] private int countdownDuration = 3;
     [Tooltip("Represents a second of this countdown.")]
     [SerializeField] private float countdownUnitMultiplier = 1f;
@@ -90,6 +90,7 @@ public class Countdown : MonoBehaviour
             Debug.LogWarning("Countdown already in progress.");
             return;
         }
+        LiveLogger.Log("Countdown started");
         isCountingDown = true;
         PopulateNecessaryTexts();
         StartCoroutine(CountdownCoroutine(callback));

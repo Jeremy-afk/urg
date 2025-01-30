@@ -8,6 +8,7 @@ public class Finish : NetworkBehaviour
 {
     [SerializeField] private int countdownPredelay = 2;
     [SerializeField] private int countdownDelay = 3;
+    [SerializeField] private int waitForReturnToRoom = 20;
     [SerializeField] private int requiredLaps = 3;
     [SerializeField] private Checkpoint[] checkpoints;
 
@@ -18,6 +19,7 @@ public class Finish : NetworkBehaviour
     [SerializeField] private UnityEvent<int> onPlayerFinishedRace;
     [SerializeField] private UnityEvent onRaceFinished;
     [SerializeField] private UnityEvent<ContestantData[]> onPlacementPublished;
+    [SerializeField] private UnityEvent<int> onWaitReturnRoomBegin;
 
     private Dictionary<NetworkIdentity, int> playerLapCount = new();
 
@@ -153,6 +155,8 @@ public class Finish : NetworkBehaviour
         RpcRaceStart();
     }
 
+
+
     private void OnTriggerEnter(Collider other)
     {
         // Only the server will check for the completion of laps
@@ -185,6 +189,9 @@ public class Finish : NetworkBehaviour
 
         // Communicate the placements to all clients
         RpcUpdatePlacement(placements);
+
+        // Wait for a while before returning to the room
+        StartCoroutine(WaitForReturnToRoom());
     }
 
     [Server]
@@ -236,6 +243,20 @@ public class Finish : NetworkBehaviour
         }
     }
 
+    [Server]
+    private IEnumerator WaitForReturnToRoom()
+    {
+        RpcWaitForReturnToRoom();
+        yield return new WaitForSeconds(waitForReturnToRoom);
+
+        GameManager.Instance.ReturnToRoom();
+    }
+
+    [ClientRpc]
+    private void RpcWaitForReturnToRoom()
+    {
+        onWaitReturnRoomBegin.Invoke(waitForReturnToRoom);
+    }
     #endregion
 
     #region Lap & checkpoints Management

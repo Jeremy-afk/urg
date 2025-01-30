@@ -25,7 +25,7 @@ public class MyNetworkRoomManager : NetworkRoomManager
     public override void OnRoomServerDisconnect(NetworkConnectionToClient conn)
     {
         base.OnRoomServerDisconnect(conn);
-        Debug.Log($"Player {conn.identity} left the game.");
+        LiveLogger.Log($"Player {conn.identity} left the game.");
         if (numPlayers == 0)
         {
             Debug.Log("All players disconnected. Shutting down the server...");
@@ -66,7 +66,6 @@ public class MyNetworkRoomManager : NetworkRoomManager
         else
         {
             Debug.Log($"Port already set to {transport.port} - the server is being reused.");
-
         }
 
         base.Start();
