@@ -4,7 +4,8 @@ using UnityEngine;
 public class ContestantDisplay : MonoBehaviour
 {
     [SerializeField] private GameObject finishedText;
-    [SerializeField] private RectTransform leaderboardWindow; // Parent for contestants
+    [SerializeField] private Animator leaderboardWindow; // Parent for contestants
+    [SerializeField] private CanvasGroup leaderboardWindowCanvas; // Parent for contestants
     [SerializeField] private RectTransform contestantsContainer; // Parent for contestants
     [SerializeField] private Contestant contestantPrefab;
 
@@ -26,11 +27,14 @@ public class ContestantDisplay : MonoBehaviour
         }
     }*/
 
-    public void DisplayContestants(ContestantData[] contestants)
+    private void Awake()
     {
         finishedText.SetActive(false);
-        leaderboardWindow.gameObject.SetActive(false);
-        gameObject.SetActive(true);
+        leaderboardWindowCanvas.alpha = 0;
+    }
+
+    public void DisplayContestants(ContestantData[] contestants)
+    {
         StartCoroutine(SpawnContestants(contestants));
     }
 
@@ -50,7 +54,8 @@ public class ContestantDisplay : MonoBehaviour
 
         yield return new WaitForSeconds(leaderboardShowDelay); // Delay before showing leaderboard
 
-        leaderboardWindow.gameObject.SetActive(true);
+        leaderboardWindowCanvas.alpha = 1;
+        leaderboardWindow.SetTrigger("Show");
 
         yield return new WaitForSeconds(leaderboardAnimationDelay); // Delay before spawning contestants
 

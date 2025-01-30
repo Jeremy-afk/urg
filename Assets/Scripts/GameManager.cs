@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class GameManager : NetworkBehaviour
 {
+    [Scene]
+    [SerializeField] private string roomOnlineScene = "RoomOnline";
     [SerializeField] private Finish finishLine;
     [SerializeField] private GameObject finishedUi;
 
@@ -33,6 +35,7 @@ public class GameManager : NetworkBehaviour
         return finishLine.RegisterPlayer(player);
     }
 
+    [Client]
     public void ReturnToLobby(bool isConfirmed)
     {
         if (!isConfirmed)
@@ -48,5 +51,11 @@ public class GameManager : NetworkBehaviour
             // Leave the server and return to lobby
             MyNetworkRoomManager.singleton.StopClient();
         }
+    }
+
+    [ServerCallback]
+    public void ReturnToRoom()
+    {
+        MyNetworkRoomManager.singleton.ServerChangeScene("RoomOnline");
     }
 }
