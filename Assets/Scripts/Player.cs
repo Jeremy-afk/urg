@@ -15,6 +15,7 @@ public class Player : NetworkBehaviour, IDamageable
     [Header("Camera")]
     [SerializeField] private Transform initialCamPos; // Position initiale de la caméra
     [SerializeField] private float minFOV = 60.0f;
+    [SyncVar]
     [SerializeField] private float maxFOV = 120.0f;
     [SerializeField] private float cameraLerpSpeedRotation = 5f; // Vitesse de transition de la caméra
     [SerializeField] private float cameraLerpSpeedPosition = 50f; // Vitesse de transition de la caméra
@@ -47,9 +48,12 @@ public class Player : NetworkBehaviour, IDamageable
 
         mainCamera = Camera.main;
 
+        LiveLogger.Log("Player start!! Camera is " + mainCamera);
+
         // Configurer la position et rotation initiales
-        mainCamera.transform.SetParent(null); // Découpler temporairement la caméra pour gérer la rotation correctement
-        mainCamera.transform.SetPositionAndRotation(initialCamPos.position, initialCamPos.rotation);
+        mainCamera.transform.SetParent(initialCamPos);
+        mainCamera.transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
+        mainCamera.transform.SetParent(null, true);
         targetCameraRotation = mainCamera.transform.rotation;
         targetCameraPosition = mainCamera.transform.position;
 

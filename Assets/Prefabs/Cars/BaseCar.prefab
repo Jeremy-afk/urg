@@ -4937,7 +4937,6 @@ GameObject:
   - component: {fileID: 1953922961900765582}
   - component: {fileID: 8901222850518343056}
   - component: {fileID: 6952998789078221494}
-  - component: {fileID: 2451548863511674814}
   - component: {fileID: 5139236844705921472}
   - component: {fileID: 9087782695256684940}
   - component: {fileID: 708143933604979002}
@@ -5007,23 +5006,32 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0.16011174
     - serializedVersion: 3
-      time: -0.0644696
-      value: 0.13608047
-      inSlope: -0.65182614
-      outSlope: -0.65182614
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.1159463
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.0024414062
-      value: 0.2
-      inSlope: 2.3489778
-      outSlope: 2.3489778
-      tangentMode: 0
-      weightedMode: 0
+      time: -0.041286595
+      value: 0.2597568
+      inSlope: -0.8017954
+      outSlope: 0.64284766
+      tangentMode: 1
+      weightedMode: 3
       inWeight: 0.33333334
-      outWeight: 0.04025695
+      outWeight: 1
+    - serializedVersion: 3
+      time: 0.034054592
+      value: 0.37314686
+      inSlope: 2.6885953
+      outSlope: 2.6885953
+      tangentMode: 0
+      weightedMode: 2
+      inWeight: 0.33333334
+      outWeight: 0.17510971
+    - serializedVersion: 3
+      time: 0.176028
+      value: 0.5015547
+      inSlope: 0.06345307
+      outSlope: -0.25529993
+      tangentMode: 1
+      weightedMode: 3
+      inWeight: 0.33773214
+      outWeight: 0.09603814
     - serializedVersion: 3
       time: 1
       value: 0
@@ -5031,7 +5039,7 @@ MonoBehaviour:
       outSlope: 0
       tangentMode: 1
       weightedMode: 3
-      inWeight: 1
+      inWeight: 0.84742856
       outWeight: 0.33333334
     - serializedVersion: 3
       time: 1.2
@@ -5122,39 +5130,6 @@ MonoBehaviour:
   serverOnly: 0
   visibility: 0
   hasSpawned: 0
---- !u!114 &2451548863511674814
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1136528745501484157}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8ff3ba0becae47b8b9381191598957c8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 1
-  syncMode: 0
-  syncInterval: 0
-  target: {fileID: 2772221897071357495}
-  syncPosition: 1
-  syncRotation: 1
-  syncScale: 0
-  onlySyncOnChange: 1
-  compressRotation: 1
-  interpolatePosition: 1
-  interpolateRotation: 1
-  interpolateScale: 1
-  coordinateSpace: 0
-  timelineOffset: 1
-  showGizmos: 0
-  showOverlay: 0
-  overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
-  onlySyncOnChangeCorrectionMultiplier: 2
-  rotationSensitivity: 0.01
-  positionPrecision: 0.01
-  scalePrecision: 0.01
 --- !u!114 &5139236844705921472
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5167,14 +5142,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb803efbe62c34d7baece46c9ffebad9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncDirection: 1
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0
   target: {fileID: 2772221897071357495}
   syncPosition: 1
   syncRotation: 1
   syncScale: 0
-  onlySyncOnChange: 1
+  onlySyncOnChange: 0
   compressRotation: 1
   interpolatePosition: 1
   interpolateRotation: 1
