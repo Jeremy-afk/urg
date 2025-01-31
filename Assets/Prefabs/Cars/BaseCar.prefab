@@ -4934,7 +4934,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2772221897071357495}
   - component: {fileID: 328080516358278813}
-  - component: {fileID: 4489706650077024238}
+  - component: {fileID: 1953922961900765582}
   - component: {fileID: 8901222850518343056}
   - component: {fileID: 6952998789078221494}
   - component: {fileID: 2451548863511674814}
@@ -5055,14 +5055,14 @@ MonoBehaviour:
   rightWheelPart: {fileID: 7286259054758662922}
   leftWheelPart: {fileID: 6556346090718444199}
   smokeObject: {fileID: 7543529984314232959}
---- !u!65 &4489706650077024238
-BoxCollider:
+--- !u!136 &1953922961900765582
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1136528745501484157}
-  m_Material: {fileID: 13400000, guid: 296525d319c680a4b96aa744335ca33c, type: 2}
+  m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -5073,9 +5073,11 @@ BoxCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1.8645582, y: 1.4541236, z: 4.3570633}
-  m_Center: {x: -0.0035678148, y: 0.23559767, z: 0.122262955}
+  serializedVersion: 2
+  m_Radius: 0.87
+  m_Height: 4.38
+  m_Direction: 2
+  m_Center: {x: 0, y: 0.15, z: 0.12}
 --- !u!54 &8901222850518343056
 Rigidbody:
   m_ObjectHideFlags: 0
