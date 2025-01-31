@@ -43,8 +43,9 @@ public class GameManager : NetworkBehaviour
             Popup.Instance.MakePopup(
                 "Return to lobby",
                 "Are you sure you want to return to the lobby?",
-                "No, stay", "Yes, back to lobby",
-                redActionListener: () => ReturnToLobby(true));
+                "Back to lobby",
+                "Cancel",
+                greenActionListener: () => ReturnToLobby(true));
         }
         else
         {
