@@ -2068,8 +2068,6 @@ MonoBehaviour:
   - {fileID: 1265877447}
   - {fileID: 1834210256}
   - {fileID: 2145600844}
-  - {fileID: 0}
-  - {fileID: 0}
   readyGameButton: {fileID: 2139553440}
   leaveGameButton: {fileID: 1491383535}
   carSelectionLeftButton: {fileID: 1914773023}
