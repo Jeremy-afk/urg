@@ -1,5 +1,5 @@
-using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class OfflineRoomUI : MonoBehaviour
@@ -24,4 +24,8 @@ public class OfflineRoomUI : MonoBehaviour
         clientManager.JoinRoom();
     }
 
+    public void BackToMainMenu()
+    {
+        SceneManager.LoadScene(0);
+    }
 }
