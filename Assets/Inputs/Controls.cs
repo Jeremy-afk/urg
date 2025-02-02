@@ -71,6 +71,15 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""PauseMenu"",
+                    ""type"": ""Button"",
+                    ""id"": ""d48610d5-81d2-403e-88bc-5e35b4e7e601"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -359,6 +368,28 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""action"": ""Turn Left/Right"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""87a2641b-4be2-4152-b20b-a83db9a8e0a4"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""PauseMenu"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""61fd0f81-eeda-4cd0-a276-3d3fd370422a"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Xbox"",
+                    ""action"": ""PauseMenu"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -383,6 +414,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         m_Player_Drift = m_Player.FindAction("Drift", throwIfNotFound: true);
         m_Player_Item = m_Player.FindAction("Item", throwIfNotFound: true);
         m_Player_Klaxon = m_Player.FindAction("Klaxon", throwIfNotFound: true);
+        m_Player_PauseMenu = m_Player.FindAction("PauseMenu", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -449,6 +481,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Drift;
     private readonly InputAction m_Player_Item;
     private readonly InputAction m_Player_Klaxon;
+    private readonly InputAction m_Player_PauseMenu;
     public struct PlayerActions
     {
         private @Controls m_Wrapper;
@@ -458,6 +491,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         public InputAction @Drift => m_Wrapper.m_Player_Drift;
         public InputAction @Item => m_Wrapper.m_Player_Item;
         public InputAction @Klaxon => m_Wrapper.m_Player_Klaxon;
+        public InputAction @PauseMenu => m_Wrapper.m_Player_PauseMenu;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -482,6 +516,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @Klaxon.started += instance.OnKlaxon;
             @Klaxon.performed += instance.OnKlaxon;
             @Klaxon.canceled += instance.OnKlaxon;
+            @PauseMenu.started += instance.OnPauseMenu;
+            @PauseMenu.performed += instance.OnPauseMenu;
+            @PauseMenu.canceled += instance.OnPauseMenu;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -501,6 +538,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @Klaxon.started -= instance.OnKlaxon;
             @Klaxon.performed -= instance.OnKlaxon;
             @Klaxon.canceled -= instance.OnKlaxon;
+            @PauseMenu.started -= instance.OnPauseMenu;
+            @PauseMenu.performed -= instance.OnPauseMenu;
+            @PauseMenu.canceled -= instance.OnPauseMenu;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -543,5 +583,6 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         void OnDrift(InputAction.CallbackContext context);
         void OnItem(InputAction.CallbackContext context);
         void OnKlaxon(InputAction.CallbackContext context);
+        void OnPauseMenu(InputAction.CallbackContext context);
     }
 }

@@ -1,5 +1,6 @@
 using Mirror;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class GameManager : NetworkBehaviour
 {
@@ -7,6 +8,9 @@ public class GameManager : NetworkBehaviour
     [SerializeField] private string roomOnlineScene = "RoomOnline";
     [SerializeField] private Finish finishLine;
     [SerializeField] private GameObject finishedUi;
+    [SerializeField] private GameObject pauseMenu;
+    [Space]
+    [SerializeField] private InputActionReference pauseAction;
 
     public static GameManager Instance { get; private set; }
 
@@ -18,6 +22,13 @@ public class GameManager : NetworkBehaviour
             Destroy(gameObject);
         }
         Instance = this;
+
+        pauseAction.action.performed += _ => TooglePauseMenu();
+    }
+
+    private void TooglePauseMenu()
+    {
+        pauseMenu.SetActive(!pauseMenu.activeSelf);
     }
 
     public void ShowFinishedUi()
