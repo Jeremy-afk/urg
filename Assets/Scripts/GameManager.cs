@@ -22,11 +22,21 @@ public class GameManager : NetworkBehaviour
             Destroy(gameObject);
         }
         Instance = this;
-
-        pauseAction.action.performed += _ => TooglePauseMenu();
     }
 
-    private void TooglePauseMenu()
+    private void OnEnable()
+    {
+        pauseAction.action.performed += TooglePauseMenu;
+        pauseAction.action.Enable();
+    }
+
+    private void OnDisable()
+    {
+        pauseAction.action.performed -= TooglePauseMenu;
+        pauseAction.action.Disable();
+    }
+
+    private void TooglePauseMenu(InputAction.CallbackContext _)
     {
         pauseMenu.SetActive(!pauseMenu.activeSelf);
     }

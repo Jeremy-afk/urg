@@ -70,7 +70,16 @@ public class OptionsVolumeScreen : MonoBehaviour
     private void SaveSliderValue(float value, string volumeName, AudioMixerGroup mixer)
     {
         PlayerPrefs.SetFloat(volumeName, value);
-        value = Mathf.Log10(value) * sensibility;
+
+        if (value <= 0)
+        {
+            value = -80;
+        }
+        else
+        {
+            value = Mathf.Log10(value) * sensibility;
+        }
+
         mixer.audioMixer.SetFloat(volumeName, value);
     }
 }
