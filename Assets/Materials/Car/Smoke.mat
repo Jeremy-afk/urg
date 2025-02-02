@@ -102,10 +102,10 @@ Material:
     - Brightness_Rim: 2
     - Deform_Scale: 0.6
     - Displacement_Speed: 0.5
-    - Power: 0.1
+    - Power: 2
     - Rim_Power: 5
     - ShadowStengthOverRim: 0.5
-    - Shadow_Attenuation: 69
+    - Shadow_Attenuation: 2
     - Toon_Ramp_Offset: 0.5
     - Toon_Ramp_Smoothness: 0.5
     - Voronoi_Density: 1.6
