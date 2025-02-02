@@ -30,17 +30,6 @@ public class OptionsVolumeScreen : MonoBehaviour
         NameVolumeSliders();
     }
 
-    private void NameVolumeSliders()
-    {
-        for (int i = 0; i < volumeSliders.Length; i++)
-        {
-            if (volumeSliders[i].volumeMixerGroup != null && volumeSliders[i].useVolumeMixerGroupName)
-            {
-                volumeSliders[i].volumeName = volumeSliders[i].volumeMixerGroup.name;
-            }
-        }
-    }
-
     private void OnEnable()
     {
         InitializeVolumeSliders();
@@ -51,6 +40,17 @@ public class OptionsVolumeScreen : MonoBehaviour
         foreach (var volumeSlider in volumeSliders)
         {
             volumeSlider.volumeSlider.onValueChanged.RemoveAllListeners();
+        }
+    }
+
+    private void NameVolumeSliders()
+    {
+        for (int i = 0; i < volumeSliders.Length; i++)
+        {
+            if (volumeSliders[i].volumeMixerGroup != null && volumeSliders[i].useVolumeMixerGroupName)
+            {
+                volumeSliders[i].volumeName = volumeSliders[i].volumeMixerGroup.name;
+            }
         }
     }
 
