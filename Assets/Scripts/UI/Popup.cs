@@ -64,12 +64,17 @@ public class Popup : MonoBehaviour
 
     public void SetGreenActionListener(UnityEngine.Events.UnityAction action)
     {
+        greenActionButton.onClick.RemoveAllListeners();
         greenActionButton.onClick.AddListener(action);
+        greenActionButton.onClick.AddListener(() => gameObject.SetActive(false));
     }
 
     public void SetRedActionListener(UnityEngine.Events.UnityAction action)
     {
+
+        redActionButton.onClick.RemoveAllListeners();
         redActionButton.onClick.AddListener(action);
+        redActionButton.onClick.AddListener(() => gameObject.SetActive(false));
     }
 
     public void MakePopup(string title, string main, string greenAction, string redAction, UnityEngine.Events.UnityAction greenActionListener = null, UnityEngine.Events.UnityAction redActionListener = null)
