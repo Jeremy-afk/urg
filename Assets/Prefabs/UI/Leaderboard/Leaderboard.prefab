@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 726907628376336299}
   - component: {fileID: 3313782496756767308}
   m_Layer: 5
-  m_Name: Ready
+  m_Name: AutoRestartButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -31,8 +31,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 5266408920200806657}
   - {fileID: 7179777157803134257}
+  - {fileID: 5266408920200806657}
   m_Father: {fileID: 7991201521446880578}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -2193,10 +2193,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4401413511497980470, guid: ca1cd8d4f695e424599b1cfc7f32fe7b, type: 3}
       propertyPath: digitAlpha.m_Curve.Array.data[1].weightedMode
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4401413511497980470, guid: ca1cd8d4f695e424599b1cfc7f32fe7b, type: 3}
-      propertyPath: onCountdownBegin.m_PersistentCalls.m_Calls.Array.size
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4401413511497980470, guid: ca1cd8d4f695e424599b1cfc7f32fe7b, type: 3}
