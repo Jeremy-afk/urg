@@ -9,23 +9,16 @@ public class Movements : NetworkBehaviour
 
     [Header("Verticality")]
     //Variables for verticality
-    [SerializeField]
-    private Transform groundRayPoint;
-    [SerializeField]
-    private float groundRayLength = 1.5f;
-    [SerializeField]
-    private LayerMask raycastTarget;
+    [SerializeField] private Transform groundRayPoint;
+    [SerializeField] private float groundRayLength = 1.5f;
+    [SerializeField] private LayerMask raycastTarget;
 
     [Header("Acceleration")]
     // Variables for forward/backward movements
-    [SerializeField]
-    private AnimationCurve accelerationCurve;
-    [SerializeField]
-    private float movementsSpeed = 65.0f;
-    [SerializeField]
-    private float maxSpeedNoDrifting = 100.0f;
-    [SerializeField]
-    private float maxSpeedDrifting = 100 - 25;
+    [SerializeField] private AnimationCurve accelerationCurve;
+    [SerializeField] private float movementsSpeed = 65.0f;
+    [SerializeField] private float maxSpeedNoDrifting = 100.0f;
+    [SerializeField] private float maxSpeedDrifting = 100 - 25;
     private float maxSpeed;
     [SyncVar]
     private float accelerationDirection;
@@ -40,27 +33,20 @@ public class Movements : NetworkBehaviour
     [Header("Turn movements")]
     // Variables for left/right movements
     private Vector3 rotations;
-    [SerializeField]
-    private float rotationSpeed;
+    [SerializeField] private float rotationSpeed;
     private bool holdingQD;
-    [SerializeField]
-    private float turnDrag = 0.25f;
-    [SerializeField]
-    private float normalDrag = 0.1f;
+    [SerializeField] private float turnDrag = 0.25f;
+    [SerializeField] private float normalDrag = 0.1f;
 
     [Header("Drifting")]
     // Variables for drifting
-    [SerializeField, Range(0, 1)]
-    private float driftFactor;
-    [SerializeField]
-    private ParticleSystem rightWheelPart;
-    [SerializeField]
-    private ParticleSystem leftWheelPart;
+    [SerializeField, Range(0, 1)] private float driftFactor;
+    [SerializeField] private ParticleSystem rightWheelPart;
+    [SerializeField] private ParticleSystem leftWheelPart;
     private bool holdingDrift = false;
 
     [Header("Animations")]
-    [SerializeField]
-    public GameObject smokeObject;
+    [SerializeField] public GameObject smokeObject;
 
     private AudioSource klaxonSound;
     private Player activePlayer;
