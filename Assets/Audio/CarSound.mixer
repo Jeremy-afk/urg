@@ -120,6 +120,12 @@ AudioMixerController:
   m_ExposedParameters:
   - guid: 867972dbaa621b4418959dca643e58d0
     name: CarEngineVolume
+  - guid: e4a0edc4a9251bd479b35ca962d65474
+    name: Master
+  - guid: 48afd1851b82eae4bb4545f79df46350
+    name: Music
+  - guid: 9f1d407b36bcf5e4e8ad83a55328948f
+    name: SFX
   m_AudioMixerGroupViews:
   - guids:
     - 3d8a3d29958809a4e990cedb023678b4
