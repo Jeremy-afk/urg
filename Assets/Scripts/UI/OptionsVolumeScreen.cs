@@ -60,6 +60,7 @@ public class OptionsVolumeScreen : MonoBehaviour
         foreach (var volumeSlider in volumeSliders)
         {
             float volume = PlayerPrefs.GetFloat(volumeSlider.volumeName, 0.5f);
+            volumeSlider.volumeSlider.value = volume;
             SaveSliderValue(volume, volumeSlider.volumeName, volumeSlider.volumeMixerGroup);
             volumeSlider.volumeSlider.onValueChanged.AddListener(
                 (newValue) => SaveSliderValue(newValue, volumeSlider.volumeName, volumeSlider.volumeMixerGroup)
