@@ -66,7 +66,8 @@ public class GameManager : NetworkBehaviour
                 "Are you sure you want to return to the lobby?",
                 "Back to lobby",
                 "Cancel",
-                greenActionListener: () => ReturnToLobby(true));
+                greenActionListener: () => ReturnToLobby(true),
+                redActionListener: null);
         }
         else
         {
