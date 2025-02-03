@@ -75,11 +75,37 @@ public class ItemManager : NetworkBehaviour
             {
                 print("Asking server to use item");
                 UseItem();
+                PlayItemSound();
+                itemInHand = ItemType.NOTHING;
             }
             else
             {
                 print("You have no item!");
             }
+        }
+    }
+
+    private void PlayItemSound()
+    {
+        switch (itemInHand)
+        {
+            case ItemType.BOW:
+                AudioManager.Instance.PlaySoundEffect(AudioManager.Instance.itemBowSound);
+                break;
+            case ItemType.FEATHER:
+                break;
+            case ItemType.POTION:
+                AudioManager.Instance.PlaySoundEffect(AudioManager.Instance.itemPotionUseSound);
+                break;
+            case ItemType.SWORD:
+                break;
+            case ItemType.TRAP:
+                AudioManager.Instance.PlaySoundEffect(AudioManager.Instance.itemTrapUseSound);
+                break;
+            case ItemType.NOTHING:
+                break;
+            default:
+                break;
         }
     }
 
@@ -94,7 +120,6 @@ public class ItemManager : NetworkBehaviour
             {
                 case ItemType.BOW:
                     print("Headshot!");
-                    AudioManager.Instance.PlaySoundEffect(AudioManager.Instance.itemBowSound);
                     Vector3 spawnPosition = arrowSpawnPosition.position;
                     Arrow newArrow = Instantiate(arrowPrefab, spawnPosition, Quaternion.identity);
                     Vector3 shootDirection = transform.forward;
@@ -108,7 +133,6 @@ public class ItemManager : NetworkBehaviour
                     break;
                 case ItemType.POTION:
                     print("Glou glou!");
-                    AudioManager.Instance.PlaySoundEffect(AudioManager.Instance.itemPotionUseSound);
                     movementsScript.ApplySpeedBoost(forceSpeedBoost, speedBoostDuration);
                     break;
                 case ItemType.SWORD:
@@ -117,7 +141,6 @@ public class ItemManager : NetworkBehaviour
                 case ItemType.TRAP:
                     Trap trap = Instantiate(trapPrefab, trapSpawnPosition.position, Quaternion.identity);
                     trap.SetTeam(playerTeam);
-                    AudioManager.Instance.PlaySoundEffect(AudioManager.Instance.itemTrapUseSound);
                     NetworkServer.Spawn(trap.gameObject);
                     print("Trapped loser!");
                     break;
