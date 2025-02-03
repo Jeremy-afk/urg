@@ -873,6 +873,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3603463975300113184, guid: fdf0096b834ed2549ad784c939010c2b, type: 3}
+      propertyPath: itemPotionUseSound
+      value: 
+      objectReference: {fileID: 8300000, guid: c66d4172f01fc6b4bbe74051bb6c87ce, type: 3}
     - target: {fileID: 5774289872292401802, guid: fdf0096b834ed2549ad784c939010c2b, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
