@@ -104,8 +104,15 @@ public class MyNetworkRoomManager : NetworkRoomManager
 
         if (sceneName == offlineScene)
         {
-            TextMeshProUGUI sessionCodeText = FindObjectOfType<TextMeshProUGUI>();
-            Debug.Log("Session code" + sessionCodeText.text);
+            TextMeshProUGUI[] texts = FindObjectsOfType<TextMeshProUGUI>();
+            foreach (var text in texts)
+            {
+                if (text.gameObject.name == "SessionCodeText")
+                {
+                    TextMeshProUGUI sessionCodeText = text;
+                    Debug.Log("Session code" + sessionCodeText.text);
+                }
+            }
         }
     }
 
