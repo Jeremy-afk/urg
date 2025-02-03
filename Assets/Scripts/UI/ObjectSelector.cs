@@ -69,12 +69,14 @@ public class ObjectSelector : MonoBehaviour
         CreateSelectorLight();
         CreateRenderCamera();
         UpdateLightProperties();
+        ShiftSelection(0);
         UpdateObjectPositions();
-        UpdateScales();
     }
 
     private void Update()
     {
+        if (!isMoving) return;
+
         UpdateScales();
     }
 
@@ -176,7 +178,6 @@ public class ObjectSelector : MonoBehaviour
         for (int i = 0; i < objects.Count; i++)
             objects[i].position = targetPositions[i];
 
-        UpdateScales();
         isMoving = false;
     }
 
