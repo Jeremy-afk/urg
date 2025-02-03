@@ -1,5 +1,6 @@
 using kcp2k;
 using Mirror;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 
@@ -186,5 +187,10 @@ public class MyNetworkRoomManager : NetworkRoomManager
     public void UpdateDisplay()
     {
         FindObjectOfType<OnlineRoomUI>().UpdateUI();
+    }
+
+    public bool IsAllPlayersReady()
+    {
+        return roomSlots.All(player => ((NetworkRoomPlayer)player).readyToBegin);
     }
 }

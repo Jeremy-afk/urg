@@ -48,4 +48,5 @@ public class MyNetworkRoomPlayer : NetworkRoomPlayer
             Debug.LogException(e);
         }
     }
+
 }

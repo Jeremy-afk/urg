@@ -75,6 +75,11 @@ public class OnlineRoomUI : MonoBehaviour
     private void SetupReadyButton(MyNetworkRoomPlayer player)
     {
         readyGameButton.onClick.AddListener(() => {
+            if (Room.IsAllPlayersReady())
+            {
+                return;
+            }
+
             if (player.readyToBegin)
             {
                 readyGameButton.gameObject.GetComponentInChildren<TextMeshProUGUI>().text = "Ready";
