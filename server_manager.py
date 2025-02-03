@@ -46,7 +46,7 @@ def handle_client_connection(client_socket, client_address):
             if words[0] == "createRoom":
                 instantiate_server()
                 server = server_instances[len(server_instances) - 1]
-                response = f"{server.port} {server.sessionCode}"
+                response = f"{server.port}"
 
                 client_socket.sendall(response.encode())
                 client_socket.close()
@@ -104,7 +104,7 @@ def instantiate_server():
         print(f"Room {session_code} instanciée")
         with open(SERVER_PATTERN_LOGS.format(room_code=session_code), 'a') as log_file:
             log_file.write("Démarrage de la room " + session_code + "...\n")
-            process = subprocess.Popen([SERVER_EXECUTABLE, "--args", "-port", str(port)], stdout=log_file, stderr=log_file)
+            process = subprocess.Popen([SERVER_EXECUTABLE, "--args", "-port", str(port), "-sessionCode", str(session_code)], stdout=log_file, stderr=log_file)
         server_instantiated = Server(process=process, port=port, sessionCode=session_code)
         server_instances.append(server_instantiated)
         print(f"Instance de serveur démarrée sur le port {port}")

@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class OnlineRoomUI : MonoBehaviour
+public class OnlineRoomUI : NetworkBehaviour
 {
     [SerializeField] private float triesPerSecond = 1.0f;
 
@@ -134,4 +134,19 @@ public class OnlineRoomUI : MonoBehaviour
         }
     }
 
+    [ClientRpc]
+    public void UpdateSessionCodeUIClientRpc(string updatedSessionCode)
+    {
+        // Display the session code on the SessionCodeText object (tagged accordingly)
+        GameObject textGo = GameObject.FindGameObjectWithTag("SessionCodeText");
+
+        if (textGo != null && textGo.TryGetComponent(out TextMeshProUGUI text))
+        {
+            text.text = "Session code : " + updatedSessionCode;
+        }
+        else
+        {
+            Debug.LogError("Text not found !");
+        }
+    }
 }

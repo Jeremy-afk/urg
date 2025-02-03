@@ -15,7 +15,6 @@ public class ClientManager : MonoBehaviour
     private int maxConnectionAttempt = 30;
     private float delayBetweenConnectionAttempt = 1f;
 
-    [SerializeField] private SessionCodeHolder sessionCodeHolder;
     [SerializeField] private TMP_InputField sessionCodeInput;
     [SerializeField] private GameObject buttonsUI;
     [SerializeField] private TextMeshProUGUI connectionStatusText;
@@ -88,11 +87,6 @@ public class ClientManager : MonoBehaviour
 
             // Convertir la réponse en entier (port du serveur Mirror)
             int serverPort = int.Parse(serverInfoParts[0]);
-
-            if (serverInfoParts.Length > 1)
-            {
-                ((MyNetworkRoomManager)MyNetworkRoomManager.singleton).RoomCode = serverInfoParts[1];
-            }
 
             // Configurer et connecter au serveur Mirror
             KcpTransport transport = MyNetworkRoomManager.singleton.GetComponent<KcpTransport>();

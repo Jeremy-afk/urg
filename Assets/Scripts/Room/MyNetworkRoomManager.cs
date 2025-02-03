@@ -1,17 +1,22 @@
 using kcp2k;
 using Mirror;
+using Mirror.BouncyCastle.Asn1.X509;
+using System;
 using System.Linq;
+using System.Linq.Expressions;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MyNetworkRoomManager : NetworkRoomManager
 {
     [Header("OPTIONS")]
     [Tooltip("Delay after ready")]
-    [SerializeField] private SessionCodeHolder sessionCodeHolder;
     [SerializeField] private int raceStartDelay;
     private NetworkEvent networkEvent;
-    public string RoomCode;
+
+    public string sessionCode;
 
     #region Debugging
     public void StartSelfHost()
@@ -25,24 +30,6 @@ public class MyNetworkRoomManager : NetworkRoomManager
         StartClient();
     }
     #endregion
-
-    public override void OnRoomClientEnter()
-    {
-        base.OnRoomClientEnter();
-
-        Debug.Log("Client entered the room");
-        // Display the session code on the SessionCodeText object (tagged accordingly)
-        GameObject textGo = GameObject.FindGameObjectWithTag("SessionCodeText");
-
-        if (textGo != null && textGo.TryGetComponent(out TextMeshProUGUI text))
-        {
-            text.text = "Session code : " + RoomCode;
-        }
-        else
-        {
-            Debug.LogError("Text not found !");
-        }
-    }
 
     // Check that whenever the last player disconnects completely, the server shuts down
     public override void OnRoomServerDisconnect(NetworkConnectionToClient conn)
@@ -85,6 +72,8 @@ public class MyNetworkRoomManager : NetworkRoomManager
             {
                 Debug.LogError("Échec de la conversion : la chaîne n'est pas un nombre valide ou est hors plage.");
             }
+
+            sessionCode = GetArg("-sessionCode");
         }
         else
         {
@@ -93,8 +82,6 @@ public class MyNetworkRoomManager : NetworkRoomManager
 
         base.Start();
     }
-
-
 
     // Helper function for getting the command line arguments
     private string GetArg(string name)
@@ -224,4 +211,23 @@ public class MyNetworkRoomManager : NetworkRoomManager
     {
         return roomSlots.All(player => ((NetworkRoomPlayer)player).readyToBegin);
     }
+
+
+    private void Update()
+    {
+        if (SceneManager.GetActiveScene().name == "RoomOnline" && sessionCode != "")
+        {
+            try
+            {
+                GameObject.FindFirstObjectByType<OnlineRoomUI>().UpdateSessionCodeUIClientRpc(sessionCode);
+            }
+            catch (Exception e)
+            {
+                Debug.LogException(e);
+            }
+        }
+    }
 }
+
+
+
