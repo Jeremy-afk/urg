@@ -85,6 +85,7 @@ public class ItemManager : NetworkBehaviour
         }
     }
 
+    [Client]
     private void PlayItemSound()
     {
         switch (itemInHand)
