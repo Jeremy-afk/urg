@@ -7,7 +7,8 @@ using UnityEngine.UI;
 
 public class ObjectSelector : MonoBehaviour
 {
-    [SerializeField] private List<Transform> objects = new List<Transform>(); // 3D objects
+    [SerializeField] private LayerMask selectableObjectsMask;
+    [SerializeField] private List<Transform> objects = new List<Transform>();
 
     [Header("UI & Buttons")]
     [SerializeField] private Button leftButton;
@@ -18,8 +19,11 @@ public class ObjectSelector : MonoBehaviour
 
     [Header("Movement & Scaling")]
     [SerializeField] private AnimationCurve scaleCurve;
-    [SerializeField] private float maxOffset = 5f;
     [SerializeField] private float moveDuration = 0.3f;
+
+    [Header("View & Virtual Camera")]
+    [SerializeField] private float fieldOfView = 60f;
+    [SerializeField] private float maxOffset = 5f;
     [Tooltip("Distance of the objects from the camera")]
     [SerializeField] private float depthOffset = 2f;
 
@@ -45,10 +49,17 @@ public class ObjectSelector : MonoBehaviour
 #if UNITY_EDITOR
     private void OnValidate()
     {
+        // Configure render texture image
+        if (renderImage && renderImage.TryGetComponent(out AspectRatioFitter fitter))
+        {
+            fitter.aspectRatio = (float)renderFormat[0] / renderFormat[1];
+        }
+
         if (selectorCamera == null) return;
 
         UpdateLightProperties();
         UpdateObjectPositions();
+        UpdateCameraProperties();
         UpdateScales();
     }
 #endif
@@ -70,6 +81,7 @@ public class ObjectSelector : MonoBehaviour
         CreateSelectorLight();
         CreateRenderCamera();
         UpdateLightProperties();
+        UpdateCameraProperties();
         ShiftSelection(0);
         UpdateObjectPositions();
     }
@@ -86,11 +98,15 @@ public class ObjectSelector : MonoBehaviour
         // Create a new Camera dynamically
         GameObject camObj = new GameObject("SelectorCamera");
         selectorCamera = camObj.AddComponent<Camera>();
+    }
 
+    private void UpdateCameraProperties()
+    {
         // Configure camera properties
+        selectorCamera.fieldOfView = fieldOfView;
         selectorCamera.clearFlags = CameraClearFlags.SolidColor;
         selectorCamera.backgroundColor = Color.clear;
-        selectorCamera.cullingMask = LayerMask.GetMask("SelectableObjects"); // Only render the selection
+        selectorCamera.cullingMask = selectableObjectsMask; // Only render the selection
         selectorCamera.orthographic = false;
         selectorCamera.nearClipPlane = 0.1f;
         selectorCamera.farClipPlane = 10f;
@@ -104,6 +120,10 @@ public class ObjectSelector : MonoBehaviour
         if (renderImage != null)
         {
             renderImage.texture = renderTexture;
+            if (renderImage && renderImage.TryGetComponent(out AspectRatioFitter fitter))
+            {
+                fitter.aspectRatio = (float)renderFormat[0] / renderFormat[1];
+            }
         }
         else
         {
