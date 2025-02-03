@@ -147,7 +147,6 @@ public class Movements : NetworkBehaviour
         // If this is not the local player, or the player isn't allowed to move don't touch anything
         if (!isLocalPlayer || !canMove) return;
         // Otherwise, this means this is the local player's car. Thus handle the movement.
-        AudioManager.Instance.PlayMusic(AudioManager.Instance.raceTheme);
         HandleMovement();
         HandleVerticality();
     }
