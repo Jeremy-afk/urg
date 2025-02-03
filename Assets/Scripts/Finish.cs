@@ -181,6 +181,13 @@ public class Finish : NetworkBehaviour
         onRaceStart.Invoke();
     }
 
+    [ClientRpc]
+    private void RpcRaceFinished()
+    {
+        AudioManager.Instance.StopMusic();
+        onRaceFinished.Invoke();
+    }
+
     [Server]
     private void OnRaceFinished()
     {
