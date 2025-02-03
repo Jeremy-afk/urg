@@ -155,8 +155,6 @@ public class Finish : NetworkBehaviour
         RpcRaceStart();
     }
 
-
-
     private void OnTriggerEnter(Collider other)
     {
         // Only the server will check for the completion of laps
@@ -179,6 +177,7 @@ public class Finish : NetworkBehaviour
     [ClientRpc]
     private void RpcRaceStart()
     {
+        AudioManager.Instance.PlayMusic(AudioManager.Instance.raceTheme);
         onRaceStart.Invoke();
     }
 
@@ -360,12 +359,6 @@ public class Finish : NetworkBehaviour
         }
 
         onPlacementPublished.Invoke(placementData);
-    }
-
-    [ClientRpc]
-    public void PlayMusicOnStart()
-    {
-        AudioManager.Instance.PlayMusic(AudioManager.Instance.raceTheme);
     }
 
     // Preview of the current placementv (it may not be 100% accurate since this is only computed client side)

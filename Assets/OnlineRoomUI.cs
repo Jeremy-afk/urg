@@ -1,5 +1,4 @@
 using Mirror;
-using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -7,11 +6,16 @@ using UnityEngine.UI;
 
 public class OnlineRoomUI : MonoBehaviour
 {
+    [SerializeField] private float triesPerSecond = 1.0f;
+
     [Header("UI")]
     [SerializeField] private List<PlayerListItemUI> playerListItemUIList = new List<PlayerListItemUI>();
+    [SerializeField] private Image loadingIcon;
     [SerializeField] private Button readyGameButton;
     [SerializeField] private Button leaveGameButton;
 
+    private float retryTimer;
+    private bool needSetup = true;
 
     private MyNetworkRoomManager room;
     private MyNetworkRoomManager Room
@@ -24,22 +28,52 @@ public class OnlineRoomUI : MonoBehaviour
     }
 
     [ClientCallback]
-    private IEnumerator Start()
+    private void Start()
     {
         LiveLogger.Log("OnlineRoom start");
 
-        yield return null;
+        leaveGameButton.onClick.AddListener(() => {
+            Room.StopClient();
+        });
 
-        NetworkIdentity playerId = NetworkClient.localPlayer;
-        LiveLogger.Log("Player found: " + playerId);
-
-        MyNetworkRoomPlayer player = null;
-        if (playerId)
+        if (TryGetPlayerRoom(out MyNetworkRoomPlayer player))
         {
-            player = playerId.GetComponent<MyNetworkRoomPlayer>();
+            SetupReadyButton(player);
+            needSetup = false;
         }
+        else
+        {
+            LiveLogger.Log("Player not found");
+            loadingIcon.gameObject.SetActive(true);
+            readyGameButton.interactable = false;
+            needSetup = true;
+        }
+    }
 
+    private void Update()
+    {
+        if (needSetup)
+        {
+            if (retryTimer >= 1.0f / triesPerSecond)
+            {
 
+                if (TryGetPlayerRoom(out MyNetworkRoomPlayer player))
+                {
+                    SetupReadyButton(player);
+                    UpdateUI();
+                    needSetup = false;
+                }
+                else
+                {
+                    retryTimer = 0.0f;
+                }
+            }
+            retryTimer += Time.deltaTime;
+        }
+    }
+
+    private void SetupReadyButton(MyNetworkRoomPlayer player)
+    {
         readyGameButton.onClick.AddListener(() => {
             if (player.readyToBegin)
             {
@@ -53,17 +87,25 @@ public class OnlineRoomUI : MonoBehaviour
             player.CmdChangeReadyState(!player.readyToBegin);
             UpdateUI();
         });
-        leaveGameButton.onClick.AddListener(() => {
-            Room.StopClient();
-        });
+
+        loadingIcon.gameObject.SetActive(false);
+        readyGameButton.interactable = true;
     }
 
-    private void Update()
+    private bool TryGetPlayerRoom(out MyNetworkRoomPlayer player)
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        NetworkIdentity playerId = NetworkClient.localPlayer;
+
+        if (playerId)
         {
-            Start();
+            LiveLogger.Log("Player found: " + playerId);
+            player = playerId.GetComponent<MyNetworkRoomPlayer>();
+            return true;
         }
+
+        LiveLogger.Log("Player NOT found");
+        player = null;
+        return false;
     }
 
     public void UpdateUI()
