@@ -148,7 +148,6 @@ public class Finish : NetworkBehaviour
         {
             Movements playerMovements = playerIdentity.GetComponent<Movements>();
             playerMovements.SetMovementActive(true);
-            AudioManager.Instance.PlayMusic(AudioManager.Instance.raceTheme);
             LiveLogger.Log("Set movement active for player " + playerIdentity.netId);
         }
         Debug.Log("Race started, moving enabled!");
@@ -361,6 +360,12 @@ public class Finish : NetworkBehaviour
         }
 
         onPlacementPublished.Invoke(placementData);
+    }
+
+    [ClientRpc]
+    public void PlayMusicOnStart()
+    {
+        AudioManager.Instance.PlayMusic(AudioManager.Instance.raceTheme);
     }
 
     // Preview of the current placementv (it may not be 100% accurate since this is only computed client side)
