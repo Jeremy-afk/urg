@@ -16,6 +16,10 @@ public class RotationAnimation : MonoBehaviour
     private void Awake()
     {
         isRotating = rotateOnAwake;
+        if (rotateOnAwake)
+        {
+            Rotate();
+        }
     }
 
     public void SetDuration(float duration)
@@ -25,7 +29,6 @@ public class RotationAnimation : MonoBehaviour
 
     public void Rotate()
     {
-        print("asked");
         initialRotation = transform.rotation;
         StopAllCoroutines();
         isRotating = true;
