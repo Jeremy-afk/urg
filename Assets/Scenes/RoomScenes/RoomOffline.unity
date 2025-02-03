@@ -873,10 +873,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3603463975300113184, guid: fdf0096b834ed2549ad784c939010c2b, type: 3}
-      propertyPath: itemPotionUseSound
-      value: 
-      objectReference: {fileID: 8300000, guid: c66d4172f01fc6b4bbe74051bb6c87ce, type: 3}
     - target: {fileID: 5774289872292401802, guid: fdf0096b834ed2549ad784c939010c2b, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -2421,8 +2417,6 @@ MonoBehaviour:
   spawnPrefabs:
   - {fileID: 8950603573164696097, guid: e4279cb1b88076d45a162eb3003f5066, type: 3}
   - {fileID: 3062828005192739801, guid: a9098edcc0f721b4589022293c75de0f, type: 3}
-  - {fileID: 355452477037155879, guid: 846f6e6248a013b4f870cf1cdd194a44, type: 3}
-  - {fileID: 355452477037155879, guid: c237f8e804d85fa46ab999b6747e7b4f, type: 3}
   exceptionsDisconnect: 1
   snapshotSettings:
     bufferTimeMultiplier: 2
