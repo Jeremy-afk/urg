@@ -4,6 +4,10 @@ using UnityEngine.Events;
 
 public class Player : NetworkBehaviour, IDamageable
 {
+    #region Vars
+    [Header("Skins")]
+    [SerializeField] private SkinManager skinManager;
+
     [Header("Collisions")]
     [SerializeField] private float collisionForce = 5.0f;
     [SerializeField] private Rigidbody rigidBody;
@@ -30,64 +34,12 @@ public class Player : NetworkBehaviour, IDamageable
     private Movements moves;
     private uint team;
 
+    #endregion
+
+    #region Camera
     public void SetMaxFOV(float newMaxFOV)
     {
         maxFOV = newMaxFOV;
-    }
-
-    private void Start()
-    {
-        moves = GetComponent<Movements>();
-
-        // Enregistrer le joueur dans le GameManager
-        SetTeam(GameManager.Instance.RegisterPlayer(GetComponent<NetworkIdentity>()));
-        print("registered player with team " + team);
-
-        if (!isLocalPlayer) return;
-
-        mainCamera = Camera.main;
-
-        // Configurer la position et rotation initiales
-        mainCamera.transform.SetParent(null); // Découpler temporairement la caméra pour gérer la rotation correctement
-        mainCamera.transform.SetPositionAndRotation(initialCamPos.position, initialCamPos.rotation);
-        targetCameraRotation = mainCamera.transform.rotation;
-        targetCameraPosition = mainCamera.transform.position;
-
-        mainCamera.fieldOfView = minFOV;
-    }
-
-    private void OnCollisionEnter(Collision other)
-    {
-        var speed = rigidBody.velocity.magnitude;
-
-        if (other.gameObject.TryGetComponent(out Rigidbody rb))
-        {
-            rb.AddForce(collisionForce * speed * (rb.position - transform.position).normalized, ForceMode.Impulse);
-            AudioManager.Instance.PlaySoundEffect(AudioManager.Instance.collisionSounds, speed / 10);
-        }
-    }
-
-    private void FixedUpdate()
-    {
-        if (collideWithPlayer)
-        {
-            rigidBody.AddForce(100 * -repulsiveForce * new Vector3(transform.forward.x, 0, transform.forward.z), ForceMode.Acceleration);
-            rigidBody.rotation.SetFromToRotation(new Vector3(0, transform.forward.y, 0), new Vector3(0, transform.forward.y + 135, 0));
-            repulsionTimer += Time.deltaTime;
-            if (repulsionTimer > repulsiveDuration)
-            {
-                collideWithPlayer = false;
-            }
-        }
-    }
-
-    private void Update()
-    {
-        HandleStun();
-
-        if (!isLocalPlayer) return;
-
-        AdjustCameraView();
     }
 
     private void AdjustCameraView()
@@ -114,6 +66,66 @@ public class Player : NetworkBehaviour, IDamageable
             Quaternion.Lerp(mainCamera.transform.rotation, targetCameraRotation, Time.deltaTime * cameraLerpSpeedRotation));
     }
 
+    #endregion
+
+
+
+    private void Start()
+    {
+        moves = GetComponent<Movements>();
+
+        // Enregistrer le joueur dans le GameManager
+        SetTeam(GameManager.Instance.RegisterPlayer(GetComponent<NetworkIdentity>()));
+        print("registered player with team " + team);
+
+        if (!isLocalPlayer) return;
+
+        mainCamera = Camera.main;
+
+        // Configurer la position et rotation initiales
+        mainCamera.transform.SetParent(null); // Découpler temporairement la caméra pour gérer la rotation correctement
+        mainCamera.transform.SetPositionAndRotation(initialCamPos.position, initialCamPos.rotation);
+        targetCameraRotation = mainCamera.transform.rotation;
+        targetCameraPosition = mainCamera.transform.position;
+
+        mainCamera.fieldOfView = minFOV;
+    }
+
+    private void Update()
+    {
+        HandleStun();
+
+        if (!isLocalPlayer) return;
+
+        AdjustCameraView();
+    }
+
+    private void FixedUpdate()
+    {
+        if (collideWithPlayer)
+        {
+            rigidBody.AddForce(100 * -repulsiveForce * new Vector3(transform.forward.x, 0, transform.forward.z), ForceMode.Acceleration);
+            rigidBody.rotation.SetFromToRotation(new Vector3(0, transform.forward.y, 0), new Vector3(0, transform.forward.y + 135, 0));
+            repulsionTimer += Time.deltaTime;
+            if (repulsionTimer > repulsiveDuration)
+            {
+                collideWithPlayer = false;
+            }
+        }
+    }
+
+    private void OnCollisionEnter(Collision other)
+    {
+        var speed = rigidBody.velocity.magnitude;
+
+        if (other.gameObject.TryGetComponent(out Rigidbody rb))
+        {
+            rb.AddForce(collisionForce * speed * (rb.position - transform.position).normalized, ForceMode.Impulse);
+            AudioManager.Instance.PlaySoundEffect(AudioManager.Instance.collisionSounds, speed / 10);
+        }
+    }
+
+    #region Stun
     private void HandleStun()
     {
         if (isStunned)
@@ -144,6 +156,9 @@ public class Player : NetworkBehaviour, IDamageable
         onStun.Invoke(duration);
     }
 
+    #endregion
+
+    #region Team
     public uint GetTeam()
     {
         return team;
@@ -153,4 +168,5 @@ public class Player : NetworkBehaviour, IDamageable
     {
         this.team = team;
     }
+    #endregion
 }
