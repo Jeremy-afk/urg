@@ -18,6 +18,7 @@ public class ItemBox : NetworkBehaviour
 
 
     // The server should be the only one to handle the collision (for now it's not the case)
+    [ServerCallback]
     private void OnTriggerEnter(Collider other)
     {
         if (!isServer || !isBoxActive) return;
@@ -54,11 +55,6 @@ public class ItemBox : NetworkBehaviour
         print("box active changed to " + newValue);
         rend.enabled = newValue;
         timer = 0.0f;
-    }
-
-    private void Awake()
-    {
-        //rend = GetComponent<Renderer>();
     }
 
     private void Update()

@@ -52,15 +52,15 @@ public class ItemManager : NetworkBehaviour
     {
         if (isLocalPlayer)
         {
+            playedSound = false;
             OnItemChanged?.Invoke(itemInHand);
         }
     }
 
+    [Server]
     public void SetItemInHand(ItemType item)
     {
-        print("Setting item in hand");
         itemInHand = item;
-        playedSound = false;
     }
 
     public ItemType GetItemInHand()
