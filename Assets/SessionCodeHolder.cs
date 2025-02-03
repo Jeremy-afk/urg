@@ -41,14 +41,14 @@ public class SessionCodeHolder : NetworkBehaviour
         }
         catch (Exception e)
         {
-            Debug.Log("No session code text UI found in this scene.");
+            Debug.LogError("No session code text UI found in this scene.");
         }
     }
 
     private void OnSessionCodeUpdated(string oldValue, string newValue)
     {
-        Debug.Log("Ancien code :" + oldValue);
-        Debug.Log("Nouveau code : " + newValue);
+        Debug.LogError("Ancien code :" + oldValue);
+        Debug.LogError("Nouveau code : " + newValue);
 
         sessionCode = newValue;
     }
