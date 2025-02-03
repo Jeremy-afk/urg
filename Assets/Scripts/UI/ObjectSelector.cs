@@ -1,20 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class ObjectSelector : MonoBehaviour
 {
+    [SerializeField] private List<Transform> objects = new List<Transform>(); // 3D objects
+
+    [Header("UI & Buttons")]
     [SerializeField] private Button leftButton;
     [SerializeField] private Button rightButton;
-
-    [SerializeField] private List<Transform> objects = new List<Transform>(); // 3D objects
+    [SerializeField] private TextMeshProUGUI selectionText;
     [SerializeField] private RawImage renderImage; // UI element to display Render Texture
+
+    [Header("Movement & Scaling")]
     [SerializeField] private AnimationCurve scaleCurve;
     [SerializeField] private float maxOffset = 5f;
     [SerializeField] private float moveDuration = 0.3f;
-    [SerializeField] private float depthOffset = 2f; // Distance from the camera
+    [Tooltip("Distance of the objects from the camera")]
+    [SerializeField] private float depthOffset = 2f;
 
     [Header("Lighting")]
     [SerializeField] private LightType lightType = LightType.Spot; // Choose between Directional, Point, or Spot
@@ -134,7 +140,7 @@ public class ObjectSelector : MonoBehaviour
         if (isMoving) return;
 
         selectedIndex = (selectedIndex + direction + objects.Count) % objects.Count;
-
+        selectionText.text = objects[selectedIndex].name;
         onSelectionChanged.Invoke(objects[selectedIndex].gameObject);
 
         StopAllCoroutines();
