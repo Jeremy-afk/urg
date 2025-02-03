@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 
 public class SessionCodeHolder : NetworkBehaviour
 {
-    [SyncVar]
+    [SyncVar(hook = nameof(OnSessionCodeUpdated))]
     public string sessionCode = "";
 
     private void Awake()
@@ -43,5 +43,13 @@ public class SessionCodeHolder : NetworkBehaviour
         {
             Debug.Log("No session code text UI found in this scene.");
         }
+    }
+
+    private void OnSessionCodeUpdated(string oldValue, string newValue)
+    {
+        Debug.Log("Ancien code :" + oldValue);
+        Debug.Log("Nouveau code : " + newValue);
+
+        sessionCode = newValue;
     }
 }
