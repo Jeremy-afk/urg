@@ -8,6 +8,6 @@ public class LoadingIcon : MonoBehaviour
     private void Update()
     {
         transform.Rotate(0, 0, rotationSpeed * Time.deltaTime);
-        transform.position = attachedTransform.position;
+        if (attachedTransform != null) transform.position = attachedTransform.position;
     }
 }

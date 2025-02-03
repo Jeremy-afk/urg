@@ -1,16 +1,11 @@
 using kcp2k;
-using Mirror;
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Networking;
-using UnityEngine.UI;
 
 public class ClientManager : MonoBehaviour
 {
@@ -25,11 +20,14 @@ public class ClientManager : MonoBehaviour
 
     [SerializeField] private GameObject sessionCodeHolder;
     [SerializeField] private TMP_InputField sessionCodeInput;
-    [SerializeField] private TextMeshProUGUI connectionStatusText;
     [SerializeField] private GameObject buttonsUI;
+    [SerializeField] private TextMeshProUGUI connectionStatusText;
+    [SerializeField] private LoadingIcon connectionStatusLoadingIcon;
 
     private void Start()
     {
+        connectionStatusLoadingIcon.gameObject.SetActive(false);
+        connectionStatusText.text = "";
         MyNetworkRoomManager.singleton.networkAddress = ip;
     }
 
@@ -51,7 +49,7 @@ public class ClientManager : MonoBehaviour
 
                 // Envoi d'une requête pour récupérer les informations du serveur (par exemple, le port du serveur Mirror)
                 string requestMessage = "createRoom";
-                
+
                 if (!requestRoom)
                 {
                     requestMessage = "joinRoom " + sessionCodeInput.text;
@@ -73,6 +71,7 @@ public class ClientManager : MonoBehaviour
                     {
                         connectionStatusText.color = Color.red;
                         connectionStatusText.text = "Erreur: code de session associé à aucune room existante.";
+                        connectionStatusLoadingIcon.gameObject.SetActive(false);
                         buttonsUI.SetActive(true);
                     }
 
@@ -101,6 +100,7 @@ public class ClientManager : MonoBehaviour
                 //Debug.LogError($"Erreur de connexion : {e.Message}");
                 connectionStatusText.color = Color.red;
                 connectionStatusText.text = "Erreur lors de la création d'une room.";
+                connectionStatusLoadingIcon.gameObject.SetActive(false);
                 buttonsUI.SetActive(true);
             }
         }
@@ -111,6 +111,7 @@ public class ClientManager : MonoBehaviour
         buttonsUI.SetActive(false);
         connectionStatusText.color = Color.black;
         connectionStatusText.text = "Creating a room...";
+        connectionStatusLoadingIcon.gameObject.SetActive(true);
         StartCoroutine(GetServerInfoAndConnect(true));
     }
 
@@ -119,6 +120,7 @@ public class ClientManager : MonoBehaviour
         buttonsUI.SetActive(false);
         connectionStatusText.color = Color.black;
         connectionStatusText.text = "Joining a room...";
+        connectionStatusLoadingIcon.gameObject.SetActive(true);
         StartCoroutine(GetServerInfoAndConnect(false));
     }
 
