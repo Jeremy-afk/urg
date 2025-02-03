@@ -35,6 +35,10 @@ public class ClientManager : MonoBehaviour
         }
     }
 
+    private void Awake()
+    {
+        DontDestroyOnLoad(gameObject);
+    }
     private void Start()
     {
         connectionStatusLoadingIcon.gameObject.SetActive(false);
