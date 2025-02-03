@@ -7,6 +7,7 @@ using System.Net.Sockets;
 using System.Text;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ClientManager : MonoBehaviour
 {
@@ -18,6 +19,8 @@ public class ClientManager : MonoBehaviour
     public float delayBetweenConnectionAttempt = 1;
 
     private float connectionAttempts = 0;
+
+    private string sessionCode = "";
 
     [SerializeField] private GameObject sessionCodeHolder;
     [SerializeField] private TMP_InputField sessionCodeInput;
@@ -44,6 +47,18 @@ public class ClientManager : MonoBehaviour
         connectionStatusLoadingIcon.gameObject.SetActive(false);
         connectionStatusText.text = "";
         MyNetworkRoomManager.singleton.networkAddress = ip;
+
+        SceneManager.sceneLoaded += OnSceneLoaded_SetupSessionCode;
+
+    }
+    private void OnSceneLoaded_SetupSessionCode(Scene sceneLoaded, LoadSceneMode loadSceneMode)
+    {
+        if (sessionCode == "") { return; }
+
+        if (sceneLoaded.name == "RoomOnline")
+        {
+            GameObject.FindFirstObjectByType<SessionCodeHolder>().CmdSetSessionCode(sessionCode);
+        }
     }
 
     // requestRoom == true -> utilisateur a cliqué sur create room
@@ -98,7 +113,7 @@ public class ClientManager : MonoBehaviour
 
                 if (serverInfoParts.Length > 1)
                 {
-                    GameObject.FindFirstObjectByType<SessionCodeHolder>().CmdSetSessionCode(serverInfoParts[1]);
+                    sessionCode = serverInfoParts[1];
                 }
 
                 // Connecter au serveur Mirror avec le port récupéré
