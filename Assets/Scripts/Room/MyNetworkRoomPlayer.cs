@@ -1,11 +1,6 @@
 using Mirror;
-using Mirror.Examples.AdditiveScenes;
 using System;
-using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
-using static UnityEngine.Rendering.DebugUI;
 
 public class MyNetworkRoomPlayer : NetworkRoomPlayer
 {
