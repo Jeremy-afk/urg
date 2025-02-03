@@ -36,6 +36,16 @@ public class OnlineRoomUI : MonoBehaviour
 
         readyGameButton.onClick.AddListener(() => {
             MyNetworkRoomPlayer player = NetworkClient.localPlayer.GetComponent<MyNetworkRoomPlayer>();
+
+            if (player.readyToBegin)
+            {
+                readyGameButton.gameObject.GetComponentInChildren<TextMeshProUGUI>().text = "Ready";
+            }
+            else
+            {
+                readyGameButton.gameObject.GetComponentInChildren<TextMeshProUGUI>().text = "Not ready";
+            }
+
             player.CmdChangeReadyState(!player.readyToBegin);
             UpdateUI();
         });
