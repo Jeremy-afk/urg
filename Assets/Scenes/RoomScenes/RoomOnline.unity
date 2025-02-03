@@ -2266,9 +2266,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1753520901}
     m_Modifications:
+    - target: {fileID: 1530390560004137549, guid: d45d1b6c5cb3d3441977e57573d5011d, type: 3}
+      propertyPath: m_Name
+      value: Road Rage
+      objectReference: {fileID: 0}
     - target: {fileID: 1649098149703062803, guid: d45d1b6c5cb3d3441977e57573d5011d, type: 3}
       propertyPath: m_Name
       value: CarSelectionUI
+      objectReference: {fileID: 0}
+    - target: {fileID: 2118408937070172295, guid: d45d1b6c5cb3d3441977e57573d5011d, type: 3}
+      propertyPath: m_Name
+      value: Ditch Drifter
       objectReference: {fileID: 0}
     - target: {fileID: 8703646309444450869, guid: d45d1b6c5cb3d3441977e57573d5011d, type: 3}
       propertyPath: m_Pivot.x
