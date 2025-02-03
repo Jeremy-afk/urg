@@ -51,6 +51,11 @@ public class SessionCodeHolder : NetworkBehaviour
         Debug.LogError("Nouveau code : " + newValue);
 
         sessionCode = newValue;
+
+        if (SceneManager.GetActiveScene().name == "RoomOnline")
+        {
+            GameObject.Find("SessionCodeText").GetComponent<TextMeshProUGUI>().text = "Session code : " + sessionCode;
+        }
     }
 
 
@@ -59,5 +64,4 @@ public class SessionCodeHolder : NetworkBehaviour
     {
         sessionCode = newSessionCode;
     }
-
 }

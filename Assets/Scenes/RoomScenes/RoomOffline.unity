@@ -1624,7 +1624,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  sessionCode: TEST
+  sessionCode: AZERTY
 --- !u!114 &1415068223
 MonoBehaviour:
   m_ObjectHideFlags: 0
