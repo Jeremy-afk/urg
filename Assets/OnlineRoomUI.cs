@@ -1,4 +1,5 @@
 using Mirror;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -22,13 +23,24 @@ public class OnlineRoomUI : MonoBehaviour
         }
     }
 
-    private void Start()
+    [ClientCallback]
+    private IEnumerator Start()
     {
         LiveLogger.Log("OnlineRoom start");
 
-        readyGameButton.onClick.AddListener(() => {
-            MyNetworkRoomPlayer player = NetworkClient.localPlayer.GetComponent<MyNetworkRoomPlayer>();
+        yield return null;
 
+        NetworkIdentity playerId = NetworkClient.localPlayer;
+        LiveLogger.Log("Player found: " + playerId);
+
+        MyNetworkRoomPlayer player = null;
+        if (playerId)
+        {
+            player = playerId.GetComponent<MyNetworkRoomPlayer>();
+        }
+
+
+        readyGameButton.onClick.AddListener(() => {
             if (player.readyToBegin)
             {
                 readyGameButton.gameObject.GetComponentInChildren<TextMeshProUGUI>().text = "Ready";
@@ -42,12 +54,21 @@ public class OnlineRoomUI : MonoBehaviour
             UpdateUI();
         });
         leaveGameButton.onClick.AddListener(() => {
-            MyNetworkRoomManager.singleton.StopClient();
+            Room.StopClient();
         });
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Start();
+        }
     }
 
     public void UpdateUI()
     {
+        LiveLogger.Log("Updated UI");
         for (int i = 0; i < playerListItemUIList.Count; i++)
         {
             playerListItemUIList[i].playerNameText.text = "Waiting For Player...";
