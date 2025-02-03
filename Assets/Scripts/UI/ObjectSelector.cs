@@ -14,6 +14,7 @@ public class ObjectSelector : MonoBehaviour
     [SerializeField] private Button rightButton;
     [SerializeField] private TextMeshProUGUI selectionText;
     [SerializeField] private RawImage renderImage; // UI element to display Render Texture
+    [SerializeField] private Vector3Int renderFormat = new Vector3Int(512, 512, 16);
 
     [Header("Movement & Scaling")]
     [SerializeField] private AnimationCurve scaleCurve;
@@ -93,7 +94,7 @@ public class ObjectSelector : MonoBehaviour
         selectorCamera.transform.SetPositionAndRotation(new Vector3(0, 0, 0), Quaternion.identity);
 
         // Create Render Texture
-        renderTexture = new RenderTexture(512, 512, 16);
+        renderTexture = new RenderTexture(renderFormat[0], renderFormat[1], renderFormat[2]);
         selectorCamera.targetTexture = renderTexture;
 
         // Assign Render Texture to UI
