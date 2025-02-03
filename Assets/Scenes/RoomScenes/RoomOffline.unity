@@ -2442,6 +2442,7 @@ MonoBehaviour:
   _allPlayersReady: 0
   clientIndex: 0
   raceStartDelay: 4
+  sessionCodeTextTag: SessionCodeText
   sessionCode: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

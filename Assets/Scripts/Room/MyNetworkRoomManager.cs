@@ -9,6 +9,7 @@ public class MyNetworkRoomManager : NetworkRoomManager
     [Header("OPTIONS")]
     [Tooltip("Delay after ready")]
     [SerializeField] private int raceStartDelay;
+    [SerializeField] private string sessionCodeTextTag = "SessionCodeText";
     private NetworkEvent networkEvent;
 
     public string sessionCode;
@@ -26,21 +27,18 @@ public class MyNetworkRoomManager : NetworkRoomManager
     }
     #endregion
 
-    // Check that whenever the last player disconnects completely, the server shuts down
-    public override void OnRoomServerDisconnect(NetworkConnectionToClient conn)
+    // Helper function for getting the command line arguments
+    private string GetArg(string name)
     {
-        base.OnRoomServerDisconnect(conn);
-        //LiveLogger.Log($"Player {conn.identity} left the game.");
-        if (numPlayers == 0)
+        var args = System.Environment.GetCommandLineArgs();
+        for (int i = 0; i < args.Length; i++)
         {
-            Debug.Log("All players disconnected. Shutting down the server...");
-            StopServer();
-            Application.Quit();
+            if (args[i] == name && args.Length > i + 1)
+            {
+                return args[i + 1];
+            }
         }
-        else
-        {
-            Debug.Log($"{numPlayers} players remaining");
-        }
+        return "ERROR";
     }
 
     public override void Start()
@@ -67,8 +65,8 @@ public class MyNetworkRoomManager : NetworkRoomManager
             {
                 Debug.LogError("Échec de la conversion : la chaîne n'est pas un nombre valide ou est hors plage.");
             }
-
             sessionCode = GetArg("-sessionCode");
+            LiveLogger.Log($"Server started on session code {sessionCode}");
         }
         else
         {
@@ -78,84 +76,22 @@ public class MyNetworkRoomManager : NetworkRoomManager
         base.Start();
     }
 
-    // Helper function for getting the command line arguments
-    private string GetArg(string name)
+    // Check that whenever the last player disconnects completely, the server shuts down
+    public override void OnRoomServerDisconnect(NetworkConnectionToClient conn)
     {
-        var args = System.Environment.GetCommandLineArgs();
-        for (int i = 0; i < args.Length; i++)
+        base.OnRoomServerDisconnect(conn);
+        //LiveLogger.Log($"Player {conn.identity} left the game.");
+        if (numPlayers == 0)
         {
-            //Debug.Log(args[i]);
-            if (args[i] == name && args.Length > i + 1)
-            {
-                return args[i + 1];
-            }
+            Debug.Log("All players disconnected. Shutting down the server...");
+            StopServer();
+            Application.Quit();
         }
-        return "ERROR";
-    }
-
-    //public static new MyNetworkRoomManager singleton => NetworkManager.singleton as MyNetworkRoomManager;
-
-    /// <summary>
-    /// This is called on the server when a networked scene finishes loading.
-    /// </summary>
-    /// <param name="sceneName">Name of the new scene.</param>
-    public override void OnRoomServerSceneChanged(string sceneName)
-    {
-        // TODO: We may start the race from there or from the game manager script
-
-        // spawn the initial batch of Rewards
-        //if (sceneName == GameplayScene)
-        //    Spawner.InitialSpawn();
-
-
-        if (sceneName == offlineScene)
+        else
         {
-            TextMeshProUGUI[] texts = FindObjectsOfType<TextMeshProUGUI>();
-            foreach (var text in texts)
-            {
-                if (text.gameObject.name == "SessionCodeText")
-                {
-                    TextMeshProUGUI sessionCodeText = text;
-                    Debug.Log("Session code" + sessionCodeText.text);
-                }
-            }
+            Debug.Log($"{numPlayers} players remaining");
         }
     }
-
-    /// <summary>
-    /// Called just after GamePlayer object is instantiated and just before it replaces RoomPlayer object.
-    /// This is the ideal point to pass any data like player name, credentials, tokens, colors, etc.
-    /// into the GamePlayer object as it is about to enter the Online scene.
-    /// </summary>
-    /// <param name="roomPlayer"></param>
-    /// <param name="gamePlayer"></param>
-    /// <returns>true unless some code in here decides it needs to abort the replacement</returns>
-    public override bool OnRoomServerSceneLoadedForPlayer(NetworkConnectionToClient conn, GameObject roomPlayer, GameObject gamePlayer)
-    {
-        //PlayerScore playerScore = gamePlayer.GetComponent<PlayerScore>();
-        //playerScore.index = roomPlayer.GetComponent<NetworkRoomPlayer>().index;
-        return true;
-    }
-
-    public override void OnRoomStopClient()
-    {
-        base.OnRoomStopClient();
-    }
-
-    public override void OnRoomStopServer()
-    {
-        base.OnRoomStopServer();
-    }
-
-    /*
-        This code below is to demonstrate how to do a Start button that only appears for the Host player
-        showStartButton is a local bool that's needed because OnRoomServerPlayersReady is only fired when
-        all players are ready, but if a player cancels their ready state there's no callback to set it back to false
-        Therefore, allPlayersReady is used in combination with showStartButton to show/hide the Start button correctly.
-        Setting showStartButton false when the button is pressed hides it in the game scene since NetworkRoomManager
-        is set as DontDestroyOnLoad = true.
-    */
-
 
     public override void OnRoomServerPlayersReady()
     {
@@ -176,44 +112,21 @@ public class MyNetworkRoomManager : NetworkRoomManager
         });
     }
 
-    /*public override void OnStopServer()
+    public override void OnRoomClientEnter()
     {
-        roomSlots.Clear();
-    }*/
-
-    bool showStartButton = false;
-
-    public override void OnGUI()
-    {
-        // FUNCTION ONLY FOR DEBUGGING
-        base.OnGUI();
-
-        if (allPlayersReady && showStartButton && GUI.Button(new Rect(150, 300, 120, 20), "START GAME !!!!"))
-        {
-            // set to false to hide it in the game scene
-            showStartButton = false;
-
-            ServerChangeScene(GameplayScene);
-        }
+        base.OnRoomClientEnter();
+        UpdateDisplay();
     }
 
     public void UpdateDisplay()
     {
         FindObjectOfType<OnlineRoomUI>().UpdateUI();
+        GameObject.FindGameObjectWithTag(sessionCodeTextTag).GetComponent<TextMeshProUGUI>().text = sessionCode;
     }
 
     public bool IsAllPlayersReady()
     {
-        return roomSlots.All(player => ((NetworkRoomPlayer)player).readyToBegin);
-    }
-
-
-    private void Update()
-    {
-        /*if (SceneManager.GetActiveScene().name == "RoomOnline" && sessionCode != "")
-        {
-            GameObject.FindFirstObjectByType<OnlineRoomUI>().UpdateSessionCodeUIClientRpc(sessionCode);
-        }*/
+        return roomSlots.All(player => player.readyToBegin);
     }
 }
 
