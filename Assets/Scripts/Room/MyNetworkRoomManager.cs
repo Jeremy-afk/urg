@@ -8,8 +8,10 @@ public class MyNetworkRoomManager : NetworkRoomManager
 {
     [Header("OPTIONS")]
     [Tooltip("Delay after ready")]
+    [SerializeField] private SessionCodeHolder sessionCodeHolder;
     [SerializeField] private int raceStartDelay;
     private NetworkEvent networkEvent;
+    public string RoomCode;
 
     #region Debugging
     public void StartSelfHost()
@@ -23,6 +25,24 @@ public class MyNetworkRoomManager : NetworkRoomManager
         StartClient();
     }
     #endregion
+
+    public override void OnRoomClientEnter()
+    {
+        base.OnRoomClientEnter();
+
+        Debug.Log("Client entered the room");
+        // Display the session code on the SessionCodeText object (tagged accordingly)
+        GameObject textGo = GameObject.FindGameObjectWithTag("SessionCodeText");
+
+        if (textGo != null && textGo.TryGetComponent(out TextMeshProUGUI text))
+        {
+            text.text = "Session code : " + RoomCode;
+        }
+        else
+        {
+            Debug.LogError("Text not found !");
+        }
+    }
 
     // Check that whenever the last player disconnects completely, the server shuts down
     public override void OnRoomServerDisconnect(NetworkConnectionToClient conn)
@@ -73,6 +93,8 @@ public class MyNetworkRoomManager : NetworkRoomManager
 
         base.Start();
     }
+
+
 
     // Helper function for getting the command line arguments
     private string GetArg(string name)

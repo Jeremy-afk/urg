@@ -9,6 +9,7 @@ TagManager:
   - Wall
   - Trap
   - Arrow
+  - SessionCodeText
   layers:
   - Default
   - TransparentFX

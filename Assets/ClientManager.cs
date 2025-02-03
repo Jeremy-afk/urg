@@ -7,22 +7,15 @@ using System.Text;
 using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class ClientManager : MonoBehaviour
 {
-    // private string ip = "127.0.0.1";
     private string ip = "157.159.195.98";
     private string port = "7777";
-    public int maxConnectionAttempt = 30;
-    // Delay in seconds
-    public float delayBetweenConnectionAttempt = 1;
+    private int maxConnectionAttempt = 30;
+    private float delayBetweenConnectionAttempt = 1f;
 
-    private float connectionAttempts = 0;
-
-    private string sessionCode = "";
-
-    [SerializeField] private GameObject sessionCodeHolder;
+    [SerializeField] private SessionCodeHolder sessionCodeHolder;
     [SerializeField] private TMP_InputField sessionCodeInput;
     [SerializeField] private GameObject buttonsUI;
     [SerializeField] private TextMeshProUGUI connectionStatusText;
@@ -42,23 +35,12 @@ public class ClientManager : MonoBehaviour
     {
         DontDestroyOnLoad(gameObject);
     }
+
     private void Start()
     {
         connectionStatusLoadingIcon.gameObject.SetActive(false);
         connectionStatusText.text = "";
         MyNetworkRoomManager.singleton.networkAddress = ip;
-
-        SceneManager.sceneLoaded += OnSceneLoaded_SetupSessionCode;
-
-    }
-    private void OnSceneLoaded_SetupSessionCode(Scene sceneLoaded, LoadSceneMode loadSceneMode)
-    {
-        if (sessionCode == "") { return; }
-
-        if (sceneLoaded.name == "RoomOnline")
-        {
-            GameObject.FindFirstObjectByType<SessionCodeHolder>().CmdSetSessionCode(sessionCode);
-        }
     }
 
     // requestRoom == true -> utilisateur a cliqué sur create room
@@ -70,7 +52,7 @@ public class ClientManager : MonoBehaviour
         try
         {
             using Socket clientSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-
+            LiveLogger.Log("Socket créée. : " + clientSocket);
             clientSocket.ReceiveTimeout = 5000;
             Debug.Log($"Tentative de connexion à {ip}:{port}...");
 
@@ -87,6 +69,8 @@ public class ClientManager : MonoBehaviour
             int bytesReceived = await Task.Run(() => clientSocket.Receive(buffer));
             string serverInfo = Encoding.UTF8.GetString(buffer, 0, bytesReceived);
             string[] serverInfoParts = serverInfo.Split(' ');
+
+            LiveLogger.Log("Server info  : " + serverInfo);
 
             Debug.Log($"Informations du serveur reçues : {serverInfo}");
 
@@ -107,7 +91,7 @@ public class ClientManager : MonoBehaviour
 
             if (serverInfoParts.Length > 1)
             {
-                sessionCode = serverInfoParts[1];
+                ((MyNetworkRoomManager)MyNetworkRoomManager.singleton).RoomCode = serverInfoParts[1];
             }
 
             // Configurer et connecter au serveur Mirror
@@ -147,16 +131,18 @@ public class ClientManager : MonoBehaviour
 
     private async Task TryToStartClient()
     {
-        connectionAttempts++;
+        int connectionAttempts = 0;
+        int maxConnectionAttempts = maxConnectionAttempt;
+        float delayBetweenConnectionAttempts = delayBetweenConnectionAttempt;
         Debug.Log("Connection attempt n°" + connectionAttempts);
 
-        while (connectionAttempts < maxConnectionAttempt)
+        while (connectionAttempts < maxConnectionAttempts)
         {
             MyNetworkRoomManager.singleton.StartClient();
-            await Task.Delay((int)(delayBetweenConnectionAttempt * 1000));
+            await Task.Delay((int)(delayBetweenConnectionAttempts * 1000));
         }
 
-        if (connectionAttempts >= maxConnectionAttempt)
+        if (connectionAttempts >= maxConnectionAttempts)
         {
             Debug.LogError("Maximum connection attempts reached, abort create room process.");
         }
