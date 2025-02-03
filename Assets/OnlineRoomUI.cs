@@ -4,15 +4,20 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class OnlineRoomUI : NetworkBehaviour
+public class OnlineRoomUI : MonoBehaviour
 {
     [SerializeField] private float triesPerSecond = 1.0f;
 
-    [Header("UI")]
+    [Header("UI Players")]
     [SerializeField] private List<PlayerListItemUI> playerListItemUIList = new List<PlayerListItemUI>();
+
+    [Header("Buttons")]
     [SerializeField] private Image loadingIcon;
     [SerializeField] private Button readyGameButton;
     [SerializeField] private Button leaveGameButton;
+
+    [Space]
+    [SerializeField] private TextMeshProUGUI sessionCodeText;
 
     private float retryTimer;
     private bool needSetup = true;
@@ -27,11 +32,8 @@ public class OnlineRoomUI : NetworkBehaviour
         }
     }
 
-    [ClientCallback]
     private void Start()
     {
-        //LiveLogger.Log("OnlineRoom start");
-
         leaveGameButton.onClick.AddListener(() => {
             Room.StopClient();
         });
@@ -134,19 +136,9 @@ public class OnlineRoomUI : NetworkBehaviour
         }
     }
 
-    [ClientRpc]
     public void UpdateSessionCodeUIClientRpc(string updatedSessionCode)
     {
         // Display the session code on the SessionCodeText object (tagged accordingly)
-        GameObject textGo = GameObject.FindGameObjectWithTag("SessionCodeText");
-
-        if (textGo != null && textGo.TryGetComponent(out TextMeshProUGUI text))
-        {
-            text.text = "Session code : " + updatedSessionCode;
-        }
-        else
-        {
-            Debug.LogError("Text not found !");
-        }
+        sessionCodeText.text = updatedSessionCode;
     }
 }

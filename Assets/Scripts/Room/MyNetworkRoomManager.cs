@@ -1,13 +1,8 @@
 using kcp2k;
 using Mirror;
-using Mirror.BouncyCastle.Asn1.X509;
-using System;
 using System.Linq;
-using System.Linq.Expressions;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class MyNetworkRoomManager : NetworkRoomManager
 {
@@ -215,17 +210,10 @@ public class MyNetworkRoomManager : NetworkRoomManager
 
     private void Update()
     {
-        if (SceneManager.GetActiveScene().name == "RoomOnline" && sessionCode != "")
+        /*if (SceneManager.GetActiveScene().name == "RoomOnline" && sessionCode != "")
         {
-            try
-            {
-                GameObject.FindFirstObjectByType<OnlineRoomUI>().UpdateSessionCodeUIClientRpc(sessionCode);
-            }
-            catch (Exception e)
-            {
-                Debug.LogException(e);
-            }
-        }
+            GameObject.FindFirstObjectByType<OnlineRoomUI>().UpdateSessionCodeUIClientRpc(sessionCode);
+        }*/
     }
 }
 
