@@ -95,6 +95,8 @@ public class OnlineRoomUI : MonoBehaviour
             UpdateUI();
         });
 
+        UpdateSessionCode();
+
         loadingIcon.gameObject.SetActive(false);
         readyGameButton.interactable = true;
     }
@@ -136,9 +138,8 @@ public class OnlineRoomUI : MonoBehaviour
         }
     }
 
-    public void UpdateSessionCodeUIClientRpc(string updatedSessionCode)
+    public void UpdateSessionCode()
     {
-        // Display the session code on the SessionCodeText object (tagged accordingly)
-        sessionCodeText.text = updatedSessionCode;
+        sessionCodeText.text = NetworkRoomData.Instance.SessionCode;
     }
 }

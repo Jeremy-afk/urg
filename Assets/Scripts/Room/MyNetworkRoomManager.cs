@@ -1,18 +1,16 @@
 using kcp2k;
 using Mirror;
 using System.Linq;
-using TMPro;
 using UnityEngine;
 
 public class MyNetworkRoomManager : NetworkRoomManager
 {
     [Header("OPTIONS")]
     [Tooltip("Delay after ready")]
+    [SerializeField] private NetworkRoomData roomData;
     [SerializeField] private int raceStartDelay;
     [SerializeField] private string sessionCodeTextTag = "SessionCodeText";
     private NetworkEvent networkEvent;
-
-    public string sessionCode;
 
     #region Debugging
     public void StartSelfHost()
@@ -65,8 +63,9 @@ public class MyNetworkRoomManager : NetworkRoomManager
             {
                 Debug.LogError("Échec de la conversion : la chaîne n'est pas un nombre valide ou est hors plage.");
             }
-            sessionCode = GetArg("-sessionCode");
+            string sessionCode = GetArg("-sessionCode");
             LiveLogger.Log($"Server started on session code {sessionCode}");
+            roomData.SetSessionCode(sessionCode);
         }
         else
         {
@@ -121,7 +120,6 @@ public class MyNetworkRoomManager : NetworkRoomManager
     public void UpdateDisplay()
     {
         FindObjectOfType<OnlineRoomUI>().UpdateUI();
-        GameObject.FindGameObjectWithTag(sessionCodeTextTag).GetComponent<TextMeshProUGUI>().text = sessionCode;
     }
 
     public bool IsAllPlayersReady()

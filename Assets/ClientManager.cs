@@ -134,6 +134,8 @@ public class ClientManager : MonoBehaviour
         {
             MyNetworkRoomManager.singleton.StartClient();
             await Task.Delay((int)(delayBetweenConnectionAttempts * 1000));
+
+            // TODO: If the client is connected, break the loop
         }
 
         if (connectionAttempts >= maxConnectionAttempts)
