@@ -52,7 +52,7 @@ public class ClientManager : MonoBehaviour
         try
         {
             using Socket clientSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            LiveLogger.Log("Socket créée. : " + clientSocket);
+            //LiveLogger.Log("Socket créée. : " + clientSocket);
             clientSocket.ReceiveTimeout = 5000;
             Debug.Log($"Tentative de connexion à {ip}:{port}...");
 
@@ -70,7 +70,7 @@ public class ClientManager : MonoBehaviour
             string serverInfo = Encoding.UTF8.GetString(buffer, 0, bytesReceived);
             string[] serverInfoParts = serverInfo.Split(' ');
 
-            LiveLogger.Log("Server info  : " + serverInfo);
+            //LiveLogger.Log("Server info  : " + serverInfo);
 
             Debug.Log($"Informations du serveur reçues : {serverInfo}");
 

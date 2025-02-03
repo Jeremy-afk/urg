@@ -90,7 +90,7 @@ public class Countdown : MonoBehaviour
             Debug.LogWarning("Countdown already in progress.");
             return;
         }
-        LiveLogger.Log("Countdown started");
+        //LiveLogger.Log("Countdown started");
         isCountingDown = true;
         PopulateNecessaryTexts();
         StartCoroutine(CountdownCoroutine(callback));

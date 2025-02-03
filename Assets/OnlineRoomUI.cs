@@ -30,7 +30,7 @@ public class OnlineRoomUI : MonoBehaviour
     [ClientCallback]
     private void Start()
     {
-        LiveLogger.Log("OnlineRoom start");
+        //LiveLogger.Log("OnlineRoom start");
 
         leaveGameButton.onClick.AddListener(() => {
             Room.StopClient();
@@ -43,7 +43,7 @@ public class OnlineRoomUI : MonoBehaviour
         }
         else
         {
-            LiveLogger.Log("Player not found");
+            //LiveLogger.Log("Player not found");
             loadingIcon.gameObject.SetActive(true);
             readyGameButton.interactable = false;
             needSetup = true;
@@ -103,19 +103,19 @@ public class OnlineRoomUI : MonoBehaviour
 
         if (playerId)
         {
-            LiveLogger.Log("Player found: " + playerId);
+            //LiveLogger.Log("Player found: " + playerId);
             player = playerId.GetComponent<MyNetworkRoomPlayer>();
             return true;
         }
 
-        LiveLogger.Log("Player NOT found");
+        //LiveLogger.Log("Player NOT found");
         player = null;
         return false;
     }
 
     public void UpdateUI()
     {
-        LiveLogger.Log("Updated UI");
+        //LiveLogger.Log("Updated UI");
         for (int i = 0; i < playerListItemUIList.Count; i++)
         {
             playerListItemUIList[i].playerNameText.text = "Waiting For Player...";

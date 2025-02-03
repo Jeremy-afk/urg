@@ -1820,8 +1820,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4cdcfb7e380c8604a9f6fba51a5e9843, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxConnectionAttempt: 30
-  delayBetweenConnectionAttempt: 1
   sessionCodeHolder: {fileID: 1415068222}
   sessionCodeInput: {fileID: 1107181351}
   buttonsUI: {fileID: 1595135132}
@@ -2439,7 +2437,9 @@ MonoBehaviour:
   GameplayScene: Assets/Scenes/Spline/Circuit.unity
   _allPlayersReady: 0
   clientIndex: 0
+  sessionCodeHolder: {fileID: 0}
   raceStartDelay: 4
+  RoomCode: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
