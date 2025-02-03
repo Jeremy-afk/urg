@@ -11,6 +11,7 @@ public class MyNetworkRoomManager : NetworkRoomManager
     [SerializeField] private int raceStartDelay;
     private NetworkEvent networkEvent;
 
+    #region Debugging
     public void StartSelfHost()
     {
         StartServer();
@@ -21,6 +22,7 @@ public class MyNetworkRoomManager : NetworkRoomManager
         networkAddress = "localhost";
         StartClient();
     }
+    #endregion
 
     // Check that whenever the last player disconnects completely, the server shuts down
     public override void OnRoomServerDisconnect(NetworkConnectionToClient conn)

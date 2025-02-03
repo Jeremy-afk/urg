@@ -1,10 +1,10 @@
 using kcp2k;
 using Mirror;
 using System;
-using System.Collections;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -63,76 +63,67 @@ public class ClientManager : MonoBehaviour
 
     // requestRoom == true -> utilisateur a cliqué sur create room
     // requestRoom == false -> utilisateur a cliqué sur join room
-    IEnumerator GetServerInfoAndConnect(bool requestRoom)
+    private async Task GetServerInfoAndConnect(bool requestRoom)
     {
-        yield return null;
         Debug.Log("Connexion au script Python pour récupérer les informations du serveur...");
 
-        using (Socket clientSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp))
+        try
         {
-            try
+            using Socket clientSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+
+            clientSocket.ReceiveTimeout = 5000;
+            Debug.Log($"Tentative de connexion à {ip}:{port}...");
+
+            await Task.Run(() => clientSocket.Connect(new IPEndPoint(IPAddress.Parse(ip), int.Parse(port))));
+            Debug.Log("Connecté au serveur Python.");
+
+            // Envoi d'une requête pour récupérer les informations du serveur
+            string requestMessage = requestRoom ? "createRoom" : $"joinRoom {sessionCodeInput.text}";
+            byte[] requestBytes = Encoding.UTF8.GetBytes(requestMessage);
+            clientSocket.Send(requestBytes);
+
+            // Réception de la réponse du serveur Python
+            byte[] buffer = new byte[1024];
+            int bytesReceived = await Task.Run(() => clientSocket.Receive(buffer));
+            string serverInfo = Encoding.UTF8.GetString(buffer, 0, bytesReceived);
+            string[] serverInfoParts = serverInfo.Split(' ');
+
+            Debug.Log($"Informations du serveur reçues : {serverInfo}");
+
+            if (serverInfoParts[0] == "erreur")
             {
-                Debug.Log($"Tentative de connexion à {ip}:{port}...");
-                // Connexion au serveur Python
-                clientSocket.Connect(new IPEndPoint(IPAddress.Parse(ip), int.Parse(port)));
-                Debug.Log("Connecté au serveur Python.");
-
-                // Envoi d'une requête pour récupérer les informations du serveur (par exemple, le port du serveur Mirror)
-                string requestMessage = "createRoom";
-
-                if (!requestRoom)
+                if (serverInfoParts[1] == "roomNotFound")
                 {
-                    requestMessage = "joinRoom " + sessionCodeInput.text;
+                    connectionStatusText.color = Color.red;
+                    connectionStatusText.text = "Erreur: code de session associé à aucune room existante.";
+                    connectionStatusLoadingIcon.gameObject.SetActive(false);
+                    buttonsUI.SetActive(true);
                 }
-
-                byte[] requestBytes = Encoding.UTF8.GetBytes(requestMessage);
-                clientSocket.Send(requestBytes);
-
-                // Réception de la réponse du serveur Python
-                byte[] buffer = new byte[1024];
-                int bytesReceived = clientSocket.Receive(buffer);
-                string serverInfo = Encoding.UTF8.GetString(buffer, 0, bytesReceived);
-                string[] serverInfoParts = serverInfo.Split(' ');
-                Debug.Log($"Informations du serveur reçues : {serverInfo}");
-
-                if (serverInfoParts[0] == "erreur")
-                {
-                    if (serverInfoParts[1] == "roomNotFound")
-                    {
-                        connectionStatusText.color = Color.red;
-                        connectionStatusText.text = "Erreur: code de session associé à aucune room existante.";
-                        connectionStatusLoadingIcon.gameObject.SetActive(false);
-                        buttonsUI.SetActive(true);
-                    }
-
-                    yield break;
-                }
-
-                // Convertir la réponse en entier (port du serveur Mirror)
-                int serverPort = int.Parse(serverInfoParts[0]);
-
-                if (serverInfoParts.Length > 1)
-                {
-                    sessionCode = serverInfoParts[1];
-                }
-
-                // Connecter au serveur Mirror avec le port récupéré
-                KcpTransport transport = MyNetworkRoomManager.singleton.GetComponent<KcpTransport>();
-                transport.port = (ushort)serverPort;
-
-                // Démarrer la connexion client
-                Debug.Log($"Connexion au serveur sur {ip}:{serverPort}...");
-                StartCoroutine(TryToStartClient());
-
+                return;
             }
-            catch (Exception e)
+
+            // Convertir la réponse en entier (port du serveur Mirror)
+            int serverPort = int.Parse(serverInfoParts[0]);
+
+            if (serverInfoParts.Length > 1)
             {
-                //Debug.LogError($"Erreur de connexion : {e.Message}");
-                connectionStatusText.color = Color.red;
-                connectionStatusText.text = "Erreur lors de la création d'une room.";
-                connectionStatusLoadingIcon.gameObject.SetActive(false);
-                buttonsUI.SetActive(true);
+                sessionCode = serverInfoParts[1];
             }
+
+            // Configurer et connecter au serveur Mirror
+            KcpTransport transport = MyNetworkRoomManager.singleton.GetComponent<KcpTransport>();
+            transport.port = (ushort)serverPort;
+
+            Debug.Log($"Connexion au serveur sur {ip}:{serverPort}...");
+            await TryToStartClient();
+        }
+        catch (Exception e)
+        {
+            Debug.LogError($"Erreur de connexion : {e.Message}");
+            connectionStatusText.color = Color.red;
+            connectionStatusText.text = "Erreur lors de la création d'une room.";
+            connectionStatusLoadingIcon.gameObject.SetActive(false);
+            buttonsUI.SetActive(true);
         }
     }
 
@@ -142,7 +133,7 @@ public class ClientManager : MonoBehaviour
         connectionStatusText.color = Color.black;
         connectionStatusText.text = "Creating a room...";
         connectionStatusLoadingIcon.gameObject.SetActive(true);
-        StartCoroutine(GetServerInfoAndConnect(true));
+        GetServerInfoAndConnect(true);
     }
 
     public void JoinRoom()
@@ -151,23 +142,23 @@ public class ClientManager : MonoBehaviour
         connectionStatusText.color = Color.black;
         connectionStatusText.text = "Joining a room...";
         connectionStatusLoadingIcon.gameObject.SetActive(true);
-        StartCoroutine(GetServerInfoAndConnect(false));
+        GetServerInfoAndConnect(false);
     }
 
-    private IEnumerator TryToStartClient()
+    private async Task TryToStartClient()
     {
         connectionAttempts++;
         Debug.Log("Connection attempt n°" + connectionAttempts);
 
-        MyNetworkRoomManager.singleton.StartClient();
-        yield return new WaitForSeconds(1);
+        while (connectionAttempts < maxConnectionAttempt)
+        {
+            MyNetworkRoomManager.singleton.StartClient();
+            await Task.Delay((int)(delayBetweenConnectionAttempt * 1000));
+        }
 
         if (connectionAttempts >= maxConnectionAttempt)
         {
             Debug.LogError("Maximum connection attempts reached, abort create room process.");
-            yield break;
         }
-
-        StartCoroutine(TryToStartClient());
     }
 }
