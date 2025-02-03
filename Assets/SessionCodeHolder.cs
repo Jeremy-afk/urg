@@ -52,4 +52,12 @@ public class SessionCodeHolder : NetworkBehaviour
 
         sessionCode = newValue;
     }
+
+
+    [Command(requiresAuthority = false)]
+    public void CmdSetSessionCode(string newSessionCode)
+    {
+        sessionCode = newSessionCode;
+    }
+
 }

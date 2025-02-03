@@ -1628,7 +1628,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  sessionCode: HALLO
+  sessionCode: TEST
 --- !u!114 &1415068223
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,4 +1,5 @@
 using kcp2k;
+using Mirror;
 using System;
 using System.Collections;
 using System.Net;
@@ -23,6 +24,16 @@ public class ClientManager : MonoBehaviour
     [SerializeField] private GameObject buttonsUI;
     [SerializeField] private TextMeshProUGUI connectionStatusText;
     [SerializeField] private LoadingIcon connectionStatusLoadingIcon;
+
+    private MyNetworkRoomManager room;
+    private MyNetworkRoomManager Room
+    {
+        get
+        {
+            if (room != null) { return room; }
+            return room = NetworkManager.singleton as MyNetworkRoomManager;
+        }
+    }
 
     private void Start()
     {
@@ -83,7 +94,7 @@ public class ClientManager : MonoBehaviour
 
                 if (serverInfoParts.Length > 1)
                 {
-                    sessionCodeHolder.GetComponent<SessionCodeHolder>().sessionCode = serverInfoParts[1];
+                    GameObject.FindFirstObjectByType<SessionCodeHolder>().CmdSetSessionCode(serverInfoParts[1]);
                 }
 
                 // Connecter au serveur Mirror avec le port récupéré
