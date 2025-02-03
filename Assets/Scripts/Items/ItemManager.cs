@@ -36,6 +36,7 @@ public class ItemManager : NetworkBehaviour
 
     private Movements movementsScript;
     private uint playerTeam;
+    private bool playedSound = false;
 
     [SyncVar(hook = nameof(OnItemInHandChanged))]
     private ItemType itemInHand = ItemType.NOTHING;
@@ -59,6 +60,7 @@ public class ItemManager : NetworkBehaviour
     {
         print("Setting item in hand");
         itemInHand = item;
+        playedSound = false;
     }
 
     public ItemType GetItemInHand()
@@ -76,7 +78,6 @@ public class ItemManager : NetworkBehaviour
                 print("Asking server to use item");
                 UseItem();
                 PlayItemSound();
-                itemInHand = ItemType.NOTHING;
             }
             else
             {
@@ -88,6 +89,8 @@ public class ItemManager : NetworkBehaviour
     [Client]
     private void PlayItemSound()
     {
+        if (playedSound) return;
+
         switch (itemInHand)
         {
             case ItemType.BOW:
@@ -108,6 +111,8 @@ public class ItemManager : NetworkBehaviour
             default:
                 break;
         }
+
+        playedSound = true;
     }
 
     // This will be called by the server when the player tries to use an item
