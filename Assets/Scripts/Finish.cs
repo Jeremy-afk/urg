@@ -148,6 +148,7 @@ public class Finish : NetworkBehaviour
         {
             Movements playerMovements = playerIdentity.GetComponent<Movements>();
             playerMovements.SetMovementActive(true);
+            AudioManager.Instance.PlayMusic(AudioManager.Instance.raceTheme);
             LiveLogger.Log("Set movement active for player " + playerIdentity.netId);
         }
         Debug.Log("Race started, moving enabled!");
