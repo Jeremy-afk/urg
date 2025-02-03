@@ -34,7 +34,8 @@ public class ObjectSelector : MonoBehaviour
     private Light selectorLight;
 
     [Header("Selection Events")]
-    [SerializeField] private UnityEvent<GameObject> onSelectionChanged;
+    [SerializeField] private UnityEvent<GameObject> onSelectionChangedGameObject;
+    [SerializeField] private UnityEvent<int> onSelectionChangedInt;
 
     private int selectedIndex = 0;
     private bool isMoving = false;
@@ -144,7 +145,8 @@ public class ObjectSelector : MonoBehaviour
 
         selectedIndex = (selectedIndex + direction + objects.Count) % objects.Count;
         selectionText.text = objects[selectedIndex].name;
-        onSelectionChanged.Invoke(objects[selectedIndex].gameObject);
+        onSelectionChangedGameObject.Invoke(objects[selectedIndex].gameObject);
+        onSelectionChangedInt.Invoke(selectedIndex);
 
         StopAllCoroutines();
         StartCoroutine(MoveObjects());
