@@ -4,7 +4,7 @@ using UnityEngine;
 public class NetworkRoomData : NetworkBehaviour
 {
     [SyncVar(hook = nameof(OnNewSessionCode))]
-    public string sessionCode;
+    public string SessionCode;
 
     public static NetworkRoomData Instance { get; private set; }
 
@@ -33,6 +33,6 @@ public class NetworkRoomData : NetworkBehaviour
     public void SetSessionCode(string code)
     {
         Debug.Log($"Setting session code to {code}");
-        sessionCode = code;
+        SessionCode = code;
     }
 }
