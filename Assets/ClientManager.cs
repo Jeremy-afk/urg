@@ -35,7 +35,7 @@ public class ClientManager : MonoBehaviour
     {
         connectionStatusLoadingIcon.gameObject.SetActive(false);
         connectionStatusText.text = "";
-        MyNetworkRoomManager.singleton.networkAddress = ip;
+        Room.networkAddress = ip;
     }
 
     // requestRoom == true -> utilisateur a cliqué sur create room
@@ -85,7 +85,7 @@ public class ClientManager : MonoBehaviour
             int serverPort = int.Parse(serverInfoParts[0]);
 
             // Configurer et connecter au serveur Mirror
-            KcpTransport transport = MyNetworkRoomManager.singleton.GetComponent<KcpTransport>();
+            KcpTransport transport = Room.GetComponent<KcpTransport>();
             transport.port = (ushort)serverPort;
 
             Debug.Log($"Connexion au serveur sur {ip}:{serverPort}...");
@@ -128,7 +128,7 @@ public class ClientManager : MonoBehaviour
 
         while (connectionAttempts < maxConnectionAttempts)
         {
-            MyNetworkRoomManager.singleton.StartClient();
+            Room.StartClient();
             yield return new WaitForSeconds(delayBetweenConnectionAttempts);
             connectionAttempts++;
         }
