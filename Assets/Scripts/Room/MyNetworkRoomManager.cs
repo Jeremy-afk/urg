@@ -64,7 +64,7 @@ public class MyNetworkRoomManager : NetworkRoomManager
                 Debug.LogError("Échec de la conversion : la chaîne n'est pas un nombre valide ou est hors plage.");
             }
             string sessionCode = GetArg("-sessionCode");
-            LiveLogger.Log($"Server started on session code {sessionCode}");
+            Debug.Log($"This server started on session code {sessionCode}");
             roomData.SetSessionCode(sessionCode);
         }
         else

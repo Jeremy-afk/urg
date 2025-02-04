@@ -1,8 +1,9 @@
 using Mirror;
+using UnityEngine;
 
 public class NetworkRoomData : NetworkBehaviour
 {
-    [field: SyncVar]
+    [field: SyncVar(hook = nameof(OnNewSessionCode))]
     public string SessionCode { get; private set; }
 
     public static NetworkRoomData Instance { get; private set; }
@@ -14,8 +15,19 @@ public class NetworkRoomData : NetworkBehaviour
             Destroy(gameObject);
             return;
         }
+        Debug.Log("NetworkRoomData created");
         Instance = this;
         DontDestroyOnLoad(gameObject);
+    }
+
+    private void OnNewSessionCode(string oldCode, string newCode)
+    {
+        Debug.Log($"Session code changed from {oldCode} to {newCode}");
+        GameObject text = GameObject.FindGameObjectWithTag("SessionCodeText");
+        if (text != null)
+        {
+            text.GetComponent<TMPro.TextMeshProUGUI>().text = newCode;
+        }
     }
 
     public void SetSessionCode(string code)
