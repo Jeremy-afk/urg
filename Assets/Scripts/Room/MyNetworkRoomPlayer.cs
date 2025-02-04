@@ -11,7 +11,6 @@ public class MyNetworkRoomPlayer : NetworkRoomPlayer
 
     #region Singleton
     private MyNetworkRoomManager room;
-
     private MyNetworkRoomManager Room
     {
         get
@@ -22,11 +21,23 @@ public class MyNetworkRoomPlayer : NetworkRoomPlayer
     }
     #endregion
 
+    #region Commands
+    [Command]
+    public void CmdSetCarSkin(int index)
+    {
+        carSelectionIndex = index;
+    }
+
+    [Command]
+    public void CmdSetUsername(string newUsername)
+    {
+        username = newUsername;
+    }
+    #endregion
+
     #region Getters & Setters
 
-    public void SetSkin(int index) => carSelectionIndex = index;
     public int GetCarSelectionIndex() => carSelectionIndex;
-    public void SetUserName(string username) => this.username = username;
     public string GetUsername() => username;
 
     #endregion

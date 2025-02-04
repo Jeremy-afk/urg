@@ -3,10 +3,7 @@ using UnityEngine;
 
 public class NetworkRoomData : NetworkBehaviour
 {
-    [field: SyncVar(hook = nameof(OnNewSessionCodeField))]
-    public string SessionCode { get; private set; }
-
-    [field: SyncVar(hook = nameof(OnNewSessionCode))]
+    [SyncVar(hook = nameof(OnNewSessionCode))]
     public string sessionCode;
 
     public static NetworkRoomData Instance { get; private set; }
@@ -33,20 +30,9 @@ public class NetworkRoomData : NetworkBehaviour
         }
     }
 
-    private void OnNewSessionCodeField(string oldCode, string newCode)
-    {
-        Debug.Log($"Session code changed from {oldCode} to {newCode} (FIELD)");
-        GameObject text = GameObject.FindGameObjectWithTag("SessionCodeText");
-        if (text != null)
-        {
-            text.GetComponent<TMPro.TextMeshProUGUI>().text = newCode;
-        }
-    }
-
     public void SetSessionCode(string code)
     {
         Debug.Log($"Setting session code to {code}");
-        SessionCode = code;
         sessionCode = code;
     }
 }
