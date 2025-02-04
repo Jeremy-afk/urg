@@ -245,7 +245,8 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  sessionCode: 
+  SessionCode: 
+  test: 0
 --- !u!114 &337880842
 MonoBehaviour:
   m_ObjectHideFlags: 0

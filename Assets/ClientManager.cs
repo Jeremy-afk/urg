@@ -1,6 +1,7 @@
 using kcp2k;
 using Mirror;
 using System;
+using System.Collections;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -13,7 +14,7 @@ public class ClientManager : MonoBehaviour
     private string ip = "157.159.195.98";
     private string port = "7777";
     private int maxConnectionAttempt = 30;
-    private float delayBetweenConnectionAttempt = 1f;
+    private float delayBetweenConnectionAttempts = 1f;
 
     [SerializeField] private TMP_InputField sessionCodeInput;
     [SerializeField] private GameObject buttonsUI;
@@ -28,11 +29,6 @@ public class ClientManager : MonoBehaviour
             if (room != null) { return room; }
             return room = NetworkManager.singleton as MyNetworkRoomManager;
         }
-    }
-
-    private void Awake()
-    {
-        DontDestroyOnLoad(gameObject);
     }
 
     private void Start()
@@ -93,7 +89,7 @@ public class ClientManager : MonoBehaviour
             transport.port = (ushort)serverPort;
 
             Debug.Log($"Connexion au serveur sur {ip}:{serverPort}...");
-            await TryToStartClient();
+            StartCoroutine(TryToStartClient());
         }
         catch (Exception e)
         {
@@ -123,20 +119,18 @@ public class ClientManager : MonoBehaviour
         GetServerInfoAndConnect(false);
     }
 
-    private async Task TryToStartClient()
+    private IEnumerator TryToStartClient()
     {
         int connectionAttempts = 0;
         int maxConnectionAttempts = maxConnectionAttempt;
-        float delayBetweenConnectionAttempts = delayBetweenConnectionAttempt;
 
         Debug.Log("Connection attempt n°" + connectionAttempts);
 
         while (connectionAttempts < maxConnectionAttempts)
         {
             MyNetworkRoomManager.singleton.StartClient();
-            await Task.Delay((int)(delayBetweenConnectionAttempts * 1000));
+            yield return new WaitForSeconds(delayBetweenConnectionAttempts);
             connectionAttempts++;
-            // TODO: If the client is connected, break the loop
         }
 
         Debug.LogError("Maximum connection attempts reached.");

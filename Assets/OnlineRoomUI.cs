@@ -136,6 +136,11 @@ public class OnlineRoomUI : MonoBehaviour
 
     public void UpdateSessionCode()
     {
+        if (NetworkRoomData.Instance == null)
+        {
+            Debug.LogError("NetworkRoomData is null !");
+            return;
+        }
         sessionCodeText.text = NetworkRoomData.Instance.SessionCode;
     }
 }

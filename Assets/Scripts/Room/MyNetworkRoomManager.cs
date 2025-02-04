@@ -39,38 +39,32 @@ public class MyNetworkRoomManager : NetworkRoomManager
         return "ERROR";
     }
 
+    [ServerCallback]
     public override void Start()
     {
         Debug.Log("Starting server...");
 
         KcpTransport transport = MyNetworkRoomManager.singleton.GetComponent<KcpTransport>();
-        if (transport.port == 7777)
+        // 7777 is the default port, that means it's the first time the server is launched
+        // We need to set the port to the one given in the command line
+        string portString = GetArg("-port");
+        if (portString == "ERROR")
         {
-            // 7777 is the default port, that means it's the first time the server is launched
-            // We need to set the port to the one given in the command line
-            string portString = GetArg("-port");
-            if (portString == "ERROR")
-            {
-                Debug.LogError("Error when setting port");
-            }
+            Debug.LogError("Error when setting port");
+        }
 
-            if (ushort.TryParse(portString, out ushort port))
-            {
-                Debug.Log($"Conversion réussie : {port}");
-                transport.port = port;
-            }
-            else
-            {
-                Debug.LogError("Échec de la conversion : la chaîne n'est pas un nombre valide ou est hors plage.");
-            }
-            string sessionCode = GetArg("-sessionCode");
-            Debug.Log($"This server started on session code {sessionCode}");
-            roomData.SetSessionCode(sessionCode);
+        if (ushort.TryParse(portString, out ushort port))
+        {
+            Debug.Log($"Conversion réussie : {port}");
+            transport.port = port;
         }
         else
         {
-            Debug.Log($"Port already set to {transport.port} - the server is being reused.");
+            Debug.LogError("Échec de la conversion : la chaîne n'est pas un nombre valide ou est hors plage.");
         }
+        string sessionCode = GetArg("-sessionCode");
+        Debug.Log($"This server started on session code {sessionCode}");
+        roomData.SetSessionCode(sessionCode);
 
         base.Start();
     }
