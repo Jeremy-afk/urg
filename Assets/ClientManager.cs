@@ -40,7 +40,7 @@ public class ClientManager : MonoBehaviour
     {
         connectionStatusLoadingIcon.gameObject.SetActive(false);
         connectionStatusText.text = "";
-        MyNetworkRoomManager.singleton.networkAddress = ip;
+        Room.networkAddress = ip;
     }
 
     // requestRoom == true -> utilisateur a cliqué sur create room
@@ -91,7 +91,7 @@ public class ClientManager : MonoBehaviour
 
             if (serverInfoParts.Length > 1)
             {
-                ((MyNetworkRoomManager)MyNetworkRoomManager.singleton).RoomCode = serverInfoParts[1];
+                Room.RoomCode = serverInfoParts[1];
             }
 
             // Configurer et connecter au serveur Mirror
@@ -138,8 +138,10 @@ public class ClientManager : MonoBehaviour
 
         while (connectionAttempts < maxConnectionAttempts)
         {
-            MyNetworkRoomManager.singleton.StartClient();
+            Room.StartClient();
             await Task.Delay((int)(delayBetweenConnectionAttempts * 1000));
+
+            connectionAttempts++;
         }
 
         if (connectionAttempts >= maxConnectionAttempts)
