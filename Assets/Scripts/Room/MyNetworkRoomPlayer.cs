@@ -6,7 +6,10 @@ public class MyNetworkRoomPlayer : NetworkRoomPlayer
 {
     [SyncVar]
     private int carSelectionIndex = 0;
+    [SyncVar]
+    private string username = "Untitled Racer";
 
+    #region Singleton
     private MyNetworkRoomManager room;
 
     private MyNetworkRoomManager Room
@@ -17,6 +20,16 @@ public class MyNetworkRoomPlayer : NetworkRoomPlayer
             return room = NetworkManager.singleton as MyNetworkRoomManager;
         }
     }
+    #endregion
+
+    #region Getters & Setters
+
+    public void SetSkin(int index) => carSelectionIndex = index;
+    public int GetCarSelectionIndex() => carSelectionIndex;
+    public void SetUserName(string username) => this.username = username;
+    public string GetUsername() => username;
+
+    #endregion
 
     public override void ReadyStateChanged(bool oldReadyState, bool newReadyState)
     {
@@ -43,5 +56,4 @@ public class MyNetworkRoomPlayer : NetworkRoomPlayer
             Debug.LogException(e);
         }
     }
-
 }

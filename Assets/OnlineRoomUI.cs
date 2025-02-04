@@ -45,7 +45,6 @@ public class OnlineRoomUI : MonoBehaviour
         }
         else
         {
-            //LiveLogger.Log("Player not found");
             loadingIcon.gameObject.SetActive(true);
             readyGameButton.interactable = false;
             needSetup = true;
@@ -107,19 +106,16 @@ public class OnlineRoomUI : MonoBehaviour
 
         if (playerId)
         {
-            //LiveLogger.Log("Player found: " + playerId);
             player = playerId.GetComponent<MyNetworkRoomPlayer>();
             return true;
         }
 
-        //LiveLogger.Log("Player NOT found");
         player = null;
         return false;
     }
 
     public void UpdateUI()
     {
-        //LiveLogger.Log("Updated UI");
         for (int i = 0; i < playerListItemUIList.Count; i++)
         {
             playerListItemUIList[i].playerNameText.text = "Waiting For Player...";

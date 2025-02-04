@@ -128,19 +128,17 @@ public class ClientManager : MonoBehaviour
         int connectionAttempts = 0;
         int maxConnectionAttempts = maxConnectionAttempt;
         float delayBetweenConnectionAttempts = delayBetweenConnectionAttempt;
+
         Debug.Log("Connection attempt n°" + connectionAttempts);
 
         while (connectionAttempts < maxConnectionAttempts)
         {
             MyNetworkRoomManager.singleton.StartClient();
             await Task.Delay((int)(delayBetweenConnectionAttempts * 1000));
-
+            connectionAttempts++;
             // TODO: If the client is connected, break the loop
         }
 
-        if (connectionAttempts >= maxConnectionAttempts)
-        {
-            Debug.LogError("Maximum connection attempts reached, abort create room process.");
-        }
+        Debug.LogError("Maximum connection attempts reached.");
     }
 }
