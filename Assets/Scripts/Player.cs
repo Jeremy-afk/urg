@@ -60,16 +60,16 @@ public class Player : NetworkBehaviour, IDamageable
         mainCamera.fieldOfView = minFOV;
     }
 
-    private void OnCollisionEnter(Collision other)
-    {
-        var speed = rigidBody.velocity.magnitude;
+    //private void OnCollisionEnter(Collision other)
+    //{
+    //    var speed = rigidBody.velocity.magnitude;
 
-        if (other.gameObject.TryGetComponent(out Rigidbody rb))
-        {
-            rb.AddForce(collisionForce * speed * (rb.position - transform.position).normalized, ForceMode.Impulse);
-            AudioManager.Instance.PlaySoundEffect(AudioManager.Instance.collisionSounds, speed / 10);
-        }
-    }
+    //    if (other.gameObject.TryGetComponent(out Rigidbody rb))
+    //    {
+    //        rb.AddForce(collisionForce * speed * (rb.position - transform.position).normalized, ForceMode.Impulse);
+    //        AudioManager.Instance.PlaySoundEffect(AudioManager.Instance.collisionSounds, speed / 10);
+    //    }
+    //}
 
     private void FixedUpdate()
     {
